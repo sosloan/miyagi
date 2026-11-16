@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Lab — API + WebGPU Integration Console</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --lab-bg: #07111d;
+      --lab-panel: rgba(7, 17, 29, .78);
+      --lab-panel-2: rgba(12, 27, 43, .9);
+      --lab-edge: rgba(154, 215, 255, .28);
+      --lab-text: #ebf7ff;
+      --lab-muted: #9eb7c8;
+      --lab-good: #59f1b3;
+      --lab-warn: #ffd36d;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(0, 201, 200, .14), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 107, 53, .12), transparent 30%),
+        linear-gradient(180deg, #08111c, #04070f 70%);
+      color: var(--lab-text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .lab-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 1.4rem;
+    }
+
+    .lab-hero,
+    .lab-panel {
+      background: var(--lab-panel);
+      border: 1px solid var(--lab-edge);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+      backdrop-filter: blur(12px);
+    }
+
+    .lab-hero {
+      padding: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .lab-kicker,
+    .lab-mini {
+      font-family: var(--font-mono);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-size: .64rem;
+      color: var(--lab-muted);
+    }
+
+    .lab-hero h1 {
+      font-family: var(--font-display);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: .45rem 0;
+      color: #fff;
+    }
+
+    .lab-copy {
+      max-width: 720px;
+      line-height: 1.75;
+      color: #dcefff;
+    }
+
+    .hero-grid,
+    .cap-grid,
+    .action-grid,
+    .feature-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.25fr .85fr;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .hero-stat-list,
+    .report-list {
+      display: grid;
+      gap: .7rem;
+    }
+
+    .hero-stat,
+    .feature-card,
+    .action-card,
+    .cap-card {
+      background: var(--lab-panel-2);
+      border: 1px solid rgba(154, 215, 255, .14);
+      border-radius: 16px;
+      padding: 1rem;
+    }
+
+    .hero-stat strong,
+    .cap-card strong,
+    .feature-card strong,
+    .action-card strong {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+
+    .hero-stat span,
+    .cap-card p,
+    .feature-card p,
+    .action-card p,
+    .report-list li {
+      color: var(--lab-muted);
+      line-height: 1.65;
+    }
+
+    .lab-layout {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .lab-panel {
+      padding: 1rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .85rem;
+    }
+
+    .section-head h2 {
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .cap-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cap-card {
+      min-height: 132px;
+    }
+
+    .cap-status {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      border-radius: 999px;
+      padding: .28rem .65rem;
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      background: rgba(255, 211, 109, .12);
+      color: var(--lab-warn);
+      margin-bottom: .7rem;
+    }
+
+    .cap-status.ready {
+      background: rgba(89, 241, 179, .12);
+      color: var(--lab-good);
+    }
+
+    .lab-canvas-wrap {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(154, 215, 255, .18);
+      background: linear-gradient(180deg, rgba(12, 27, 43, .94), rgba(2, 9, 16, 1));
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #020812;
+    }
+
+    .canvas-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .5rem;
+      padding: .8rem;
+      border-top: 1px solid rgba(154, 215, 255, .12);
+      background: rgba(2, 9, 16, .85);
+    }
+
+    .canvas-meta div {
+      background: rgba(154, 215, 255, .06);
+      border: 1px solid rgba(154, 215, 255, .08);
+      border-radius: 12px;
+      padding: .65rem .75rem;
+    }
+
+    .canvas-meta strong {
+      display: block;
+      font-size: .58rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--lab-muted);
+      margin-bottom: .2rem;
+    }
+
+    .canvas-meta span {
+      color: #fff;
+      font-size: .9rem;
+    }
+
+    .action-grid,
+    .feature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .action-btn {
+      width: 100%;
+      border: 1px solid rgba(154, 215, 255, .3);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 201, 200, .18), rgba(33, 77, 130, .24));
+      color: #fff;
+      padding: .8rem .95rem;
+      margin-top: .85rem;
+      font: inherit;
+      font-family: var(--font-mono);
+      font-size: .66rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(154, 215, 255, .55);
+    }
+
+    .action-btn.alt {
+      background: linear-gradient(135deg, rgba(255, 107, 53, .22), rgba(83, 28, 14, .28));
+    }
+
+    .report-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .status-line {
+      margin-top: .9rem;
+      border-radius: 12px;
+      background: rgba(89, 241, 179, .08);
+      border: 1px solid rgba(89, 241, 179, .18);
+      padding: .75rem .9rem;
+      color: #dfffee;
+    }
+
+    .page-footer {
+      margin-top: 1rem;
+      text-align: center;
+      color: var(--lab-muted);
+      font-family: var(--font-mono);
+      font-size: .64rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .lab-layout,
+      .action-grid,
+      .feature-grid,
+      .cap-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .canvas-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <span class="nav-brand">◈ Studio One</span>
+    <a href="index.html">Home</a>
+    <a href="dj-booth.html">DJ Booth</a>
+    <a href="ronan-poster.html">Ronan Poster</a>
+    <a href="web-lab.html" aria-current="page">Web Lab</a>
+  </nav>
+  <div class="accent-strip"></div>
+
+  <main class="lab-shell">
+    <section class="lab-hero">
+      <div class="lab-kicker">Studio One · Browser Integration Layer · Vol. II</div>
+      <h1>Web API + WebGPU Lab</h1>
+      <p class="lab-copy">
+        A browser-native control room for the best modern web capabilities: WebGPU acceleration,
+        WebGL rendering fallback, Web Audio signal checks, and production-friendly Share and Clipboard actions.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-stat-list">
+          <div class="hero-stat">
+            <strong>Progressive enhancement</strong>
+            <span>Automatically upgrades to WebGPU when available and falls back to a responsive 2D visualization when it is not.</span>
+          </div>
+          <div class="hero-stat">
+            <strong>Device-aware API scan</strong>
+            <span>Surfaces browser support for graphics, audio, clipboard, sharing, memory, and connectivity in one live dashboard.</span>
+          </div>
+        </div>
+        <div class="hero-stat-list">
+          <div class="hero-stat">
+            <strong>Live action panel</strong>
+            <span>Copy a capability report, share the lab, and trigger a quick audio tone without leaving the page.</span>
+          </div>
+          <div class="hero-stat">
+            <strong>Secure-by-default behavior</strong>
+            <span>Handles unsupported or restricted APIs gracefully so the page remains useful in every browser context.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-layout">
+      <div class="lab-panel">
+        <div class="section-head">
+          <h2>GPU render surface</h2>
+          <span class="lab-mini" id="renderMode">Booting render path</span>
+        </div>
+
+        <div class="lab-canvas-wrap">
+          <canvas id="gpuCanvas" width="960" height="600" aria-label="Live WebGPU or fallback visualization"></canvas>
+          <div class="canvas-meta">
+            <div>
+              <strong>Graphics path</strong>
+              <span id="gpuPath">Detecting…</span>
+            </div>
+            <div>
+              <strong>Adapter limits</strong>
+              <span id="gpuLimits">Pending…</span>
+            </div>
+            <div>
+              <strong>Frame mood</strong>
+              <span id="gpuMood">Scanning…</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-line" id="engineStatus">Initializing capability scan…</div>
+      </div>
+
+      <aside class="lab-panel">
+        <div class="section-head">
+          <h2>Capability report</h2>
+          <span class="lab-mini">Live browser audit</span>
+        </div>
+
+        <div class="cap-grid">
+          <article class="cap-card">
+            <div class="cap-status" id="status-webgpu">Checking</div>
+            <strong>WebGPU</strong>
+            <p id="copy-webgpu">Request adapter access and render a GPU-cleared animated scene.</p>
+          </article>
+          <article class="cap-card">
+            <div class="cap-status" id="status-webgl2">Checking</div>
+            <strong>WebGL2</strong>
+            <p id="copy-webgl2">Canvas fallback for broad browser graphics coverage.</p>
+          </article>
+          <article class="cap-card">
+            <div class="cap-status" id="status-audio">Checking</div>
+            <strong>Web Audio</strong>
+            <p id="copy-audio">Low-latency oscillator tone for fast signal verification.</p>
+          </article>
+          <article class="cap-card">
+            <div class="cap-status" id="status-clipboard">Checking</div>
+            <strong>Clipboard</strong>
+            <p id="copy-clipboard">Copy a summary of device capabilities for quick sharing.</p>
+          </article>
+          <article class="cap-card">
+            <div class="cap-status" id="status-share">Checking</div>
+            <strong>Web Share</strong>
+            <p id="copy-share">Send the lab link through native mobile and desktop share sheets.</p>
+          </article>
+          <article class="cap-card">
+            <div class="cap-status" id="status-device">Checking</div>
+            <strong>Device signals</strong>
+            <p id="copy-device">Surface memory and connectivity hints when the browser exposes them.</p>
+          </article>
+        </div>
+      </aside>
+    </section>
+
+    <section class="lab-panel" style="margin-bottom:1rem">
+      <div class="section-head">
+        <h2>Action console</h2>
+        <span class="lab-mini">Hands-on web APIs</span>
+      </div>
+      <div class="action-grid">
+        <article class="action-card">
+          <strong>Copy the current report</strong>
+          <p>Use the Clipboard API to move the latest capability snapshot into your notes or bug reports.</p>
+          <button class="action-btn" id="copyReportBtn" type="button">Copy capability report</button>
+        </article>
+        <article class="action-card">
+          <strong>Share the lab</strong>
+          <p>Open the native share sheet when the browser allows it, or receive a clear fallback status when it does not.</p>
+          <button class="action-btn alt" id="shareLabBtn" type="button">Share this lab</button>
+        </article>
+        <article class="action-card">
+          <strong>Run an audio tone test</strong>
+          <p>Spin up a short Web Audio oscillator so you can verify output without entering the DJ booth page.</p>
+          <button class="action-btn" id="audioTestBtn" type="button">Play audio tone</button>
+        </article>
+        <article class="action-card">
+          <strong>Refresh the scan</strong>
+          <p>Re-check API availability after a browser permissions or secure-context change.</p>
+          <button class="action-btn alt" id="refreshScanBtn" type="button">Refresh capability scan</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-panel">
+      <div class="section-head">
+        <h2>Integration notes</h2>
+        <span class="lab-mini">Why these APIs matter</span>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <strong>WebGPU first</strong>
+          <p>The lab requests an adapter and device only when supported, then animates the canvas with a lightweight GPU render pass and records practical hardware limits.</p>
+        </article>
+        <article class="feature-card">
+          <strong>Reliable fallback</strong>
+          <p>When WebGPU is unavailable, the page switches to a software-safe canvas visualization so the experience still communicates state and motion.</p>
+        </article>
+        <article class="feature-card">
+          <strong>Native browser actions</strong>
+          <p>Clipboard and Share integrations keep the page useful for demos, internal reviews, and device testing on both mobile and desktop browsers.</p>
+        </article>
+        <article class="feature-card">
+          <strong>Fast audio verification</strong>
+          <p>A short Web Audio tone complements the DJ booth work by confirming the browser can produce output in the current session.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Studio One · Web API + WebGPU Integration Console · Progressive Enhancement Enabled
+    </footer>
+  </main>
+
+  <script>
+    const reportItems = [];
+    let gpuAnimationId = null;
+    const AUDIO_START_GAIN = 0.0001;
+    const AUDIO_PEAK_GAIN = 0.08;
+    const AUDIO_ATTACK_TIME = 0.04;
+    const AUDIO_RELEASE_TIME = 0.45;
+    const AUDIO_STOP_TIME = 0.48;
+
+    function setCapabilityStatus(key, ready, message) {
+      const badge = document.getElementById(`status-${key}`);
+      const copy = document.getElementById(`copy-${key}`);
+      if (!badge || !copy) return;
+      badge.textContent = ready ? 'Ready' : 'Unavailable';
+      badge.classList.toggle('ready', ready);
+      copy.textContent = message;
+      reportItems.push(`${key.toUpperCase()}: ${ready ? 'ready' : 'unavailable'} — ${message}`);
+    }
+
+    function setEngineStatus(message) {
+      document.getElementById('engineStatus').textContent = message;
+    }
+
+    function stopAnimation() {
+      if (gpuAnimationId) {
+        cancelAnimationFrame(gpuAnimationId);
+        gpuAnimationId = null;
+      }
+    }
+
+    function startFallbackCanvas(label) {
+      stopAnimation();
+      const canvas = document.getElementById('gpuCanvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        setEngineStatus('Canvas fallback unavailable in this browser.');
+        return;
+      }
+
+      document.getElementById('renderMode').textContent = label;
+      document.getElementById('gpuPath').textContent = 'Canvas 2D fallback';
+      document.getElementById('gpuMood').textContent = 'Fallback pulse';
+
+      const draw = (time) => {
+        const width = canvas.width;
+        const height = canvas.height;
+        const phase = time * 0.001;
+        const gradient = ctx.createLinearGradient(0, 0, width, height);
+        gradient.addColorStop(0, `rgba(${12 + Math.round(Math.sin(phase) * 18 + 30)}, 78, 140, 1)`);
+        gradient.addColorStop(0.5, 'rgba(0, 201, 200, 0.88)');
+        gradient.addColorStop(1, 'rgba(255, 107, 53, 0.92)');
+        ctx.fillStyle = '#020812';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = gradient;
+        for (let i = 0; i < 28; i += 1) {
+          const barWidth = width / 34;
+          const x = 24 + i * (barWidth + 6);
+          const barHeight = 70 + Math.abs(Math.sin(phase + i * 0.32)) * (height * 0.55);
+          ctx.fillRect(x, height - barHeight - 36, barWidth, barHeight);
+        }
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, height * 0.65);
+        for (let x = 0; x <= width; x += 10) {
+          const y = height * 0.65 + Math.sin(phase * 2 + x * 0.02) * 28;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        gpuAnimationId = requestAnimationFrame(draw);
+      };
+
+      gpuAnimationId = requestAnimationFrame(draw);
+    }
+
+    async function startWebGpuCanvas() {
+      if (!('gpu' in navigator)) {
+        startFallbackCanvas('WebGPU unavailable · fallback active');
+        return false;
+      }
+
+      const canvas = document.getElementById('gpuCanvas');
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) {
+        startFallbackCanvas('Adapter unavailable · fallback active');
+        return false;
+      }
+
+      const device = await adapter.requestDevice();
+      const context = canvas.getContext('webgpu');
+      if (!context) {
+        startFallbackCanvas('Canvas WebGPU context missing · fallback active');
+        return false;
+      }
+
+      const format = navigator.gpu.getPreferredCanvasFormat();
+      context.configure({
+        device,
+        format,
+        alphaMode: 'premultiplied'
+      });
+
+      document.getElementById('renderMode').textContent = 'WebGPU active';
+      document.getElementById('gpuPath').textContent = 'GPU render pass';
+      document.getElementById('gpuLimits').textContent = `${device.limits.maxTextureDimension2D}px · ${device.limits.maxBindGroups} bind groups`;
+      document.getElementById('gpuMood').textContent = 'Aurora clear-cycle';
+
+      const render = (time) => {
+        const t = time * 0.001;
+        const encoder = device.createCommandEncoder();
+        const view = context.getCurrentTexture().createView();
+        const pass = encoder.beginRenderPass({
+          colorAttachments: [{
+            view,
+            clearValue: {
+              r: 0.06 + Math.sin(t * 0.8) * 0.04 + 0.02,
+              g: 0.12 + Math.abs(Math.sin(t * 1.2)) * 0.28,
+              b: 0.18 + Math.abs(Math.cos(t * 0.9)) * 0.38,
+              a: 1
+            },
+            loadOp: 'clear',
+            storeOp: 'store'
+          }]
+        });
+        pass.end();
+        device.queue.submit([encoder.finish()]);
+        gpuAnimationId = requestAnimationFrame(render);
+      };
+
+      stopAnimation();
+      gpuAnimationId = requestAnimationFrame(render);
+      return true;
+    }
+
+    async function playTone() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) {
+        setEngineStatus('Web Audio is unavailable in this browser.');
+        return;
+      }
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = 440;
+      gain.gain.value = AUDIO_START_GAIN;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(AUDIO_PEAK_GAIN, ctx.currentTime + AUDIO_ATTACK_TIME);
+      gain.gain.exponentialRampToValueAtTime(AUDIO_START_GAIN, ctx.currentTime + AUDIO_RELEASE_TIME);
+      osc.stop(ctx.currentTime + AUDIO_STOP_TIME);
+      osc.onended = () => ctx.close().catch(() => {});
+      setEngineStatus('Audio tone test triggered through Web Audio.');
+    }
+
+    async function copyReport() {
+      const report = reportItems.join('\n');
+      if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        setEngineStatus('Clipboard API unavailable; report could not be copied.');
+        return;
+      }
+      await navigator.clipboard.writeText(report);
+      setEngineStatus('Capability report copied to clipboard.');
+    }
+
+    async function shareLab() {
+      if (!navigator.share) {
+        setEngineStatus('Web Share API unavailable on this device.');
+        return;
+      }
+      await navigator.share({
+        title: document.title,
+        text: 'Check the Studio One Web API + WebGPU Lab.',
+        url: window.location.href
+      });
+      setEngineStatus('Lab shared through the native share sheet.');
+    }
+
+    async function scanCapabilities() {
+      reportItems.length = 0;
+      document.getElementById('gpuLimits').textContent = 'Pending…';
+      document.getElementById('gpuMood').textContent = 'Scanning…';
+
+      const hasWebGpu = 'gpu' in navigator;
+      const webgl2 = !!document.createElement('canvas').getContext('webgl2');
+      const hasAudio = !!(window.AudioContext || window.webkitAudioContext);
+      const hasClipboard = !!(navigator.clipboard && navigator.clipboard.writeText);
+      const hasShare = !!navigator.share;
+      const memory = navigator.deviceMemory ? `${navigator.deviceMemory} GB exposed` : 'Device memory hidden';
+      const connection = navigator.connection && navigator.connection.effectiveType
+        ? `Connection ${navigator.connection.effectiveType}`
+        : 'Connection hint unavailable';
+
+      setCapabilityStatus('webgpu', hasWebGpu, hasWebGpu ? 'Navigator GPU entry detected and ready for adapter request.' : 'Browser did not expose navigator.gpu.');
+      setCapabilityStatus('webgl2', webgl2, webgl2 ? 'WebGL2 context available for broad rendering fallback.' : 'No WebGL2 context returned for the test canvas.');
+      setCapabilityStatus('audio', hasAudio, hasAudio ? 'AudioContext can be created for low-latency tone playback.' : 'AudioContext is not available.');
+      setCapabilityStatus('clipboard', hasClipboard, hasClipboard ? 'Clipboard write access is exposed in this context.' : 'Clipboard write API is missing or blocked.');
+      setCapabilityStatus('share', hasShare, hasShare ? 'Native share sheet is available.' : 'Share sheet is not exposed on this device.');
+      setCapabilityStatus('device', !!navigator.deviceMemory || !!(navigator.connection && navigator.connection.effectiveType), `${memory} · ${connection}`);
+
+      try {
+        const gpuReady = await startWebGpuCanvas();
+        if (gpuReady) {
+          setEngineStatus('WebGPU render path online.');
+        } else {
+          document.getElementById('gpuLimits').textContent = webgl2 ? 'WebGL2-ready fallback' : 'Software-safe fallback';
+          setEngineStatus('Fallback render path online.');
+        }
+      } catch (error) {
+        document.getElementById('gpuLimits').textContent = 'Fallback after GPU error';
+        startFallbackCanvas('WebGPU error · fallback active');
+        setEngineStatus(`GPU initialization failed gracefully: ${error.message}`);
+      }
+    }
+
+    document.getElementById('copyReportBtn').addEventListener('click', () => {
+      copyReport().catch((error) => setEngineStatus(`Clipboard action failed: ${error.message}`));
+    });
+    document.getElementById('shareLabBtn').addEventListener('click', () => {
+      shareLab().catch((error) => setEngineStatus(`Share action failed: ${error.message}`));
+    });
+    document.getElementById('audioTestBtn').addEventListener('click', () => {
+      playTone().catch((error) => setEngineStatus(`Audio test failed: ${error.message}`));
+    });
+    document.getElementById('refreshScanBtn').addEventListener('click', () => {
+      scanCapabilities().catch((error) => setEngineStatus(`Capability scan failed: ${error.message}`));
+    });
+
+    scanCapabilities().catch((error) => {
+      startFallbackCanvas('Initial scan error · fallback active');
+      setEngineStatus(`Initial capability scan failed: ${error.message}`);
+    });
+  </script>
+</body>
+</html>
