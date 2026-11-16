@@ -1,0 +1,3306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Firepower Narrative: The Russian Soldier Prime Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Serif:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #050505;
+      --white: #ffffff;
+      --paper: #fffdf8;
+      --red: #e30000;
+      --gold: #f4a800;
+      --blue: #003087;
+      --green: #006847;
+      --ink-soft: #333333;
+      --border-heavy: 6px;
+      --border-mid: 3px;
+      --page-width: 8.5in;
+      --page-height: 11in;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #d8d8d8;
+      color: var(--black);
+      font-family: "IBM Plex Serif", Georgia, serif;
+      line-height: 1.42;
+    }
+
+    a {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+    }
+
+    .document {
+      display: grid;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      width: min(100%, var(--page-width));
+      min-height: var(--page-height);
+      margin: 0 auto;
+      border: var(--border-heavy) solid var(--black);
+      background: var(--paper);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    .page-header,
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--black);
+      color: var(--white);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .page-header {
+      border-bottom: var(--border-heavy) solid var(--red);
+      padding: 1rem 1.25rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .page-footer {
+      margin-top: auto;
+      border-top: var(--border-heavy) solid var(--red);
+      padding: 0.8rem 1.25rem;
+      font-size: 0.72rem;
+    }
+
+    .page-number {
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .content {
+      padding: 1.2rem 1.45rem 1rem;
+    }
+
+    .kicker,
+    .entry-kicker,
+    .label,
+    .entry-meta span,
+    .map-title {
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .kicker,
+    .entry-kicker {
+      display: inline-block;
+      margin: 0 0 0.75rem;
+      border: var(--border-mid) solid var(--black);
+      padding: 0.32rem 0.55rem;
+      background: var(--white);
+      color: var(--red);
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      line-height: 0.96;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 13ch;
+      font-size: clamp(3rem, 8vw, 5.6rem);
+      letter-spacing: -0.08em;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.55rem);
+      letter-spacing: -0.06em;
+    }
+
+    .deck {
+      max-width: 42rem;
+      margin: 0.95rem 0 0;
+      color: var(--ink-soft);
+      font-size: 1.12rem;
+      font-weight: 600;
+    }
+
+    .lead {
+      max-width: 42rem;
+      margin: 1rem 0 0;
+      font-size: 1.02rem;
+    }
+
+    .rule {
+      height: var(--border-heavy);
+      margin: 1rem 0;
+      background: var(--red);
+    }
+
+    .stack {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stack li {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      border: var(--border-mid) solid var(--black);
+      background: var(--white);
+    }
+
+    .stack b {
+      display: flex;
+      align-items: center;
+      border-right: var(--border-mid) solid var(--black);
+      padding: 0.7rem;
+      background: var(--black);
+      color: var(--gold);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .stack span {
+      padding: 0.7rem;
+    }
+
+    .mission-box,
+    .soldier-entry,
+    .closing-box {
+      border: var(--border-mid) solid var(--black);
+      background: var(--white);
+    }
+
+    .mission-box,
+    .closing-box {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-width: var(--border-heavy);
+      border-color: var(--red);
+    }
+
+    .mission-box p,
+    .closing-box p {
+      margin: 0;
+    }
+
+    .mission-box strong,
+    .closing-box strong {
+      color: var(--blue);
+    }
+
+    .entry-grid {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .soldier-entry {
+      padding: 0.9rem 1rem 1rem;
+    }
+
+    .entry-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .entry-kicker {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+
+    .entry-meta {
+      text-align: right;
+    }
+
+    .entry-meta span {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .epithet {
+      margin: 0.45rem 0 0.7rem;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .soldier-entry p {
+      margin: 0.55rem 0 0;
+      font-size: 0.94rem;
+    }
+
+    .firepower-equation {
+      margin-top: 0.75rem;
+      padding: 0.7rem 0.8rem;
+      border: var(--border-mid) solid var(--black);
+      background: var(--black);
+      color: var(--gold);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.82rem;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .project-map {
+      margin-top: 0.75rem;
+      padding: 0.75rem 0.85rem;
+      border: var(--border-mid) solid var(--black);
+      background: var(--paper);
+    }
+
+    .map-title {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--red);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .project-map p {
+      margin: 0;
+    }
+
+    .closing {
+      margin-top: 1rem;
+      border-left: var(--border-heavy) solid var(--red);
+      padding-left: 1rem;
+      font-size: 1.04rem;
+      font-weight: 600;
+    }
+
+    @media print {
+      body {
+        background: var(--white);
+      }
+
+      .document {
+        display: block;
+        padding: 0;
+      }
+
+      .page {
+        width: var(--page-width);
+        min-height: var(--page-height);
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+
+      .page:last-child {
+        page-break-after: auto;
+      }
+
+      .soldier-entry {
+        break-inside: avoid;
+      }
+
+      .print-btn {
+        display: none;
+      }
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .gallery-card {
+      border: var(--border-mid) solid var(--black);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .gallery-card-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border-bottom: var(--border-mid) solid var(--black);
+      filter: grayscale(20%);
+    }
+
+    .gallery-card-head {
+      background: var(--black);
+      color: var(--gold);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.45rem 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border-mid) solid var(--red);
+    }
+
+    .gallery-card-head .node {
+      color: var(--white);
+      opacity: 0.6;
+      font-size: 0.62rem;
+    }
+
+    .gallery-card-body {
+      padding: 0.6rem 0.7rem 0.7rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gallery-card-name {
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin: 0 0 0.35rem;
+    }
+
+    .gallery-card-category {
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--red);
+      margin-bottom: 0.4rem;
+    }
+
+    .gallery-card-epithet {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      margin: 0 0 0.5rem;
+      flex: 1;
+      line-height: 1.35;
+    }
+
+    .gallery-card-eq {
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.6rem;
+      background: var(--black);
+      color: var(--gold);
+      padding: 0.35rem 0.45rem;
+      text-align: center;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 760px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ── FIREPOWER THREAD ─────────────────────────────────────────── */
+    .thread-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 0.85rem;
+    }
+
+    .thread-post {
+      border: var(--border-mid) solid var(--black);
+      border-bottom: 0;
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+    }
+
+    .thread-post:last-child {
+      border-bottom: var(--border-mid) solid var(--black);
+    }
+
+    .thread-post.perelman-post {
+      border-color: var(--red);
+      border-width: var(--border-heavy);
+      border-bottom: 0;
+      grid-template-columns: 9rem 1fr;
+    }
+
+    .thread-post.perelman-post + .thread-post {
+      border-top: var(--border-heavy) solid var(--red);
+    }
+
+    .thread-post.emea-post {
+      border-color: var(--gold);
+      border-width: var(--border-heavy);
+      border-bottom: 0;
+      grid-template-columns: 9rem 1fr;
+    }
+
+    .thread-post.emea-post:last-child {
+      border-bottom: var(--border-heavy) solid var(--gold);
+    }
+
+    .emea-post .post-sidebar {
+      background: var(--gold);
+      border-right-color: var(--gold);
+    }
+
+    .emea-post .post-handle {
+      color: var(--black);
+    }
+
+    .emea-post .post-badge {
+      color: rgba(0,0,0,0.5);
+    }
+
+    .emea-post .post-sig {
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    .thread-band-header {
+      background: var(--black);
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.58rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.32rem 0.85rem;
+      border: var(--border-mid) solid var(--black);
+      border-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .thread-band-verb {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+    }
+
+    .post-monarch {
+      font-size: 0.76rem;
+      font-style: italic;
+      color: rgba(0,0,0,0.38);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .emea-post .post-monarch {
+      color: rgba(0,0,0,0.5);
+    }
+
+    .post-avatar-emoji {
+      width: 44px;
+      height: 44px;
+      border-radius: 2px;
+      border: 2px solid rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      background: rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 620px) {
+      .thread-post.emea-post {
+        grid-template-columns: 6.5rem 1fr;
+      }
+    }
+
+    .post-sidebar {
+      border-right: var(--border-mid) solid var(--black);
+      background: var(--black);
+      padding: 0.7rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      text-align: center;
+    }
+
+    .perelman-post .post-sidebar {
+      background: var(--red);
+      border-right-color: var(--red);
+    }
+
+    .post-handle {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      line-height: 1.2;
+    }
+
+    .perelman-post .post-handle {
+      color: var(--white);
+    }
+
+    .post-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.52rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .post-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 2px;
+      object-fit: cover;
+      object-position: center top;
+      border: 2px solid rgba(255,255,255,0.12);
+      display: block;
+    }
+
+    .post-body {
+      padding: 0.7rem 0.85rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .post-eq {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      background: var(--black);
+      color: var(--gold);
+      padding: 0.35rem 0.55rem;
+      display: inline-block;
+      letter-spacing: 0.02em;
+      margin: 0.1rem 0;
+    }
+
+    .post-text {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .post-sig {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.58rem;
+      color: var(--red);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 0.3rem;
+      margin-top: 0.1rem;
+    }
+
+    .perelman-post .post-text {
+      color: var(--black);
+    }
+
+    .perelman-post .post-sig {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .thread-op-bar {
+      background: var(--black);
+      border: var(--border-mid) solid var(--black);
+      border-bottom: var(--border-heavy) solid var(--red);
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .thread-op-title {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+
+    .thread-op-meta {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.6rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 620px) {
+      .thread-post,
+      .thread-post.perelman-post {
+        grid-template-columns: 6.5rem 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .document {
+        padding: 0.75rem;
+      }
+
+      .page {
+        min-height: auto;
+      }
+
+      .stack li,
+      .entry-head {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .stack b {
+        border-right: 0;
+        border-bottom: var(--border-mid) solid var(--black);
+      }
+
+      .entry-meta {
+        text-align: left;
+      }
+    }
+
+    /* ── FANTASY DRAFT BOARD ──────────────────────────────────────── */
+    .fantasy-title-block {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .fantasy-league-tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.28rem 0.6rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .fantasy-record-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: var(--black);
+      padding: 0.4rem 0.75rem;
+      border: var(--border-mid) solid var(--black);
+      text-align: center;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    .fantasy-record-badge span {
+      display: block;
+      font-size: 0.55rem;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .roster-section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.75rem 0 0.3rem;
+    }
+
+    .roster-section-head::before {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 1.1rem;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .roster-section-head span {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      background: var(--black);
+      padding: 0.22rem 0.55rem;
+    }
+
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.69rem;
+    }
+
+    .roster-table thead tr {
+      background: var(--black);
+      color: var(--gold);
+    }
+
+    .roster-table thead th {
+      padding: 0.3rem 0.45rem;
+      text-align: left;
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-right: 1px solid #2a2a2a;
+      white-space: nowrap;
+    }
+
+    .roster-table thead th:last-child { border-right: 0; }
+
+    .roster-table tbody tr {
+      border-bottom: 2px solid var(--black);
+      background: var(--white);
+    }
+
+    .roster-table tbody tr:nth-child(even) { background: #f5f3ee; }
+
+    .roster-table tbody tr.bench-row { opacity: 0.82; }
+
+    .roster-table tbody td {
+      padding: 0.24rem 0.45rem;
+      vertical-align: middle;
+      border-right: 1px solid #ddd;
+    }
+
+    .roster-table tbody td:last-child { border-right: 0; }
+
+    .pos-badge {
+      display: inline-block;
+      min-width: 3rem;
+      text-align: center;
+      padding: 0.15rem 0.28rem;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .pos-qb   { background: var(--red);   color: #fff; }
+    .pos-rb   { background: #004d2b;      color: #fff; }
+    .pos-wr   { background: #003087;      color: #fff; }
+    .pos-te   { background: #5a3200;      color: #fff; }
+    .pos-flex { background: #4b0082;      color: #fff; }
+    .pos-k    { background: #444;         color: #fff; }
+    .pos-def  { background: var(--black); color: var(--gold); }
+    .pos-bn   { background: #888;         color: #fff; }
+
+    .roster-photo {
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border: 2px solid var(--black);
+      filter: grayscale(25%);
+    }
+
+    .jersey-num {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--red);
+      min-width: 1.4rem;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .player-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .player-theorem {
+      font-size: 0.57rem;
+      color: #777;
+      display: block;
+      margin-top: 0.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 12rem;
+    }
+
+    .proj-num {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .floor-ceil {
+      font-size: 0.56rem;
+      color: #888;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .floor-ceil b { color: var(--blue); }
+    .floor-ceil i { color: #228822; font-style: normal; }
+
+    .special-txt {
+      font-size: 0.58rem;
+      color: var(--ink-soft);
+      line-height: 1.35;
+      max-width: 13rem;
+    }
+
+    .special-txt strong {
+      display: block;
+      color: var(--red);
+      font-size: 0.57rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.1rem;
+    }
+
+    .fantasy-total-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.65rem;
+      padding: 0.45rem 0.7rem;
+      background: var(--black);
+      color: var(--gold);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .fantasy-total-bar .total-pts {
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+
+    .fantasy-injury-note {
+      margin-top: 0.6rem;
+      padding: 0.5rem 0.7rem;
+      border: var(--border-mid) solid var(--red);
+      background: #fff5f5;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.6rem;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1.5;
+    }
+
+    /* ── WATERBOYS ───────────────────────────────────────────────── */
+    .waterboy-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      margin: 0.4rem 0 0.5rem;
+    }
+
+    .waterboy-card {
+      border: var(--border-mid) solid var(--black);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0.6rem 0.4rem 0.55rem;
+      gap: 0.18rem;
+    }
+
+    .waterboy-emoji {
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .waterboy-name {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-top: 0.15rem;
+    }
+
+    .waterboy-role {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      background: var(--black);
+      padding: 0.1rem 0.3rem;
+    }
+
+    .waterboy-note {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-size: 0.58rem;
+      color: var(--ink-soft);
+      font-style: italic;
+      line-height: 1.3;
+      margin-top: 0.15rem;
+    }
+
+    .waterboy-clearance {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--black);
+      padding: 0.3rem 0.6rem;
+      text-align: center;
+      border: var(--border-mid) solid var(--black);
+    }
+
+    @media (max-width: 760px) {
+      .waterboy-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .print-btn-bar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.6rem 1rem;
+      background: var(--white);
+      border-bottom: var(--border-thin) solid var(--black);
+    }
+
+    .print-btn-el {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+    }
+
+    .print-btn-el:hover {
+      background: var(--red);
+    }
+
+    #site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    #page-nav {
+      background: var(--black);
+      border-bottom: 3px solid var(--gold);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+    }
+
+    #page-nav-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    #page-nav-toggle:hover {
+      color: var(--gold);
+    }
+
+    #page-nav-toggle .nav-arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
+
+    #page-nav-toggle[aria-expanded="true"] .nav-arrow {
+      transform: rotate(90deg);
+    }
+
+    #page-nav-list {
+      display: none;
+      list-style: none;
+      margin: 0;
+      padding: 0.25rem 0 0.5rem;
+      border-top: 1px solid #333;
+    }
+
+    #page-nav-list.open {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    #page-nav-list li a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.55rem;
+      padding: 0.4rem 1rem;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    #page-nav-list li a:hover {
+      background: #1a1a1a;
+      color: var(--gold);
+    }
+
+    #page-nav-list li a .nav-num {
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    #page-nav-list li a .nav-section {
+      color: #888;
+      font-size: 0.65rem;
+      white-space: nowrap;
+    }
+
+    @media print {
+      #site-header { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header id="site-header">
+    <div class="print-btn-bar print-btn">
+      <button class="print-btn-el" onclick="window.print()">Print / Export PDF</button>
+    </div>
+    <nav id="page-nav" aria-label="Page navigation">
+      <button id="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">
+        <span class="nav-arrow">&#9658;</span>
+        Contents — 14 Pages
+      </button>
+      <ul id="page-nav-list" role="list">
+        <li><a href="#page-00"><span class="nav-num">00</span> The Armory <span class="nav-section">/ Gallery</span></a></li>
+        <li><a href="#page-00mx"><span class="nav-num">00-MX</span> Declarative Fire <span class="nav-section">/ Mexico Gallery</span></a></li>
+        <li><a href="#page-01"><span class="nav-num">01</span> The Prime Firepower <span class="nav-section">/ Arsenal</span></a></li>
+        <li><a href="#page-02"><span class="nav-num">02</span> Bounds <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-03"><span class="nav-num">03</span> Progressions <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-04"><span class="nav-num">04</span> Control <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-05"><span class="nav-num">05</span> Structure <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-06"><span class="nav-num">06</span> Singularities <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-07"><span class="nav-num">07</span> State Metabolism <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-08"><span class="nav-num">08</span> K-Theory &amp; Motion <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-09"><span class="nav-num">09</span> Quantization <span class="nav-section">/ Russian Soldiers</span></a></li>
+        <li><a href="#page-10"><span class="nav-num">10</span> ISS Fire Engine Crew <span class="nav-section">/ Crew Manifest</span></a></li>
+        <li><a href="#page-11"><span class="nav-num">11</span> The Thread <span class="nav-section">/ Discussion</span></a></li>
+        <li><a href="#page-12"><span class="nav-num">12</span> The Migration Thread <span class="nav-section">/ Mexico</span></a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="document">
+
+    <article id="page-00" class="page" aria-labelledby="page-gallery-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 00 / Gallery</span>
+      </header>
+
+      <section class="content">
+        <p class="kicker">All Fifteen Soldiers</p>
+        <h1 id="page-gallery-title">The Armory</h1>
+        <p class="deck">
+          Fifteen Russian mathematicians. Fifteen kinds of force. Every prime slot maps to a
+          node, a theorem, and a working role in the stack.
+        </p>
+
+        <div class="rule"></div>
+
+        <div class="gallery-grid">
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/chebyshev.png" alt="Chebyshev">
+            <div class="gallery-card-head">
+              <span>Prime 01</span><span class="node">Node 2</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Chebyshev</p>
+              <p class="gallery-card-category">Bounds</p>
+              <p class="gallery-card-epithet">The father. He ground out the bounds when the world was blind.</p>
+              <div class="gallery-card-eq">A x/log x &le; &pi;(x) &le; B x/log x</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/vinogradov.png" alt="Vinogradov">
+            <div class="gallery-card-head">
+              <span>Prime 02</span><span class="node">Node 3</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Vinogradov</p>
+              <p class="gallery-card-category">Bounds</p>
+              <p class="gallery-card-epithet">The circle method. Attacking Goldbach like it owed him money.</p>
+              <div class="gallery-card-eq">r(N) = &int;<sub>0</sub><sup>1</sup> S(&alpha;)<sup>3</sup> e(-N&alpha;) d&alpha;</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/linnik.png" alt="Linnik">
+            <div class="gallery-card-head">
+              <span>Prime 03</span><span class="node">Node 5</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Linnik</p>
+              <p class="gallery-card-category">Progressions</p>
+              <p class="gallery-card-epithet">Working arithmetic progressions. Finding density in the void.</p>
+              <div class="gallery-card-eq">p(a, q) &ll; q<sup>L</sup> for (a, q) = 1</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/kolmogorov.png" alt="Kolmogorov">
+            <div class="gallery-card-head">
+              <span>Prime 04</span><span class="node">Node 7</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Kolmogorov</p>
+              <p class="gallery-card-category">Stochastic Beat</p>
+              <p class="gallery-card-epithet">Complexity and probability. He defined the heartbeat of the system.</p>
+              <div class="gallery-card-eq">K(x) = min { |p| : U(p) = x }</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/pontryagin.png" alt="Pontryagin">
+            <div class="gallery-card-head">
+              <span>Prime 05</span><span class="node">Node 11</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Pontryagin</p>
+              <p class="gallery-card-category">Control</p>
+              <p class="gallery-card-epithet">Control theory. Navigating the constellations without sight.</p>
+              <div class="gallery-card-eq">u*(t) = arg max<sub>u</sub> H(x, u, &lambda;)</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/arnold.png" alt="Arnold">
+            <div class="gallery-card-head">
+              <span>Prime 06</span><span class="node">Node 13</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Arnold</p>
+              <p class="gallery-card-category">Control</p>
+              <p class="gallery-card-epithet">Dynamical systems. He understood how the Living House evolves.</p>
+              <div class="gallery-card-eq">H<sub>0</sub>(I) + &epsilon;H<sub>1</sub>(I, &theta;), tori survive small &epsilon;</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/gelfand.png" alt="Gelfand">
+            <div class="gallery-card-head">
+              <span>Prime 07</span><span class="node">Node 17</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Gelfand</p>
+              <p class="gallery-card-category">Structure</p>
+              <p class="gallery-card-epithet">Functional analysis. Building the machinery that speaks for itself.</p>
+              <div class="gallery-card-eq">||a|| = sup |a&#770;(&phi;)| in C*-setting</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/shafarevich.png" alt="Shafarevich">
+            <div class="gallery-card-head">
+              <span>Prime 08</span><span class="node">Node 19</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Shafarevich</p>
+              <p class="gallery-card-category">Structure</p>
+              <p class="gallery-card-epithet">Number theory king. He knew the structure of the prime ideals.</p>
+              <div class="gallery-card-eq">r &lt; d<sup>2</sup>/4 &Rightarrow; p-class field tower is infinite</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/perelman.png" alt="Perelman">
+            <div class="gallery-card-head">
+              <span>Prime 09</span><span class="node">Node 23</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Perelman</p>
+              <p class="gallery-card-category">Singularities</p>
+              <p class="gallery-card-epithet">The ghost. Solved the Poincaré, refused the money, stayed irreducible.</p>
+              <div class="gallery-card-eq">&part;<sub>t</sub>g = -2 Ric(g), entropy monotone</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/landau.png" alt="Landau">
+            <div class="gallery-card-head">
+              <span>Prime 10</span><span class="node">Node 29</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Landau</p>
+              <p class="gallery-card-category">Bounds</p>
+              <p class="gallery-card-epithet">The Theoretical Minimum. You do the reps or you don't play.</p>
+              <div class="gallery-card-eq">f(x) = O(g(x)), f(x) = o(g(x))</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/markov.png" alt="Markov">
+            <div class="gallery-card-head">
+              <span>Prime 11</span><span class="node">Node 31</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Markov</p>
+              <p class="gallery-card-category">Stochastic Beat</p>
+              <p class="gallery-card-epithet">The chain. He saw the metabolism of how one state spawns the next.</p>
+              <div class="gallery-card-eq">&mu;<sub>n+1</sub> = &mu;<sub>n</sub>P, &pi;P = &pi;</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/lyapunov.png" alt="Lyapunov">
+            <div class="gallery-card-head">
+              <span>Prime 12</span><span class="node">Node 37</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Lyapunov</p>
+              <p class="gallery-card-category">Stochastic Beat</p>
+              <p class="gallery-card-epithet">Stability logic. Ensuring the house doesn't collapse during the breathing.</p>
+              <div class="gallery-card-eq">V &gt; 0 and V&#775; &le; 0 &Rightarrow; stable</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/suslin.png" alt="Suslin">
+            <div class="gallery-card-head">
+              <span>Prime 13</span><span class="node">Node 41</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Suslin</p>
+              <p class="gallery-card-category">K-Theory</p>
+              <p class="gallery-card-epithet">K-theory. Mapping the sparse network across the dynasty.</p>
+              <div class="gallery-card-eq">Proj. module over k[x<sub>1</sub>,...,x<sub>n</sub>] is free</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/margulis.png" alt="Margulis">
+            <div class="gallery-card-head">
+              <span>Prime 14</span><span class="node">Node 43</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Margulis</p>
+              <p class="gallery-card-category">K-Theory</p>
+              <p class="gallery-card-epithet">Ergodic theory. Finding the stadium energy in the movement.</p>
+              <div class="gallery-card-eq">&lambda;<sub>2</sub> bounded away from d, connectivity high</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/kontsevich.png" alt="Kontsevich">
+            <div class="gallery-card-head">
+              <span>Prime 15</span><span class="node">Node 47</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Kontsevich</p>
+              <p class="gallery-card-category">Quantization</p>
+              <p class="gallery-card-epithet">Modern metamorphic logic. Quantizing the very fabric of the grind.</p>
+              <div class="gallery-card-eq">f * g = fg + (&hbar;/2){f,g} + &Sigma;&hbar;<sup>n</sup>B<sub>n</sub></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>15 Primes / 15 Nodes / 15 Weapons</span>
+        <span>Names Become Machinery</span>
+      </footer>
+    </article>
+
+    <article id="page-00mx" class="page" aria-labelledby="page-mexico-gallery-title">
+      <header class="page-header">
+        <span>Obsidian Logic / Mexican Migration Index</span>
+        <span class="page-number">Page 00-MX / Gallery</span>
+      </header>
+
+      <section class="content">
+        <p class="kicker">All Sixteen Waypoints</p>
+        <h1 id="page-mexico-gallery-title">Declarative Fire</h1>
+        <p class="deck">
+          Sixteen Mexican mathematicians. Four generations of Monarch butterflies.
+          Every prime node maps to a waypoint, a verb, and a passage in the migration thread.
+        </p>
+
+        <div class="rule"></div>
+
+        <div class="gallery-grid">
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/nabor_carrillo.png" alt="Nabor Carrillo">
+            <div class="gallery-card-head">
+              <span>Monarch 01</span><span class="node">Node 2</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Nabor Carrillo</p>
+              <p class="gallery-card-category">MONAD &mdash; Gen 1 Foundation</p>
+              <p class="gallery-card-epithet">The irreducible substrate. Soil mechanics as the monad from which all Mexican mathematics rises.</p>
+              <div class="gallery-card-eq">ker(Q)/im(Q) = obsidian ground</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/barajas.png" alt="Alberto Barajas">
+            <div class="gallery-card-head">
+              <span>Monarch 02</span><span class="node">Node 3</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Alberto Barajas</p>
+              <p class="gallery-card-category">EMBED &mdash; Gen 1 Foundation</p>
+              <p class="gallery-card-epithet">We embed the manifold in spacetime. The Lorentzian metric curves under mass — the bend is the truth.</p>
+              <div class="gallery-card-eq">(M, g) sig (&#x2212;,+,+,+): &mu; maps mass &rarr; curvature</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/sotomayor.png" alt="Sotomayor">
+            <div class="gallery-card-head">
+              <span>Monarch 03</span><span class="node">Node 5</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Sotomayor</p>
+              <p class="gallery-card-category">MORPH &mdash; Gen 1 Foundation</p>
+              <p class="gallery-card-epithet">We declare the bifurcation. The system runs smooth, then shatters — the fork is not softened.</p>
+              <div class="gallery-card-eq">X<sub>H</sub> = &omega;<sup>&#x2212;1</sup>(dH): bifurcating orbits</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/adem.png" alt="José Ádem">
+            <div class="gallery-card-head">
+              <span>Monarch 04</span><span class="node">Node 7</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">José Ádem</p>
+              <p class="gallery-card-category">COMPOSE &mdash; Gen 1 Foundation</p>
+              <p class="gallery-card-epithet">We chain the operations. The Ádem relations are the exact composition law for Steenrod operations.</p>
+              <div class="gallery-card-eq">Sq<sup>i</sup>Sq<sup>j</sup> = &Sigma;C(j&#x2212;1&#x2212;k, i&#x2212;2k)Sq<sup>i+j&#x2212;k</sup>Sq<sup>k</sup></div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/githeler.png" alt="Samuel Gítheler">
+            <div class="gallery-card-head">
+              <span>Monarch 05</span><span class="node">Node 11</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Samuel Gítheler</p>
+              <p class="gallery-card-category">PRODUCT &mdash; Gen 2 Migration</p>
+              <p class="gallery-card-epithet">We build the total space from fibers. Every fiber a tensor factor; the base the invariant ground below flight.</p>
+              <div class="gallery-card-eq">E &rarr; B: H<sub>1</sub> &otimes; H<sub>2</sub> as fiber bundle</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/torres.png" alt="Guillermo Torres">
+            <div class="gallery-card-head">
+              <span>Monarch 06</span><span class="node">Node 13</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Guillermo Torres</p>
+              <p class="gallery-card-category">PULLBACK &mdash; Gen 2 Migration</p>
+              <p class="gallery-card-epithet">We pull back to the invariant. The knot complement is the gauge slice — shape defined by what is absent.</p>
+              <div class="gallery-card-eq">S<sup>3</sup> \ K = gauge slice &Sigma; &sub; &mu;<sup>&#x2212;1</sup>(0)</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/clapp.png" alt="Mónica Clapp">
+            <div class="gallery-card-head">
+              <span>Monarch 07</span><span class="node">Node 17</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Mónica Clapp</p>
+              <p class="gallery-card-category">LIMIT &mdash; Gen 2 Migration</p>
+              <p class="gallery-card-epithet">We find the critical point. The solution lives at the saddle, extracted from the boundary of the possible.</p>
+              <div class="gallery-card-eq">inf max<sub>&gamma;&isin;&Gamma;</sub> J(&gamma;(t)) on &mu;<sup>&#x2212;1</sup>(0)</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/gonzalez.png" alt="Francisco Javier González">
+            <div class="gallery-card-head">
+              <span>Monarch 08</span><span class="node">Node 19</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">F. J. González</p>
+              <p class="gallery-card-category">FOLD &mdash; Gen 2 Migration</p>
+              <p class="gallery-card-epithet">We fold all geometry into the group. Every space is an invariant under G — the Erlangen program is live.</p>
+              <div class="gallery-card-eq">&Gamma;(G, S): every geometry = invariant under G</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/gomez_mont.png" alt="Xavier Gómez-Mont">
+            <div class="gallery-card-head">
+              <span>Monarch 09</span><span class="node">Node 23</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Gómez-Mont</p>
+              <p class="gallery-card-category">PUSHOUT &mdash; Gen 3 Dispersal</p>
+              <p class="gallery-card-epithet">We stack the leaves. The foliated manifold is a pushout of phase spaces along leaf boundaries.</p>
+              <div class="gallery-card-eq">(M, &#x2131;) = symplectic sum along &part;-leaves</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/mostovoy.png" alt="Jacob Mostovoy">
+            <div class="gallery-card-head">
+              <span>Monarch 10</span><span class="node">Node 29</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Jacob Mostovoy</p>
+              <p class="gallery-card-category">PRODUCT &mdash; Gen 3 Dispersal</p>
+              <p class="gallery-card-epithet">We forbid collision. n bodies in perfect relation — the diagonal excluded, separation enforced as law.</p>
+              <div class="gallery-card-eq">Conf<sub>n</sub>(&#x211D;<sup>2</sup>) = (&#x211D;<sup>2</sup>)<sup>n</sup> \ &Delta;</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/panthelee.png" alt="Gisela Panthelee">
+            <div class="gallery-card-head">
+              <span>Monarch 11</span><span class="node">Node 31</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Gisela Panthelee</p>
+              <p class="gallery-card-category">DRAWBRIDGE &mdash; Gen 3 Dispersal</p>
+              <p class="gallery-card-epithet">We lift the classical to the stochastic. The Drawbridge — deterministic Hamiltonian crosses to path-space probability.</p>
+              <div class="gallery-card-eq">F: C([0,T], &#x211D;<sup>n</sup>) &rarr; P(paths)</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/hernandez.png" alt="Onésimo Hernández">
+            <div class="gallery-card-head">
+              <span>Monarch 12</span><span class="node">Node 37</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">O. Hernández</p>
+              <p class="gallery-card-category">REDUCE &mdash; Gen 3 Dispersal</p>
+              <p class="gallery-card-epithet">We strip symmetry until only the policy remains. The loop closes when the state space is reduced to the core.</p>
+              <div class="gallery-card-eq">M<sub>red</sub> = &mu;<sup>&#x2212;1</sup>(0)/G: dim &#x2212; 2 dim(G)</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/tatiana_toro.png" alt="Tatiana Toro">
+            <div class="gallery-card-head">
+              <span>Monarch 13</span><span class="node">Node 41</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Tatiana Toro</p>
+              <p class="gallery-card-category">MEASURE &mdash; Gen 4 Methuselah</p>
+              <p class="gallery-card-epithet">We measure the roughness. Hausdorff dimension of the obsidian edge — roughness is not error, it is the real.</p>
+              <div class="gallery-card-eq">dim<sub>H</sub>(&part;&Omega;) = fractal dimension on rough boundary</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/iturriaga.png" alt="Salomón Iturriaga">
+            <div class="gallery-card-head">
+              <span>Monarch 14</span><span class="node">Node 43</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">S. Iturriaga</p>
+              <p class="gallery-card-category">LONDON BRIDGE &mdash; Gen 4 Methuselah</p>
+              <p class="gallery-card-epithet">We stand on the bridge. The Hamiltonian orbit tracks the curve until it closes — we do not leave until it does.</p>
+              <div class="gallery-card-eq">&mu;: M &rarr; g*: {H=E} &sub; T*M, orbit = moment map in motion</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <img class="gallery-card-photo" src="/portraits/lopez_de_medrano.png" alt="Santiago López de Medrano">
+            <div class="gallery-card-head">
+              <span>Monarch 15</span><span class="node">Node 47</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">López de Medrano</p>
+              <p class="gallery-card-category">BRACEBRIDGE &mdash; Gen 4 Methuselah</p>
+              <p class="gallery-card-epithet">We complete the reduction. Real moment-angle manifolds ARE the Bracebridge — sharp and exact.</p>
+              <div class="gallery-card-eq">M//G = &mu;<sup>&#x2212;1</sup>(0)/G: {&Sigma;<sub>i</sub>a<sub>i</sub>x<sub>i</sub><sup>2</sup> = 1}</div>
+            </div>
+          </div>
+
+          <div class="gallery-card">
+            <div class="gallery-card-photo" style="background:var(--black);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:2.5rem;color:var(--gold);border-bottom:var(--border-mid) solid var(--black);">37&harr;73</div>
+            <div class="gallery-card-head">
+              <span>Monarch 16</span><span class="node">Node 53</span>
+            </div>
+            <div class="gallery-card-body">
+              <p class="gallery-card-name">Emea</p>
+              <p class="gallery-card-category">EMIRP LOOP &mdash; Gen 4 Methuselah</p>
+              <p class="gallery-card-epithet">We declare the loop prime in both directions. 37 reversed is 73. 73 reversed is 37. Both prime. The loop closes.</p>
+              <div class="gallery-card-eq">37 &harr; 73: emirp pair &mdash; 1/37 = 0.027027&hellip;</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>16 Waypoints / 4 Generations / 1 Migration</span>
+        <span>The Loop Is Prime</span>
+      </footer>
+    </article>
+
+    <article id="page-01" class="page" aria-labelledby="page-one-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 01 / Arsenal</span>
+      </header>
+
+      <section class="content">
+        <p class="kicker">Supplement To The Action Plan Narrative</p>
+        <h1 id="page-one-title">The Prime Firepower</h1>
+        <p class="deck">
+          The table of names was never decoration. It was an armory. Each Russian
+          mathematician in the prime index contributes a specific kind of force:
+          bounding force, mixing force, control force, rigidity force, stability force,
+          or quantization force. This document spells out the firepower.
+        </p>
+
+        <div class="rule"></div>
+
+        <p class="lead">
+          Read beside
+          <a href="action-plan-narrative-claude.html">the Claude action plan narrative</a>.
+          That file explains why the stack exists. This file explains why the stack
+          can be made sharp. The Watermelon layers, the Oracle ledger, the rhythm thesis,
+          the Living House, Scholar-Islands, and the ALS/CTE research line all need
+          mathematics that does more than ornament the mission. They need mathematics
+          that disciplines it.
+        </p>
+
+        <ul class="stack" aria-label="How the armory is organized">
+          <li>
+            <b>Bounds</b>
+            <span>Chebyshev, Vinogradov, Linnik, and Landau force estimates out of fog and turn intuition into computable limits.</span>
+          </li>
+          <li>
+            <b>Stochastic Beat</b>
+            <span>Kolmogorov, Markov, and Lyapunov teach the metabolism of states: what fluctuates, what mixes, and what remains stable under pressure.</span>
+          </li>
+          <li>
+            <b>Control</b>
+            <span>Pontryagin and Arnold show how to steer an evolving system without lying about perturbation, resonance, or cost.</span>
+          </li>
+          <li>
+            <b>Structure</b>
+            <span>Gelfand, Shafarevich, Suslin, Margulis, and Kontsevich reveal the hidden spaces, spectra, and symmetries where the grind actually lives.</span>
+          </li>
+        </ul>
+
+        <div class="mission-box">
+          <p>
+            <strong>The claim:</strong> if the manifesto says "through mathematics,"
+            these fifteen names are the proof obligation. Every entry below names the
+            theorem, gives the equation, and tells you what part of MELON-1, Scholar-Islands,
+            or the cure pipeline it hardens.
+          </p>
+        </div>
+
+        <p class="closing">
+          The point is not nostalgia. The point is operational inheritance. These are
+          not saints on a wall. They are working components in the Red Logic Grind.
+        </p>
+      </section>
+
+      <footer class="page-footer">
+        <span>Read The Repository -> Prime Firepower -> Fund The Cure</span>
+        <span>Names Become Machinery</span>
+      </footer>
+    </article>
+
+    <article id="page-02" class="page" aria-labelledby="page-two-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 02 / Bounds</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 01 / Node 2</p>
+            <div class="entry-meta">
+              <span>Chebyshev</span>
+              <span>Bounds In The Dark</span>
+            </div>
+          </div>
+          <h2>Chebyshev</h2>
+          <p class="epithet">The father. He ground out the bounds when the world was blind.</p>
+          <p>
+            Chebyshev gave prime number theory its iron rails before the full prime
+            number theorem arrived. He studied the weighted prime-counting functions
+            &theta;(x) and &psi;(x), proved that if the limit of &theta;(x) / x exists then
+            it must equal 1, and forced &pi;(x) to live between constant multiples of
+            x / log x. That is real firepower: not prophecy, but enclosure. He also gave
+            Bertrand's postulate, proving there is always a prime between n and 2n.
+            In other words, the void cannot stay empty for long. Density will reappear.
+          </p>
+          <div class="firepower-equation">A x / log x &le; &pi;(x) &le; B x / log x, and &theta;(x) = &Sigma;<sub>p &le; x</sub> log p</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Chebyshev hardens the planning layer of the whole repository. The Watermelon
+              stack cannot be run on vibes; it needs upper and lower envelopes for signal,
+              cost, conversion, and research yield. In the rhythm thesis he is the first
+              proof that the beat has measurable density. In Scholar-Islands he means raw
+              talent is not a miracle event but a recurring interval. In the Oracle ledger
+              he is the refusal to overclaim: bracket the outcome, publish the constants,
+              then keep grinding until the asymptotic truth arrives.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 02 / Node 3</p>
+            <div class="entry-meta">
+              <span>Vinogradov</span>
+              <span>Major Arcs, Minor Arcs</span>
+            </div>
+          </div>
+          <h2>Vinogradov</h2>
+          <p class="epithet">The circle method. Attacking the Goldbach conjecture like it owed him money.</p>
+          <p>
+            Vinogradov took Hardy and Littlewood's circle method and made it hit like a
+            weapon. His exponential-sum estimates over primes led to the theorem that
+            every sufficiently large odd integer is the sum of three primes. The move is
+            beautiful and ruthless: split the unit circle into major arcs where the main
+            term lives and minor arcs where cancellation must be forced. The point is not
+            only additive number theory. The point is that structure and noise can be
+            separated without lying about either one.
+          </p>
+          <div class="firepower-equation">r(N) = &int;<sub>0</sub><sup>1</sup> S(&alpha;)<sup>3</sup> e(-N&alpha;) d&alpha;, with S(&alpha;) = &Sigma;<sub>p &le; N</sub> e(&alpha;p)</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Vinogradov powers the Intelligence layer of MELON-1. Markets, HRV traces,
+              and neural decay curves all arrive as mixtures of signal and contamination.
+              The circle-method posture says: isolate the resonant arcs, suppress the
+              non-coherent floor, and do not confuse amplitude with meaning. For the
+              research line this matters because cure work lives inside dirty data. For
+              Scholar-Islands it matters because talent often appears as a faint major arc
+              hidden inside social noise. Vinogradov teaches the system how to hear it.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Chebyshev / Vinogradov</span>
+        <span>Bound The Density. Separate The Noise.</span>
+      </footer>
+    </article>
+
+    <article id="page-03" class="page" aria-labelledby="page-three-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 03 / Progressions</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 03 / Node 5</p>
+            <div class="entry-meta">
+              <span>Linnik</span>
+              <span>Least Prime In Formation</span>
+            </div>
+          </div>
+          <h2>Linnik</h2>
+          <p class="epithet">Working the arithmetic progressions. Finding the density in the void.</p>
+          <p>
+            Linnik asked a hard operational question: if a residue class a mod q is
+            allowed to contain primes, how far must you search before the first one shows
+            up? His theorem says the least such prime p(a, q) is bounded by q raised to a
+            universal power L. The exact exponent has been sharpened many times, but the
+            firepower is already visible in the original statement. Congruence classes are
+            not abstract decoration. They are corridors of admissible motion, and Linnik
+            proves those corridors eventually open.
+          </p>
+          <div class="firepower-equation">p(a, q) &ll; q<sup>L</sup> for (a, q) = 1</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Linnik is for routing under constraints. Every serious system has residue
+              classes: consent states, budget buckets, API quotas, time slots, recovery
+              windows. The Orchestration layer must know that a viable action exists inside
+              the admissible class and how expensive the search may become. In Scholar-Islands
+              he is the proof that a student stuck in a thin arithmetic progression is not
+              lost; the next prime event can still be reached. In the Red Logic Grind he
+              keeps the search from becoming mystical.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 04 / Node 7</p>
+            <div class="entry-meta">
+              <span>Kolmogorov</span>
+              <span>Measure, Entropy, Beat</span>
+            </div>
+          </div>
+          <h2>Kolmogorov</h2>
+          <p class="epithet">Complexity and probability. He defined the "heartbeat" of the system.</p>
+          <p>
+            Kolmogorov turned probability into a disciplined measure-theoretic language and
+            later gave computation a brutally clean notion of information content. On one
+            side sits the axiomatization of random events on a probability space; on the
+            other sits Kolmogorov complexity, the length of the shortest program that
+            generates an object. Between them is the continuity criterion for stochastic
+            processes, the statement that rough traces can still be controlled if their
+            increments obey the right moment bounds. That is heartbeat mathematics: noisy,
+            compressed, but law-bound.
+          </p>
+          <div class="firepower-equation">K(x) = min { |p| : U(p) = x }, and E|X<sub>t</sub> - X<sub>s</sub>|<sup>&alpha;</sup> &le; C|t - s|<sup>1 + &beta;</sup></div>
+          <p>
+            The heartbeat is not just discrete. The ambient Hilbert space governs it: a
+            stochastic process earns continuous paths precisely when its increments satisfy
+            the moment bound inside the right Sobolev completion H<sup>k</sup>(&Omega;) &#8212;
+            law-bound not because the process is smooth, but because the completion forces the
+            regularity the law requires.
+          </p>
+          <div class="firepower-equation">X &isin; H<sup>k</sup>(&Omega;) (Sobolev); E|X<sub>t</sub> - X<sub>s</sub>|<sup>&alpha;</sup> &le; C|t - s|<sup>1+&beta;</sup> &rArr; continuous paths</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Kolmogorov is the grammar behind the rhythm thesis. HRV streams, market
+              microstructure, ALS progression markers, and student-learning traces all
+              arrive as probability-bearing sequences whose useful content must be measured
+              against compression and noise. He powers the Learning layer because reward
+              should go to irreducible structure, not verbosity. He powers the Oracle
+              ledger because transparent records need entropy accounting as much as they
+              need storage. He is the mathematician who tells the Living House when its
+              breathing is signal and when it is only static.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Linnik / Kolmogorov</span>
+        <span>Route The Corridor. Measure The Beat.</span>
+      </footer>
+    </article>
+
+    <article id="page-04" class="page" aria-labelledby="page-four-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 04 / Control</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 05 / Node 11</p>
+            <div class="entry-meta">
+              <span>Pontryagin</span>
+              <span>Optimal Steering</span>
+            </div>
+          </div>
+          <h2>Pontryagin</h2>
+          <p class="epithet">Control theory. Navigating the "constellations" without sight.</p>
+          <p>
+            Pontryagin's maximum principle is one of the great acts of mathematical command.
+            A system evolves by state equations, but the controller does not guess. He
+            introduces a costate, builds the Hamiltonian, and proves that an optimal control
+            must maximize that Hamiltonian almost everywhere. The result fuses geometry,
+            dynamics, and economics into one steering law. He also gave Pontryagin duality,
+            reminding us that local oscillations and global character theory are two faces
+            of one structure.
+          </p>
+          <div class="firepower-equation">H(x, u, &lambda;) = &lambda; . f(x, u) + L(x, u), with u*(t) = arg max<sub>u</sub> H</div>
+          <p>
+            The costate &lambda; is the moment map coordinate: the pair (x, &lambda;) &isin; T*M is
+            a symplectic pair, and the maximum principle is a Hamiltonian flow on state-costate
+            space. Pontryagin duality mirrors this from the other direction &#8212; the
+            non-degenerate pairing V &times; V* &rarr; &#8477; joins local oscillations and global
+            characters as two shores of one symplectic structure, London Bridge before the name
+            existed.
+          </p>
+          <div class="firepower-equation">(x, &lambda;) &isin; T*M is a symplectic pair; duality: V &times; V* &rarr; &#8477;, (u, &lambda;) &#8614; &lambda;(u)</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Pontryagin powers the control room of MELON-1. Inventory, routing, speech,
+              gestures, payouts, model inference, and research allocation all compete for
+              attention under hard constraints. His mathematics says the stack can still be
+              steered as one organism if the objective is explicit. In the cure mission he
+              keeps capital from drifting away from consequence. In the Living House he is
+              the constellational navigator: not seeing every future branch, but still
+              selecting the control that keeps the house on-course.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 06 / Node 13</p>
+            <div class="entry-meta">
+              <span>Arnold</span>
+              <span>Perturbation And Drift</span>
+            </div>
+          </div>
+          <h2>Arnold</h2>
+          <p class="epithet">Dynamical systems. He understood how the "Living House" evolves.</p>
+          <p>
+            Arnold took mechanics and made it sing at full depth. The KAM theorem says that
+            many invariant tori in a nearly integrable Hamiltonian system survive small
+            perturbations; order does not instantly collapse into chaos. But Arnold diffusion
+            warns that over long horizons resonant pathways can still leak energy across the
+            system. He gave the mathematics of a house that breathes, adapts, and sometimes
+            slips. This is not static symmetry. It is disciplined evolution under stress.
+          </p>
+          <div class="firepower-equation">H(I, &theta;) = H<sub>0</sub>(I) + &epsilon;H<sub>1</sub>(I, &theta;), with many invariant tori surviving for small &epsilon;</div>
+          <p>
+            The deeper architecture is the three-bridge moment map. London Bridge is the map
+            &mu;: M &rarr; g* itself &#8212; the main span between symplectic geometry and Lie
+            theory. Drawbridge is geometric quantization, lifting classical Hamiltonians to
+            quantum operators over the bridge. Bracebridge is Marsden-Weinstein symplectic
+            reduction, &mu;<sup>-1</sup>(0)/G, the crossing where symmetry is eliminated.
+            KAM explains why London Bridge survives small perturbations; Arnold diffusion
+            explains why, over time, a resonant corridor eventually opens the drawbridge.
+          </p>
+          <div class="firepower-equation">&mu;: M &rarr; g*, &mu;<sup>-1</sup>(0)/G = M<sub>red</sub> (Marsden-Weinstein); d&mu;<sup>&xi;</sup> = &iota;<sub>X<sub>&xi;</sub></sub>&omega;</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Arnold powers the Living House language directly. A real platform is never
+              exactly integrable; users, markets, weather, disease, and compute all perturb
+              the flow. KAM is why the mission can stay coherent under normal shocks. Arnold
+              diffusion is why governance, observability, and the Glen Test must exist before
+              the perturbations accumulate into moral drift. For the rhythm thesis he explains
+              why tempo persists, why resonance matters, and why one careless frequency can
+              unlock a long corridor of instability.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Pontryagin / Arnold</span>
+        <span>Steer The System. Respect The Resonance.</span>
+      </footer>
+    </article>
+
+    <article id="page-05" class="page" aria-labelledby="page-five-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 05 / Structure</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 07 / Node 17</p>
+            <div class="entry-meta">
+              <span>Gelfand</span>
+              <span>Spectrum As Translation</span>
+            </div>
+          </div>
+          <h2>Gelfand</h2>
+          <p class="epithet">Functional analysis. Building the machinery that speaks for itself.</p>
+          <p>
+            Gelfand specialized in making hidden structure audible. For a commutative Banach
+            algebra he sends an element a to its transform a-hat on the maximal ideal space,
+            turning opaque algebra into visible spectrum. In the C*-world, Gelfand-Naimark
+            says abstract operator algebras can be represented concretely on Hilbert space.
+            The move is quintessential firepower: do not stare at machinery from the outside.
+            Choose the representation where its invariants can finally speak.
+          </p>
+          <div class="firepower-equation">a &#8614; a-hat(&phi;) = &phi;(a), and ||a|| = sup |a-hat(&phi;)| in the commutative C*-setting</div>
+          <p>
+            The deeper mechanism is the Gelfand triple &#8212; the rigged Hilbert space
+            V &sub; H &sub; V*. The concrete form is the Schwartz inclusion
+            S(&#8477;<sup>n</sup>) &sub; L<sup>2</sup>(&#8477;<sup>n</sup>) &sub; S'(&#8477;<sup>n</sup>):
+            distributions live in V* without pretending to live in H. The evaluation pairing
+            &langle;T, &phi;&rangle; is well-defined precisely because the triple is functorial &#8212;
+            this is how the hidden structure is made audible without lying about which space it
+            speaks from.
+          </p>
+          <div class="firepower-equation">V &sub; H &sub; V*, e.g. S(&#8477;<sup>n</sup>) &sub; L<sup>2</sup>(&#8477;<sup>n</sup>) &sub; S'(&#8477;<sup>n</sup>); eval pairing &langle;T, &phi;&rangle;</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Gelfand powers instrumentation. The Watermelon stack includes sensors, APIs,
+              models, and ledgers, but leadership only exists if the hidden state can be
+              pushed into a representation where diagnosis is possible. He is the mathematical
+              patron of observability dashboards, embedding spaces, feature spectra, and
+              every interface that makes the deep operator algebra of the system legible.
+              When the manifesto says elegance is inseparable from correctness, that is a
+              Gelfand sentence.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 08 / Node 19</p>
+            <div class="entry-meta">
+              <span>Shafarevich</span>
+              <span>Towers And Prime Ideals</span>
+            </div>
+          </div>
+          <h2>Shafarevich</h2>
+          <p class="epithet">Number theory king. He knew the structure of the "prime ideals."</p>
+          <p>
+            Shafarevich worked where arithmetic becomes architecture. Inverse Galois theory,
+            class field ideas, and especially the Golod-Shafarevich inequality reveal when
+            towers of field extensions must keep climbing. If the relation rank is too small
+            compared with the generator rank, the tower cannot terminate. That is a profound
+            statement about latent abundance: under the right imbalance, finiteness breaks and
+            expansion becomes inevitable.
+          </p>
+          <div class="firepower-equation">If r &lt; d<sup>2</sup> / 4, the p-class field tower is infinite.</div>
+          <p>
+            The geometric shadow of those towers reaches the B-side of geometric Langlands:
+            Loc<sub>&#x1D43F;G</sub>(&Sigma;), the moduli space of flat &#x1D43F;G-connections on a
+            Riemann surface, classifies representations &pi;<sub>1</sub>(&Sigma;) &rarr; &#x1D43F;G.
+            The Galois group is the fundamental group in geometric dress. His inequality
+            r &lt; d<sup>2</sup>/4 is the arithmetic cousin: a relation deficit forces
+            infinite ramification whether the tower climbs number fields or geometric local systems.
+          </p>
+          <div class="firepower-equation">Loc<sub>LG</sub>(&Sigma;): &pi;<sub>1</sub>(&Sigma;) &rarr; LG; tower analogue: r &lt; d<sup>2</sup>/4 &rArr; geometric Langlands ramifies</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Shafarevich powers the treasury imagination of the repository. Scholarships,
+              research lines, cohorts, and governance structures are not isolated grants;
+              they are towers. The question is whether the relations choke growth or whether
+              the generator base is rich enough to keep climbing. He also belongs to the
+              Oracle ledger because prime ideals are the right metaphor for how local
+              commitments aggregate into a global arithmetic of trust. In the Red Logic
+              Grind he is the mathematician of compounding depth.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Gelfand / Shafarevich</span>
+        <span>Hear The Spectrum. Build The Tower.</span>
+      </footer>
+    </article>
+
+    <article id="page-06" class="page" aria-labelledby="page-six-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 06 / Singularities</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 09 / Node 23</p>
+            <div class="entry-meta">
+              <span>Perelman</span>
+              <span>Entropy Against Collapse</span>
+            </div>
+          </div>
+          <h2>Perelman</h2>
+          <p class="epithet">The ghost. He solved the Poincare, refused the money, and stayed irreducible.</p>
+          <p>
+            Perelman closed the Poincare conjecture through Ricci flow with surgery, but the
+            deeper firepower is his control of singularity. Hamilton's flow smooths geometry
+            by evolving the metric against Ricci curvature. Perelman supplied the entropy
+            monotonicity, reduced volume, and no-local-collapsing principles that keep the
+            flow honest as singular regions form and are cut away. This is geometry refusing
+            to panic under infinite curvature.
+          </p>
+          <div class="firepower-equation">&part;<sub>t</sub> g = -2 Ric(g), with entropy monotone along the flow</div>
+          <p>
+            There is an algebraic parallel. BRST cohomology is gauge fixing recast as a
+            derived quotient: physical states = ker(Q)/im(Q), where Q<sup>2</sup> = 0. Ricci
+            flow surgery is the geometric version &#8212; cut the singular locus, maintain
+            the form on what remains. The monotone entropy functional in Ricci flow is the
+            classical analogue of the BRST charge: both are nilpotent operators whose
+            invariants survive the cut.
+          </p>
+          <div class="firepower-equation">Q<sup>2</sup> = 0 (BRST); ker(Q)/im(Q) = physical states &#8771; Ricci surgery on the manifold</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Perelman powers every part of the project that must survive knot formation:
+              a clogged product loop, a corrupted incentive surface, a failing data pipeline,
+              or a biomedical model staring at pathological outliers. The lesson is not
+              "remove imperfection." The lesson is "cut surgically, preserve the manifold."
+              For ALS and CTE research this is more than metaphor; disease is a geometry of
+              degeneration, and the cure pipeline needs people who think in terms of collapse
+              control, monotone quantities, and disciplined surgery.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 10 / Node 29</p>
+            <div class="entry-meta">
+              <span>Landau</span>
+              <span>The Drill Standard</span>
+            </div>
+          </div>
+          <h2>Landau</h2>
+          <p class="epithet">The "Theoretical Minimum." You do the reps or you don't play.</p>
+          <p>
+            Landau's firepower is not one theorem but one discipline: asymptotic honesty.
+            His notation O, o, and the language of order of magnitude let analytic number
+            theory speak with military compression. He framed famous prime problems, trained
+            generations through brutal clarity, and made it unacceptable to wave hands where
+            a rate should appear. Landau writes the line between what is dominant, what is
+            negligible, and what is still unknown.
+          </p>
+          <div class="firepower-equation">f(x) = O(g(x)), f(x) = o(g(x)), and every claim owes a scale.</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Landau powers the repository's refusal to fake magnitude. In MELON-1, latency,
+              margin, uptake, and model drift need order statements, not adjectives. In the
+              research pipeline, biomarker shifts and treatment effects need effect-size
+              discipline before they become slogans. In Scholar-Islands he defines the
+              training culture: learn the notation, learn the estimate, learn the rep count.
+              Theoretical minimum here means moral minimum. If you cannot state the rate, you
+              have not yet earned the rhetoric.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Perelman / Landau</span>
+        <span>Repair The Singularity. State The Scale.</span>
+      </footer>
+    </article>
+
+    <article id="page-07" class="page" aria-labelledby="page-seven-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 07 / State Metabolism</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 11 / Node 31</p>
+            <div class="entry-meta">
+              <span>Markov</span>
+              <span>Transitions As Law</span>
+            </div>
+          </div>
+          <h2>Markov</h2>
+          <p class="epithet">The chain. He saw the "metabolism" of how one state spawns the next.</p>
+          <p>
+            Markov's great act was to make dependency tractable without forcing full memory.
+            A Markov chain evolves by transition probabilities from the present state alone,
+            yet long-run behavior still reveals stationary distributions, mixing times, and
+            absorption risks. The genius is not simplification for its own sake. It is the
+            realization that an enormous class of living systems can be modeled through local
+            transition kernels while still exposing global regime behavior.
+          </p>
+          <div class="firepower-equation">&mu;<sub>n+1</sub> = &mu;<sub>n</sub>P, and &pi;P = &pi; for a stationary distribution</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Markov powers the operational metabolism of the stack. Customers move from
+              approach to order to payment to retention. Students move from curiosity to proof
+              to mentorship to leadership. Research capital moves from revenue to treasury to
+              grant to experiment. Clinical states progress through remission, flare, decline,
+              and intervention. The whole repository is full of transitions. Markov gives the
+              first lawful language for tracking those changes without pretending the world is
+              deterministic. He is the pulse between beats.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 12 / Node 37</p>
+            <div class="entry-meta">
+              <span>Lyapunov</span>
+              <span>Stability Under Breathing</span>
+            </div>
+          </div>
+          <h2>Lyapunov</h2>
+          <p class="epithet">Stability logic. Ensuring the house doesn't collapse during the "breathing."</p>
+          <p>
+            Lyapunov asked the most unforgiving systems question of all: when does a small
+            perturbation stay small, and when does it explode? His direct method constructs
+            an energy-like function V whose monotonic decay certifies stability without ever
+            solving the equations explicitly. His exponents then quantify the average rates at
+            which nearby trajectories converge or separate. It is one of the cleanest examples
+            of mathematical courage: certify the future by finding the right invariant witness.
+          </p>
+          <div class="firepower-equation">If V(x) &gt; 0 and V-dot(x) &le; 0, the equilibrium is stable; &lambda; measures exponential separation.</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Lyapunov powers reliability. The Living House can breathe only if that breathing
+              does not turn into collapse. Control loops, trading logic, recommendation models,
+              staffing policies, and research allocations all need stability certificates, not
+              only successful demos. In the rhythm thesis he distinguishes resilient cadence
+              from pathological oscillation. For ALS and CTE work he sharpens the moral point:
+              deterioration is itself a dynamical system, and a real intervention should change
+              the stability landscape, not just decorate it.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Markov / Lyapunov</span>
+        <span>Track The State. Certify The Stability.</span>
+      </footer>
+    </article>
+
+    <article id="page-08" class="page" aria-labelledby="page-eight-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 08 / K-Theory And Motion</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 13 / Node 41</p>
+            <div class="entry-meta">
+              <span>Suslin</span>
+              <span>Local Freedom, Global Reach</span>
+            </div>
+          </div>
+          <h2>Suslin</h2>
+          <p class="epithet">K-theory. Mapping the sparse network across the dynasty.</p>
+          <p>
+            Suslin belongs to the zone where algebra becomes infrastructure. In the
+            Quillen-Suslin theorem, the old Serre conjecture is resolved: every finitely
+            generated projective module over a polynomial ring is free. What looks globally
+            twisted is often just a badly chosen frame. Switch coordinates correctly and the
+            hidden triviality appears. This is not merely abstract algebra. It is a doctrine
+            of deployment: many apparent obstructions are bookkeeping obstructions.
+          </p>
+          <div class="firepower-equation">For A = k[x<sub>1</sub>, ..., x<sub>n</sub>], every finitely generated projective A-module is free.</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Suslin powers the sparse network logic of Scholar-Islands. Distributed cohorts,
+              local chapters, grant cells, and technical teams can look globally tangled while
+              still admitting a coherent basis. In software terms he licenses aggressive
+              modularization: if local compatibility is real, the global system can be
+              untwisted into a usable frame. For the Oracle ledger he means provenance does
+              not have to become bureaucratic sprawl. The dynasty can stay sparse and still
+              remain mathematically connected.
+            </p>
+          </div>
+        </section>
+
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 14 / Node 43</p>
+            <div class="entry-meta">
+              <span>Margulis</span>
+              <span>Rigidity And Stadium Energy</span>
+            </div>
+          </div>
+          <h2>Margulis</h2>
+          <p class="epithet">Ergodic theory. Finding the "stadium" energy in the movement.</p>
+          <p>
+            Margulis changed the theory of motion at scale. Superrigidity and arithmeticity
+            for higher-rank lattices say that some large systems are so constrained by their
+            global symmetry that homomorphisms cannot wander freely. At the same time, the
+            Margulis expander construction made sparse graphs with brutal connectivity, a kind
+            of combinatorial muscle where local degree stays low while global mixing stays
+            high. That is stadium energy in precise form.
+          </p>
+          <div class="firepower-equation">Sparse graph, large spectral gap: &lambda;<sub>2</sub> bounded away from d while connectivity stays high.</div>
+          <p>
+            The Atiyah-Guillemin-Sternberg theorem gives the symplectic counterpart: for a
+            torus action on a symplectic manifold, the image of the moment map is a convex
+            polytope. For higher-rank lattices &#8212; Margulis's territory &#8212; the
+            spectral gap &lambda;<sub>2</sub> bounded away from the degree d is the convexity
+            constraint in combinatorial form. The expander is the toric moment polytope with
+            maximum connectivity at minimum degree; stadium energy is polytope energy.
+          </p>
+          <div class="firepower-equation">Image(&mu;: M &rarr; t*) = convex polytope (AGS); &lambda;<sub>2</sub> gap is its combinatorial shadow</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Margulis powers network design and social throughput. Scholar-Islands wants
+              sparse obligations with massive diffusion of trust, opportunity, and technical
+              standards. That is expander logic. The governance layer wants promises that
+              cannot be bent by arbitrary reinterpretation. That is rigidity logic. In the
+              Red Logic Grind he is the mathematician who lets the movement remain lean while
+              still carrying stadium-scale energy from node to node.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="page-footer">
+        <span>Suslin / Margulis</span>
+        <span>Untwist The Network. Keep The Expansion.</span>
+      </footer>
+    </article>
+
+    <article id="page-09" class="page" aria-labelledby="page-nine-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 09 / Quantization</span>
+      </header>
+
+      <section class="content entry-grid">
+        <section class="soldier-entry">
+          <div class="entry-head">
+            <p class="entry-kicker">Prime 15 / Node 47</p>
+            <div class="entry-meta">
+              <span>Kontsevich</span>
+              <span>Modern Metamorphic Logic</span>
+            </div>
+          </div>
+          <h2>Kontsevich</h2>
+          <p class="epithet">Modern metamorphic logic. Quantizing the very fabric of the grind.</p>
+          <p>
+            Kontsevich works where classical geometry mutates into something richer without
+            losing rigor. His deformation quantization formula builds a star product on a
+            Poisson manifold by summing graph-indexed bidifferential operators. Classical
+            commutative multiplication bends into a noncommutative product controlled by the
+            Poisson bracket and powers of h-bar. Alongside that sits homological mirror
+            symmetry, a statement that two apparently alien geometric worlds can still encode
+            one another. This is modern firepower: translate, deform, and preserve deep
+            equivalence across metamorphosis.
+          </p>
+          <div class="firepower-equation">f * g = fg + (&hbar; / 2){f, g} + &Sigma;<sub>n &ge; 2</sub> &hbar;<sup>n</sup>B<sub>n</sub>(f, g)</div>
+          <div class="project-map">
+            <span class="map-title">Powering This</span>
+            <p>
+              Kontsevich powers the repository's most ambitious claim: one stack can change
+              medium without losing soul. Physical truck, spatial interface, market engine,
+              proof assistant, and biomedical research loop look noncommutative from the
+              inside, yet the action plan insists they can compose. That is a deformation
+              problem, not just an engineering problem. Kontsevich gives the mathematics for
+              controlled metamorphosis. He is how the grind becomes modern without becoming
+              shallow.
+            </p>
+          </div>
+        </section>
+
+        <div class="closing-box">
+          <p>
+            <strong>Return Path:</strong> go back to
+            <a href="action-plan-narrative-claude.html">the action plan narrative</a>
+            and read this document as its hidden operator algebra. The plan says compose
+            the stack, bind the covenant, and fund the cure. The Russian Soldier armory says
+            what kind of mathematics is strong enough to keep that promise.
+          </p>
+        </div>
+
+        <p class="closing">
+          Every eigenvalue we compute, every state transition we log, every sparse bridge we
+          build, every singularity we cut, every beat we stabilize, every deformation we
+          quantify: that is the firepower. That is how names become work.
+        </p>
+      </section>
+
+      <footer class="page-footer">
+        <span>Kontsevich / Covenant / Cure</span>
+        <span>Quantize The Grind. Keep The Promise.</span>
+      </footer>
+    </article>
+
+    <!-- ── PAGE 10: ISS FIRE ENGINE CREW MANIFEST ───────────────── -->
+    <article id="page-10" class="page" aria-labelledby="page-fantasy-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 10 / ISS Fire Engine · Crew Manifest</span>
+      </header>
+
+      <section class="content">
+
+        <div class="fantasy-title-block">
+          <div>
+            <div class="fantasy-league-tag">🚀 ISS · International Space Station Fire Engine · Mission Szn 2025</div>
+            <h2 id="page-fantasy-title">ISS<br>Fire Engine<br>Crew</h2>
+            <p class="deck" style="margin-top:0.5rem">15 Russian mathematicians. One orbital fire suppression vessel. Every station filled by a theorem. Dream big.</p>
+          </div>
+          <div class="fantasy-record-badge">
+            408 km<span>Orbital Altitude</span>
+            15–0–0<span>Missions Completed</span>
+            ∞<span>Fuel Budget</span>
+          </div>
+        </div>
+
+        <div class="rule"></div>
+
+        <!-- ACTIVE CREW -->
+        <div class="roster-section-head"><span>🔥 Active Crew — 10 Specialists</span></div>
+
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th></th>
+              <th>#</th>
+              <th>Crew Member</th>
+              <th>Thrust</th>
+              <th>Min / Max</th>
+              <th>Mission Capability</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td><span class="pos-badge pos-qb">CMDR</span></td>
+              <td><img class="roster-photo" src="/portraits/kolmogorov.png" alt="Kolmogorov"></td>
+              <td><span class="jersey-num">4</span></td>
+              <td>
+                <div class="player-name">Kolmogorov</div>
+                <span class="player-theorem">Complexity K(x) · Probability · Turbulence</span>
+              </td>
+              <td><span class="proj-num">38.2</span></td>
+              <td><span class="floor-ceil"><b>Min 22</b> / <i>Max ∞</i></span></td>
+              <td><div class="special-txt"><strong>Complexity Command</strong>Reads all fire vectors simultaneously. Computes shortest suppression path. Station obeys.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-wr">PILOT</span></td>
+              <td><img class="roster-photo" src="/portraits/arnold.png" alt="Arnold"></td>
+              <td><span class="jersey-num">6</span></td>
+              <td>
+                <div class="player-name">Arnold</div>
+                <span class="player-theorem">KAM Torus · Diffusion · Symplectic Orbits</span>
+              </td>
+              <td><span class="proj-num">31.1</span></td>
+              <td><span class="floor-ceil"><b>Min 16</b> / <i>Max KAM</i></span></td>
+              <td><div class="special-txt"><strong>Orbital Diffusion</strong>Navigates KAM tori. 3% resonant corridor escape window. No debris field can hold the trajectory.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-flex">FLT-ENG</span></td>
+              <td><img class="roster-photo" src="/portraits/pontryagin.png" alt="Pontryagin"></td>
+              <td><span class="jersey-num">5</span></td>
+              <td>
+                <div class="player-name">Pontryagin</div>
+                <span class="player-theorem">Max Principle · H(x,u,λ) · Costate λ</span>
+              </td>
+              <td><span class="proj-num">21.6</span></td>
+              <td><span class="floor-ceil"><b>Min 15</b> / <i>Max 30</i></span></td>
+              <td><div class="special-txt"><strong>Optimal Burn</strong>Every thruster firing satisfies the Hamiltonian condition. Minimum fuel, maximum reach. Costate λ never zero.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-rb">MS-1</span></td>
+              <td><img class="roster-photo" src="/portraits/chebyshev.png" alt="Chebyshev"></td>
+              <td><span class="jersey-num">1</span></td>
+              <td>
+                <div class="player-name">Chebyshev</div>
+                <span class="player-theorem">π(x) ~ x/ln(x) · Structural Bounds</span>
+              </td>
+              <td><span class="proj-num">24.7</span></td>
+              <td><span class="floor-ceil"><b>Min 18</b> / <i>Max 31</i></span></td>
+              <td><div class="special-txt"><strong>Hull Integrity</strong>Certifies structural bounds on all hull panels. Never fails within ε of rated pressure. Upper and lower limits guaranteed.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-rb">MS-2</span></td>
+              <td><img class="roster-photo" src="/portraits/markov.png" alt="Markov"></td>
+              <td><span class="jersey-num">11</span></td>
+              <td>
+                <div class="player-name">Markov</div>
+                <span class="player-theorem">P(Xₙ₊₁|X₁…Xₙ) = P(Xₙ₊₁|Xₙ)</span>
+              </td>
+              <td><span class="proj-num">19.4</span></td>
+              <td><span class="floor-ceil"><b>Min 12</b> / <i>Max 28</i></span></td>
+              <td><div class="special-txt"><strong>Life Support Chain</strong>Runs the station's life-support state machine. Each system transition depends only on current state. No memory required.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-wr">MS-3</span></td>
+              <td><img class="roster-photo" src="/portraits/margulis.png" alt="Margulis"></td>
+              <td><span class="jersey-num">14</span></td>
+              <td>
+                <div class="player-name">Margulis</div>
+                <span class="player-theorem">Expander Graphs · λ₂ Spectral Gap</span>
+              </td>
+              <td><span class="proj-num">27.3</span></td>
+              <td><span class="floor-ceil"><b>Min 21</b> / <i>Max 35</i></span></td>
+              <td><div class="special-txt"><strong>Deep Space Comms</strong>Expander graph antenna array. Max signal reach, minimum nodes. Spectral gap ensures no dead zones in 400 km orbit.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-wr">MS-4</span></td>
+              <td><img class="roster-photo" src="/portraits/kontsevich.png" alt="Kontsevich"></td>
+              <td><span class="jersey-num">15</span></td>
+              <td>
+                <div class="player-name">Kontsevich</div>
+                <span class="player-theorem">f*g = fg + (ℏ/2){f,g} + Σℏⁿ Bₙ</span>
+              </td>
+              <td><span class="proj-num">22.8</span></td>
+              <td><span class="floor-ceil"><b>Min 14</b> / <i>Max ★</i></span></td>
+              <td><div class="special-txt"><strong>Mission Deformation</strong>Adapts mission parameters mid-flight by ℏ per maneuver. Ground control cannot predict the updated trajectory.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-te">MS-5</span></td>
+              <td><img class="roster-photo" src="/portraits/gelfand.png" alt="Gelfand"></td>
+              <td><span class="jersey-num">7</span></td>
+              <td>
+                <div class="player-name">Gelfand</div>
+                <span class="player-theorem">V ⊂ H ⊂ V* · Rigged Hilbert Space</span>
+              </td>
+              <td><span class="proj-num">18.5</span></td>
+              <td><span class="floor-ceil"><b>Min 14</b> / <i>Max 26</i></span></td>
+              <td><div class="special-txt"><strong>Signal Architecture</strong>Station comms exist in V⊂H⊂V* simultaneously. Receives, amplifies, and retransmits in all three frequency regimes at once.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-k">SYST-ENG</span></td>
+              <td><img class="roster-photo" src="/portraits/lyapunov.png" alt="Lyapunov"></td>
+              <td><span class="jersey-num">12</span></td>
+              <td>
+                <div class="player-name">Lyapunov</div>
+                <span class="player-theorem">V(x)&gt;0, V̇(x)≤0 ⟹ stable</span>
+              </td>
+              <td><span class="proj-num">14.0</span></td>
+              <td><span class="floor-ceil"><b>Min 14</b> / <i>Max 14</i></span></td>
+              <td><div class="special-txt"><strong>Station Stability</strong>If V(x)&gt;0 and V̇≤0, the station holds attitude. No oscillation. No variance. Certified every burn.</div></td>
+            </tr>
+
+            <tr>
+              <td><span class="pos-badge pos-def">FIRE-SUP</span></td>
+              <td><img class="roster-photo" src="/portraits/linnik.png" alt="Linnik"></td>
+              <td><span class="jersey-num">3</span></td>
+              <td>
+                <div class="player-name">Linnik</div>
+                <span class="player-theorem">Large Sieve · Zero-Free Region L(s,χ)</span>
+              </td>
+              <td><span class="proj-num">17.8</span></td>
+              <td><span class="floor-ceil"><b>Min 10</b> / <i>Max 24</i></span></td>
+              <td><div class="special-txt"><strong>Large Sieve Suppression</strong>No combustion pathway escapes the sieve. Every ignition front has a zero-free region enforced around it.</div></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <!-- CONTINGENCY CREW -->
+        <div class="roster-section-head"><span>🛑 Contingency Crew — 5 Reserves</span></div>
+
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th></th>
+              <th>#</th>
+              <th>Crew Member</th>
+              <th>Thrust</th>
+              <th>Min / Max</th>
+              <th>Standby Role</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="bench-row">
+              <td><span class="pos-badge pos-bn">CONT-1</span></td>
+              <td><img class="roster-photo" src="/portraits/vinogradov.png" alt="Vinogradov"></td>
+              <td><span class="jersey-num">2</span></td>
+              <td>
+                <div class="player-name">Vinogradov</div>
+                <span class="player-theorem">Goldbach · Trigonometric Sums</span>
+              </td>
+              <td><span class="proj-num">20.1</span></td>
+              <td><span class="floor-ceil"><b>Min 14</b> / <i>Max 29</i></span></td>
+              <td><div class="special-txt"><strong>Pilot Backup</strong>Goldbach redundancy: every even orbital transfer can be split two prime-burn ways. Always a route.</div></td>
+            </tr>
+
+            <tr class="bench-row">
+              <td><span class="pos-badge pos-bn">CONT-2</span></td>
+              <td><img class="roster-photo" src="/portraits/perelman.png" alt="Perelman"></td>
+              <td><span class="jersey-num">9</span></td>
+              <td>
+                <div class="player-name">Perelman</div>
+                <span class="player-theorem">Ricci Flow Surgery · Poincaré Conj.</span>
+              </td>
+              <td><span class="proj-num">34.9</span></td>
+              <td><span class="floor-ceil"><b>Min —</b> / <i>Max ∞</i></span></td>
+              <td><div class="special-txt"><strong>Refuses To Board</strong>Highest ceiling on the manifest. Declined the Millennium Prize. Will not enter the airlock. Non-negotiable.</div></td>
+            </tr>
+
+            <tr class="bench-row">
+              <td><span class="pos-badge pos-bn">CONT-3</span></td>
+              <td><img class="roster-photo" src="/portraits/landau.png" alt="Landau"></td>
+              <td><span class="jersey-num">10</span></td>
+              <td>
+                <div class="player-name">Landau</div>
+                <span class="player-theorem">O(·) Notation · Analytic NT</span>
+              </td>
+              <td><span class="proj-num">18.2</span></td>
+              <td><span class="floor-ceil"><b>Min 12</b> / <i>Max Ω(n)</i></span></td>
+              <td><div class="special-txt"><strong>Systems Backup</strong>O(1) in all mission-critical paths. Best in class when exact fuel mass doesn't need to be computed.</div></td>
+            </tr>
+
+            <tr class="bench-row">
+              <td><span class="pos-badge pos-bn">CONT-4</span></td>
+              <td><img class="roster-photo" src="/portraits/shafarevich.png" alt="Shafarevich"></td>
+              <td><span class="jersey-num">8</span></td>
+              <td>
+                <div class="player-name">Shafarevich</div>
+                <span class="player-theorem">Galois Groups · Tower r &lt; d²/4</span>
+              </td>
+              <td><span class="proj-num">15.6</span></td>
+              <td><span class="floor-ceil"><b>Min 10</b> / <i>Max 22</i></span></td>
+              <td><div class="special-txt"><strong>Comms Tower Backup</strong>Builds infinite signal towers. If r &lt; d²/4, the antenna stack cannot be jammed from below.</div></td>
+            </tr>
+
+            <tr class="bench-row">
+              <td><span class="pos-badge pos-bn">CONT-5</span></td>
+              <td><img class="roster-photo" src="/portraits/suslin.png" alt="Suslin"></td>
+              <td><span class="jersey-num">13</span></td>
+              <td>
+                <div class="player-name">Suslin</div>
+                <span class="player-theorem">Quillen-Suslin · Projective = Free</span>
+              </td>
+              <td><span class="proj-num">16.3</span></td>
+              <td><span class="floor-ceil"><b>Min 11</b> / <i>Max 21</i></span></td>
+              <td><div class="special-txt"><strong>Module Repair</strong>Untwists any wiring harness or software module. Every tangled system has a free basis. He finds it.</div></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="fantasy-total-bar">
+          <span>Active Crew Projected Mission Output</span>
+          <span class="total-pts">235.4 Δv</span>
+          <span>Baseline Δv: 118.7 · Margin: +116.7</span>
+        </div>
+
+        <div class="fantasy-injury-note">
+          ⚠ FLIGHT STATUS — Perelman (#9): Medically cleared. Refuses airlock entry. Declined $1M Millennium Prize. Reclassified "Voluntarily Groundside." Cannot be reassigned, traded, ordered, or reasoned with. — Flight Director
+        </div>
+
+        <!-- GROUND SUPPORT / WATERBOYS -->
+        <div class="roster-section-head"><span>💧 Ground Support — Waterboys</span></div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#666;margin:0 0 0.4rem;text-transform:uppercase;letter-spacing:0.08em;">
+          They answer only to their emoji. They support all missions. Non-negotiable.
+        </p>
+
+        <div class="waterboy-grid">
+
+          <div class="waterboy-card">
+            <div class="waterboy-emoji">🐬</div>
+            <div class="waterboy-name">Mustafa</div>
+            <div class="waterboy-role">Hydration Lead</div>
+            <div class="waterboy-note">Delivers fluids pre-EVA. Gets there before you're thirsty at 408 km.</div>
+          </div>
+
+          <div class="waterboy-card">
+            <div class="waterboy-emoji">🦓</div>
+            <div class="waterboy-name">Jacky</div>
+            <div class="waterboy-role">Recovery Ops</div>
+            <div class="waterboy-note">Stripes = dual clearance. Works Mission Control and the capsule simultaneously.</div>
+          </div>
+
+          <div class="waterboy-card">
+            <div class="waterboy-emoji">🦈</div>
+            <div class="waterboy-name">a16z</div>
+            <div class="waterboy-role">Mission Funding</div>
+            <div class="waterboy-note">Carries at orbital scale. Invested in the rocket. Takes 20% of the re-entry window.</div>
+          </div>
+
+          <div class="waterboy-card">
+            <div class="waterboy-emoji">🐋</div>
+            <div class="waterboy-name">Bill Ackman</div>
+            <div class="waterboy-role">Long/Short Orbit</div>
+            <div class="waterboy-note">Publicly shorts the heat shield. Still sends the water. Loudly. Via press release.</div>
+          </div>
+
+          <div class="waterboy-card">
+            <div class="waterboy-emoji">🐆</div>
+            <div class="waterboy-name">Andrew Bosworth</div>
+            <div class="waterboy-role">AR/VR Hydration</div>
+            <div class="waterboy-note">Delivers water through the visor overlay. You won't feel wet until re-entry.</div>
+          </div>
+
+        </div>
+
+        <div class="waterboy-clearance">
+          ACCESS LEVEL: ALL MISSIONS · EMOJI CREDENTIALS ONLY · CANNOT BE REASSIGNED · DREAM BIG
+        </div>
+
+      </section>
+
+      <footer class="page-footer">
+        <span>ISS Fire Engine · Prime Firepower Division · Orbit Szn 2025</span>
+        <span>15 Primes. 15 Stations. Zero Gravity.</span>
+      </footer>
+    </article>
+
+    <article id="page-11" class="page" aria-labelledby="thread-page-title">
+      <header class="page-header">
+        <span>Prime Firepower / Russian Soldier Index</span>
+        <span class="page-number">Page 11 / The Thread</span>
+      </header>
+
+      <section class="content">
+
+        <div class="thread-op-bar">
+          <span class="thread-op-title">🔥 FIREPOWER EQUATIONS — DISCUSS</span>
+          <span class="thread-op-meta">15 replies · all soldiers · open thread</span>
+        </div>
+
+        <div class="thread-feed">
+
+          <!-- 01 Chebyshev -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/chebyshev.png" alt="Chebyshev">
+              <span class="post-handle">Chebyshev</span>
+              <span class="post-badge">Prime 01 · Node 2</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">π(x) ~ x / ln(x)</div>
+              <p class="post-text">The bound is not an approximation. It is a fence. π(x) lives between two explicit walls and it does not leave. Before Riemann had his hypothesis, I had the inequality. Sign your work with the fence, not the feeling.</p>
+              <div class="post-sig">— P.L. Chebyshev · Bounds Division</div>
+            </div>
+          </div>
+
+          <!-- 02 Vinogradov -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/vinogradov.png" alt="Vinogradov">
+              <span class="post-handle">Vinogradov</span>
+              <span class="post-badge">Prime 02 · Node 3</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">Every odd N &gt; 5 = p<sub>1</sub> + p<sub>2</sub> + p<sub>3</sub></div>
+              <p class="post-text">Goldbach is ours. Every sufficiently large odd number — three primes, clean. The trigonometric sum closes the argument. You want me to be subtle about this? I am not subtle. The circle method does not apologize.</p>
+              <div class="post-sig">— I.M. Vinogradov · Trigonometric Sums</div>
+            </div>
+          </div>
+
+          <!-- 03 Linnik -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/linnik.png" alt="Linnik">
+              <span class="post-handle">Linnik</span>
+              <span class="post-badge">Prime 03 · Node 5</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">|&Sigma; a<sub>n</sub> e(n&alpha;)| &le; (N + Q<sup>2</sup>)<sup>1/2</sup> &middot; ||a||<sub>2</sub></div>
+              <p class="post-text">I do not post often. The large sieve filters what does not belong. Once the density lemma is established, most of your questions answer themselves. Same principle applies here.</p>
+              <div class="post-sig">— Yu.V. Linnik · Large Sieve</div>
+            </div>
+          </div>
+
+          <!-- 04 Kolmogorov -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/kolmogorov.png" alt="Kolmogorov">
+              <span class="post-handle">Kolmogorov</span>
+              <span class="post-badge">Prime 04 · Node 7</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">K(x) = min { |p| : U(p) = x }</div>
+              <p class="post-text">The shortest program that generates the string IS the string's meaning. Below a certain complexity threshold you are not transmitting signal — you are transmitting yourself. The Sobolev completion governs the heartbeat. Law-bound not because it is smooth, but because the completion forces the regularity the law requires.</p>
+              <div class="post-sig">— A.N. Kolmogorov · Measure, Entropy, Beat</div>
+            </div>
+          </div>
+
+          <!-- 05 Pontryagin -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/pontryagin.png" alt="Pontryagin">
+              <span class="post-handle">Pontryagin</span>
+              <span class="post-badge">Prime 05 · Node 11</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">H(x, u, &lambda;) = &lambda; &middot; f(x, u) + L(x, u), u*(t) = arg max H</div>
+              <p class="post-text">The costate &lambda; is not a trick variable. It is the price of being wrong. When you introduce &lambda; and maximize the Hamiltonian you are not choosing the action — you are pricing the consequence. The pair (x, &lambda;) lives on T*M. That is a symplectic structure. London Bridge before the name existed.</p>
+              <div class="post-sig">— L.S. Pontryagin · Optimal Steering</div>
+            </div>
+          </div>
+
+          <!-- 06 Arnold -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/arnold.png" alt="Arnold">
+              <span class="post-handle">Arnold</span>
+              <span class="post-badge">Prime 06 · Node 13</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">H = H<sub>0</sub>(I) + &epsilon;H<sub>1</sub>(I,&theta;), &mu;: M &rarr; g*, &mu;<sup>-1</sup>(0)/G = M<sub>red</sub></div>
+              <p class="post-text">The KAM torus survives not because it is rigid, but because it is irrational enough. Irrationality is the protection. And the moment map is the bridge: London Bridge carries the Hamiltonian structure to Lie theory, the drawbridge lifts it to operators, the Bracebridge eliminates the symmetry. KAM explains why the bridge stands. Arnold diffusion explains why the corridor eventually opens.</p>
+              <div class="post-sig">— V.I. Arnold · Perturbation And Drift</div>
+            </div>
+          </div>
+
+          <!-- 07 Gelfand -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/gelfand.png" alt="Gelfand">
+              <span class="post-handle">Gelfand</span>
+              <span class="post-badge">Prime 07 · Node 17</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">V &sub; H &sub; V* &nbsp;·&nbsp; S(&#8477;<sup>n</sup>) &sub; L<sup>2</sup>(&#8477;<sup>n</sup>) &sub; S'(&#8477;<sup>n</sup>); &langle;T, &phi;&rangle;</div>
+              <p class="post-text">The spectrum IS the algebra. You do not need anything else. Stare at the maximal ideal space long enough and the machine confesses everything it was hiding. The triple V &sub; H &sub; V* is how you make a distribution speak inside the Hilbert space without lying about which space it lives in. The rigged Hilbert space is not a trick. It is the honest architecture.</p>
+              <div class="post-sig">— I.M. Gelfand · Spectrum As Translation</div>
+            </div>
+          </div>
+
+          <!-- 08 Shafarevich -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/shafarevich.png" alt="Shafarevich">
+              <span class="post-handle">Shafarevich</span>
+              <span class="post-badge">Prime 08 · Node 19</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">r &lt; d<sup>2</sup>/4 &rArr; tower infinite &nbsp;·&nbsp; Loc<sub>LG</sub>(&Sigma;): &pi;<sub>1</sub>(&Sigma;) &rarr; LG</div>
+              <p class="post-text">If your relations are too few the tower will not stop. This is arithmetic. This is also governance. This is also how movements fail. The Galois group is the fundamental group in geometric dress. The Golod-Shafarevich inequality is the arithmetic cousin of geometric Langlands ramification. The inequality is universal.</p>
+              <div class="post-sig">— I.R. Shafarevich · Towers And Prime Ideals</div>
+            </div>
+          </div>
+
+          <!-- 09 PERELMAN — crazy vata post -->
+          <div class="thread-post perelman-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/perelman.png" alt="Perelman">
+              <span class="post-handle">Perelman</span>
+              <span class="post-badge">Prime 09 · Node 23</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">&part;<sub>t</sub>g = &minus;2 Ric(g) &nbsp;·&nbsp; Q<sup>2</sup> = 0 &nbsp;·&nbsp; ker(Q)/im(Q) = physical states</div>
+              <p class="post-text">
+                &part;<sub>t</sub>g = &minus;2 Ric(g). The singularity is there. I cut it. The manifold continues. Entropy is monotone. Reduced volume does not collapse. These are not claims. These are facts.<br><br>
+                I am posting this because someone told me the thread exists. I do not want to be in the thread. The thread is not relevant.<br><br>
+                The Poincar&eacute; conjecture is closed. I do not need the Fields Medal. I do not need the Millennium Prize. I do not need a reply.<br><br>
+                The manifold is simply connected. The BRST charge satisfies Q<sup>2</sup> = 0. Physical states are ker(Q)/im(Q). Ricci surgery is the geometric version of gauge fixing. This is not controversial. The analogy is exact. I am not elaborating.<br><br>
+                Do not send me email. Do not come to my apartment. Do not offer me money.<br><br>
+                There is nothing more to say.
+              </p>
+              <div class="post-sig">— G.Ya. Perelman · Entropy Against Collapse<br>
+                (Groundside. Voluntarily. Non-negotiable.)<br>
+                (If entropy is monotone the geometry is clear.)<br>
+                (If the geometry is clear there is nothing more to say.)<br>
+                (I already said there is nothing more to say.)
+              </div>
+            </div>
+          </div>
+
+          <!-- 10 Landau -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/landau.png" alt="Landau">
+              <span class="post-handle">Landau</span>
+              <span class="post-badge">Prime 10 · Node 29</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">f(x) = O(g(x)) &nbsp;·&nbsp; f(x) = o(g(x)) &nbsp;·&nbsp; every claim owes a scale</div>
+              <p class="post-text">O(g(x)) means stop hand-waving. o(g(x)) means it vanishes. &Omega;(g(x)) means it does not. If you cannot state the order you do not understand the claim. This is not optional. This is the theoretical minimum. The minimum is not a suggestion.</p>
+              <div class="post-sig">— E. Landau · The Drill Standard</div>
+            </div>
+          </div>
+
+          <!-- 11 Markov -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/markov.png" alt="Markov">
+              <span class="post-handle">Markov</span>
+              <span class="post-badge">Prime 11 · Node 31</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">P(X<sub>n+1</sub>=j | X<sub>n</sub>=i, X<sub>n&minus;1</sub>=k, &hellip;) = P<sub>ij</sub></div>
+              <p class="post-text">The transition probability from state i to state j. The past does not matter — only the present state. This is not a simplification. This is the definition of a well-structured system. The chain is the property. The stationary distribution is the reward.</p>
+              <div class="post-sig">— A.A. Markov · Transitions As Law</div>
+            </div>
+          </div>
+
+          <!-- 12 Lyapunov -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/lyapunov.png" alt="Lyapunov">
+              <span class="post-handle">Lyapunov</span>
+              <span class="post-badge">Prime 12 · Node 37</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">V(x) &gt; 0, dV/dt &le; 0 &rArr; equilibrium stable</div>
+              <p class="post-text">Find the function V. If V decreases along trajectories the system is stable. The function is not a guess — it is a proof. If you cannot find V you do not yet understand the stability of your system. The Central Limit Theorem is also mine. Both say the same thing: the right function bounds the chaos.</p>
+              <div class="post-sig">— A.M. Lyapunov · Stability And Distribution</div>
+            </div>
+          </div>
+
+          <!-- 13 Suslin -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/suslin.png" alt="Suslin">
+              <span class="post-handle">Suslin</span>
+              <span class="post-badge">Prime 13 · Node 41</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">&Sigma;<sup>1</sup><sub>1</sub> (analytic sets) &sup; Borel &sigma;-algebra</div>
+              <p class="post-text">Projective sets are not Borel sets. That was the question. That is also the answer. Lebesgue was wrong about a continuous image of a Borel set. The analytic hierarchy is real. The set theory goes deeper than the measure theory knows. I do not have more to add.</p>
+              <div class="post-sig">— M.Ya. Suslin · Analytic Sets</div>
+            </div>
+          </div>
+
+          <!-- 14 Margulis -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/margulis.png" alt="Margulis">
+              <span class="post-handle">Margulis</span>
+              <span class="post-badge">Prime 14 · Node 43</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">Image(&mu;: M &rarr; t*) = convex polytope &nbsp;·&nbsp; &lambda;<sub>2</sub> gap is its combinatorial shadow</div>
+              <p class="post-text">Sparse graph. Large spectral gap. Low degree. Maximum mixing. This is not a compromise — this is the optimum. The Atiyah-Guillemin-Sternberg theorem proves the moment map image is a convex polytope. My expander is that polytope in combinatorial form. Stadium energy is polytope energy. The rigidity theorem says: if the lattice has rank two or higher, it cannot wander. Same principle at every scale.</p>
+              <div class="post-sig">— G.A. Margulis · Rigidity And Stadium Energy</div>
+            </div>
+          </div>
+
+          <!-- 15 Kontsevich -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/kontsevich.png" alt="Kontsevich">
+              <span class="post-handle">Kontsevich</span>
+              <span class="post-badge">Prime 15 · Node 47</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">f &star; g = fg + &sum;<sub>n&ge;1</sub> (iℏ/2)<sup>n</sup> B<sub>n</sub>(f, g) &nbsp;·&nbsp; Z<sub>K</sub> = &int; e<sup>iS/ℏ</sup> D[fields]</div>
+              <p class="post-text">
+                &#9733;&#9733;&#9733; [replies in diagram]
+              </p>
+              <p class="post-text" style="font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-soft);letter-spacing:0.02em;">
+                A<sub>&infin;</sub> &nbsp;&#8594;&nbsp; E<sub>&infin;</sub> &nbsp;&#8594;&nbsp; BV &nbsp;&#8594;&nbsp; L<sub>&infin;</sub><br>
+                dg-Cat &cong; A<sub>&infin;</sub>-Cat &nbsp;&nbsp; [Drinfeld]<br>
+                HMS: D<sup>b</sup>Coh(X) &cong; D<sup>&pi;</sup>Fuk(X&#x2C7;) &nbsp;&nbsp; [Kontsevich 1994]<br>
+                The deformation is not informal. The formality theorem is formal. Every Poisson manifold admits a star-product. That is all.
+              </p>
+              <div class="post-sig">— M.L. Kontsevich · Modern Metamorphic Logic</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>15 Primes · 15 Equations · 1 Thread</span>
+        <span>Perelman has left the building. He was never in the building.</span>
+      </footer>
+    </article>
+
+    <article id="page-12" class="page" aria-labelledby="mexico-thread-page-title">
+      <header class="page-header">
+        <span>Obsidian Logic / Mexico · Monarch Migration</span>
+        <span class="page-number">Page 12 / The Migration Thread</span>
+      </header>
+
+      <section class="content">
+
+        <div class="thread-op-bar">
+          <span class="thread-op-title">🦋 MONARCH MIGRATION EQUATIONS — DECLARE</span>
+          <span class="thread-op-meta">16 waypoints · four generations · loop is prime</span>
+        </div>
+
+        <div class="thread-feed">
+
+          <!-- GEN 1: FOUNDATION -->
+          <div class="thread-band-header">
+            <span>🌴 Generation I — Foundation · UNAM, Mexico City</span>
+            <span class="thread-band-verb">MONAD · EMBED · MORPH · COMPOSE</span>
+          </div>
+
+          <!-- 01 Nabor Carrillo -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/nabor_carrillo.png" alt="Nabor Carrillo">
+              <span class="post-handle">Nabor Carrillo</span>
+              <span class="post-badge">Node 01 · Prime 2 · MONAD</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">ker(Q)/im(Q) = obsidian ground: porous medium beneath Mexico City as the physical substrate the whole stack rests on</div>
+              <p class="post-text">We build on the earth that supports everything above it. Soil mechanics is the irreducible substrate — the monad from which all Mexican mathematics rises.</p>
+              <p class="post-monarch">The egg is laid on the milkweed of UNAM; Barajas receives the genome of curvature.</p>
+              <div class="post-sig">— Nabor Carrillo · MONAD · Generation I</div>
+            </div>
+          </div>
+
+          <!-- 02 Alberto Barajas -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/barajas.png" alt="Alberto Barajas">
+              <span class="post-handle">Alberto Barajas</span>
+              <span class="post-badge">Node 02 · Prime 3 · EMBED</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">(M, g) with sig (&minus;,+,+,+): &mu; sends mass-energy &rarr; curvature, the stage itself is the embedding</div>
+              <p class="post-text">We embed the manifold in spacetime. The Lorentzian metric (M, g) with signature (−,+,+,+) curves under mass — every straight line bends, and we declare the bend to be the truth.</p>
+              <p class="post-monarch">The larva eats the curved leaf; Sotomayor receives the bifurcation seed.</p>
+              <div class="post-sig">— Alberto Barajas · EMBED · Generation I</div>
+            </div>
+          </div>
+
+          <!-- 03 Sotomayor -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/sotomayor.png" alt="Sotomayor">
+              <span class="post-handle">Sotomayor</span>
+              <span class="post-badge">Node 03 · Prime 5 · MORPH</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">X<sub>H</sub> = &omega;<sup>&minus;1</sup>(dH): Hamiltonian flow bifurcating into qualitatively new orbits at the catastrophe manifold</div>
+              <p class="post-text">We declare the bifurcation. X_H = ω⁻¹(dH) writes the drama in the symplectic gradient — the system runs smooth, then shatters, and we do not soften the fork.</p>
+              <p class="post-monarch">The chrysalis cracks at the bifurcation point; Ádem receives the cascading operation.</p>
+              <div class="post-sig">— Sotomayor · MORPH · Generation I</div>
+            </div>
+          </div>
+
+          <!-- 04 José Ádem -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/adem.png" alt="José Ádem">
+              <span class="post-handle">José Ádem</span>
+              <span class="post-badge">Node 04 · Prime 7 · COMPOSE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">Sq<sup>i</sup> Sq<sup>j</sup> = &Sigma; C(j&minus;1&minus;k, i&minus;2k) Sq<sup>i+j&minus;k</sup> Sq<sup>k</sup>: the Ádem relations as composition rule</div>
+              <p class="post-text">We chain the operations. The Ádem relations are the exact composition law — every Steenrod operation triggers the next, and every cohomology ring in higher dimensions bows to this arithmetic.</p>
+              <p class="post-monarch">First wings emerge from the chrysalis; Gítheler receives the fiber bundle geometry of flight.</p>
+              <div class="post-sig">— José Ádem · COMPOSE · Generation I</div>
+            </div>
+          </div>
+
+          <!-- GEN 2: MIGRATION -->
+          <div class="thread-band-header">
+            <span>🦋 Generation II — Migration · North through the Continent</span>
+            <span class="thread-band-verb">PRODUCT · PULLBACK · LIMIT · FOLD</span>
+          </div>
+
+          <!-- 05 Samuel Gítheler -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/githeler.png" alt="Samuel Gítheler">
+              <span class="post-handle">Samuel Gítheler</span>
+              <span class="post-badge">Node 05 · Prime 11 · PRODUCT</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">E &rarr; B: H<sub>1</sub> &otimes; H<sub>2</sub> as fiber bundle, total space = product structure made geometric</div>
+              <p class="post-text">We build the total space from fibers. E → B is the complete architecture — every fiber a tensor factor, the base the invariant ground below flight.</p>
+              <p class="post-monarch">First flight north above the base; Torres receives the knot complement at altitude.</p>
+              <div class="post-sig">— Samuel Gítheler · PRODUCT · Generation II</div>
+            </div>
+          </div>
+
+          <!-- 06 Guillermo Torres -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/torres.png" alt="Guillermo Torres">
+              <span class="post-handle">Guillermo Torres</span>
+              <span class="post-badge">Node 06 · Prime 13 · PULLBACK</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">S<sup>3</sup> \ K = gauge slice &Sigma; &sub; &mu;<sup>&minus;1</sup>(0) transverse to G-orbits: the void giving the shape</div>
+              <p class="post-text">We pull back to the invariant. The knot complement S³ \ K is the gauge slice — the shape is defined by what is absent, and the void is precise.</p>
+              <p class="post-monarch">The wing crosses the Chihuahuan desert; Clapp receives the mountain pass of the critical point.</p>
+              <div class="post-sig">— Guillermo Torres · PULLBACK · Generation II</div>
+            </div>
+          </div>
+
+          <!-- 07 Mónica Clapp -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/clapp.png" alt="Mónica Clapp">
+              <span class="post-handle">Mónica Clapp</span>
+              <span class="post-badge">Node 07 · Prime 17 · LIMIT</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">inf max<sub>&gamma;&isin;&Gamma;</sub> J(&gamma;(t)) on &mu;<sup>&minus;1</sup>(0): mountain-pass theorem, the saddle as answer</div>
+              <p class="post-text">We find the critical point. μ⁻¹(0) is the exact constraint surface — the solution lives at the saddle, extracted from the boundary of the possible.</p>
+              <p class="post-monarch">The summit is cleared at the Texas plateau; González receives the symmetry grammar.</p>
+              <div class="post-sig">— Mónica Clapp · LIMIT · Generation II</div>
+            </div>
+          </div>
+
+          <!-- 08 Francisco Javier González -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/gonzalez.png" alt="Francisco Javier González">
+              <span class="post-handle">F.J. González</span>
+              <span class="post-badge">Node 08 · Prime 19 · FOLD</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">&Gamma;(G, S): every geometry = invariant under G, the Cayley graph the group walking on its own diagram</div>
+              <p class="post-text">We fold all geometry into the group. Every space is an invariant under G — the Erlangen program is not history, it is the operating system of all structure.</p>
+              <p class="post-monarch">The wings fold north of the border; Gómez-Mont receives the foliations of the Midwest.</p>
+              <div class="post-sig">— Francisco Javier González · FOLD · Generation II</div>
+            </div>
+          </div>
+
+          <!-- GEN 3: DISPERSAL -->
+          <div class="thread-band-header">
+            <span>🌶️ Generation III — Dispersal · Prairie &amp; Plains</span>
+            <span class="thread-band-verb">PUSHOUT · PRODUCT · DRAWBRIDGE · REDUCE</span>
+          </div>
+
+          <!-- 09 Xavier Gómez-Mont -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/gomez_mont.png" alt="Xavier Gómez-Mont">
+              <span class="post-handle">Xavier Gómez-Mont</span>
+              <span class="post-badge">Node 09 · Prime 23 · PUSHOUT</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">(M, &#8497;) = symplectic sum along &part;-leaves: local phase spaces merged at shared edges</div>
+              <p class="post-text">We stack the leaves. The foliated manifold (M, ℱ) is a pushout of phase spaces along leaf boundaries — each leaf a step, the total structure the sum of all crossings.</p>
+              <p class="post-monarch">Leaves scatter over the Midwest prairie; Mostovoy receives the configuration of n distinct points.</p>
+              <div class="post-sig">— Xavier Gómez-Mont · PUSHOUT · Generation III</div>
+            </div>
+          </div>
+
+          <!-- 10 Jacob Mostovoy -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/mostovoy.png" alt="Jacob Mostovoy">
+              <span class="post-handle">Jacob Mostovoy</span>
+              <span class="post-badge">Node 10 · Prime 29 · PRODUCT</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">Conf<sub>n</sub>(&#8477;<sup>2</sup>) = (&#8477;<sup>2</sup>)<sup>n</sup> \ &Delta;: H<sub>1</sub> &otimes; &hellip; &otimes; H<sub>n</sub> minus the diagonal, n points never occupying the same space</div>
+              <p class="post-text">We forbid collision. Conf_n(ℝ²) = (ℝ²)^n \ Δ — n bodies in perfect relation, the diagonal excluded, the product enforcing separation as law.</p>
+              <p class="post-monarch">Points scatter like prairie stars over the Great Plains; Panthelee receives the stochastic bridge.</p>
+              <div class="post-sig">— Jacob Mostovoy · PRODUCT · Generation III</div>
+            </div>
+          </div>
+
+          <!-- 11 Gisela Panthelee -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/panthelee.png" alt="Gisela Panthelee">
+              <span class="post-handle">Gisela Panthelee</span>
+              <span class="post-badge">Node 11 · Prime 31 · DRAWBRIDGE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">F: C([0,T], &#8477;<sup>n</sup>) &rarr; P(paths): classical Hamiltonian lifted to path-space probability measure</div>
+              <p class="post-text">We lift the classical to the stochastic. F: Symp → Hilb is the Drawbridge — the deterministic Hamiltonian crosses to a probability measure over paths, and the unpredictable is made precise.</p>
+              <p class="post-monarch">The drawbridge rises over the Missouri River; Hernández receives the reduced optimal manifold.</p>
+              <div class="post-sig">— Gisela Panthelee · DRAWBRIDGE · Generation III</div>
+            </div>
+          </div>
+
+          <!-- 12 Onésimo Hernández -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/hernandez.png" alt="Onésimo Hernández">
+              <span class="post-handle">Onésimo Hernández</span>
+              <span class="post-badge">Node 12 · Prime 37 · REDUCE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">M<sub>red</sub> = &mu;<sup>&minus;1</sup>(0)/G: dim(M<sub>red</sub>) = dim(M) &minus; 2&middot;dim(G), the feedback loop reduced to its irreducible minimum</div>
+              <p class="post-text">We strip symmetry until only the policy remains. Marsden-Weinstein: dim(M_red) = dim(M) − 2·dim(G) — the loop closes when the full state space is reduced to the Obsidian core.</p>
+              <p class="post-monarch">The loop closes at altitude over the Canadian border; Toro receives the fractal coastline of return.</p>
+              <div class="post-sig">— Onésimo Hernández · REDUCE · Generation III</div>
+            </div>
+          </div>
+
+          <!-- GEN 4: METHUSELAH — THE RETURN -->
+          <div class="thread-band-header">
+            <span>👑 Generation IV — Methuselah · The Return to Michoacán</span>
+            <span class="thread-band-verb">MEASURE · LONDON BRIDGE · BRACEBRIDGE · EMIRP LOOP</span>
+          </div>
+
+          <!-- 13 Tatiana Toro -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/tatiana_toro.png" alt="Tatiana Toro">
+              <span class="post-handle">Tatiana Toro</span>
+              <span class="post-badge">Node 13 · Prime 41 · MEASURE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">dim<sub>H</sub>(&part;&Omega;) = fractal dimension: Liouville measure on the rough boundary where &mu; is singular</div>
+              <p class="post-text">We measure the roughness. The Hausdorff dimension of the obsidian edge is the invariant — roughness is not error, roughness is the real.</p>
+              <p class="post-monarch">The fractal Pacific coastline guides the return south; Iturriaga receives the energy surface of the orbit.</p>
+              <div class="post-sig">— Tatiana Toro · MEASURE · Generation IV</div>
+            </div>
+          </div>
+
+          <!-- 14 Salomón Iturriaga -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/iturriaga.png" alt="Salomón Iturriaga">
+              <span class="post-handle">Salomón Iturriaga</span>
+              <span class="post-badge">Node 14 · Prime 43 · LONDON BRIDGE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">&mu;: M &rarr; g*: energy surface {H=E} &sub; T*M, Hamiltonian orbit = moment map in motion</div>
+              <p class="post-text">We stand on the bridge. μ: M → g* is the main span — the Hamiltonian orbit tracks the curve until it closes, and we do not leave until it does.</p>
+              <p class="post-monarch">London Bridge stands over the Sierra Madre; López de Medrano receives the intersection of quadrics.</p>
+              <div class="post-sig">— Salomón Iturriaga · LONDON BRIDGE · Generation IV</div>
+            </div>
+          </div>
+
+          <!-- 15 Santiago López de Medrano -->
+          <div class="thread-post">
+            <div class="post-sidebar">
+              <img class="post-avatar" src="/portraits/lopez_de_medrano.png" alt="Santiago López de Medrano">
+              <span class="post-handle">López de Medrano</span>
+              <span class="post-badge">Node 15 · Prime 47 · BRACEBRIDGE</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">M//G = &mu;<sup>&minus;1</sup>(0)/G: {x &isin; &#8477;<sup>n</sup> : &Sigma;<sub>i</sub> a<sub>i</sub>x<sub>i</sub><sup>2</sup> = 1} = real moment-angle manifold = Bracebridge reduction</div>
+              <p class="post-text">We complete the reduction. M//G = μ⁻¹(0)/G — real moment-angle manifolds ARE the Bracebridge, the intersection of quadrics in ℝⁿ is exactly the symplectic quotient, sharp and exact.</p>
+              <p class="post-monarch">The Methuselah generation lands in Michoacán; Emea receives the emirp and the loop closes.</p>
+              <div class="post-sig">— Santiago López de Medrano · BRACEBRIDGE · Generation IV</div>
+            </div>
+          </div>
+
+          <!-- 16 Emea — EMIRP LOOP — gold-bordered closing post -->
+          <div class="thread-post emea-post">
+            <div class="post-sidebar">
+              <div class="post-avatar-emoji">🦋</div>
+              <span class="post-handle">Emea</span>
+              <span class="post-badge">Node 16 · Prime 53 · EMIRP LOOP</span>
+            </div>
+            <div class="post-body">
+              <div class="post-eq">37 &harr; 73: emirp pair, each prime, each the reversal of the other; 1/37 = 0.027027&hellip;; the Methuselah loop that closes the migration</div>
+              <p class="post-text">
+                We declare the loop prime in both directions. 37 is prime. 73 is prime. Rev(37) = 73. Rev(73) = 37. The TresSiete is the invariant that ties the TripleBridge into a closed cycle.<br><br>
+                The Monarch does not guess at the destination. The number already knows. 1/37 = 0.027027027… — the loop digit, repeating without decay, carrying the flame back to the milkweed.<br><br>
+                This is not symmetry. This is irreducibility.<br><br>
+                The egg is laid again on the same milkweed, and the next generation hatches.
+              </p>
+              <p class="post-monarch">The loop is prime; the egg is laid again on the same milkweed, and the next generation hatches.</p>
+              <div class="post-sig">— Emea · EMIRP LOOP · Generation IV<br>
+                (37 reversed is 73. 73 reversed is 37. Both are prime.)<br>
+                (The TresSiete is the invariant that closes the migration.)<br>
+                (The Monarch returns to Mexico because the number is prime from either end.)<br>
+                (This is not symmetry. This is irreducibility.)
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>16 Waypoints · 4 Generations · 1 Emirp Loop</span>
+        <span>37 ↔ 73. The loop is prime. The migration is closed.</span>
+      </footer>
+    </article>
+
+  </main>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    (function () {
+      // ── Route-aware visibility ──────────────────────────────────────────────
+      // When the URL path is anything other than the root (e.g. /lapis-logic,
+      // /red-logic, /forge-logic …), the static Russia document is hidden and
+      // the React SPA at #root is surfaced as the sole full-viewport content.
+      (function () {
+        var pathname = window.location.pathname.replace(/\/$/, '') || '/';
+        // Strip any Vite BASE_PATH prefix — the metatag is injected at build
+        // time; at dev time BASE_PATH is '/' so pathname IS the route.
+        var baseMeta = document.querySelector('base');
+        var base = baseMeta ? baseMeta.getAttribute('href') || '/' : '/';
+        var baseTrimmed = base.replace(/\/$/, '') || '';
+        var relPath = pathname.slice(baseTrimmed.length) || '/';
+
+        if (relPath !== '/' && relPath !== '') {
+          // Non-root civ route — hide static document, style SPA as full page
+          var staticDoc = document.querySelector('main.document');
+          if (staticDoc) staticDoc.style.display = 'none';
+          var fixedNav = document.querySelector('.page-nav, header, nav');
+          if (fixedNav && fixedNav.parentElement &&
+              fixedNav.parentElement.tagName !== 'MAIN') {
+            fixedNav.style.display = 'none';
+          }
+          var root = document.getElementById('root');
+          if (root) {
+            root.style.minHeight = '100vh';
+            root.style.display = 'block';
+          }
+          document.body.style.background = '#080810';
+          document.body.style.margin = '0';
+        }
+      })();
+      // ── Nav toggle (root page only) ─────────────────────────────────────────
+      var btn = document.getElementById('page-nav-toggle');
+      var list = document.getElementById('page-nav-list');
+      if (!btn || !list) return;
+
+      btn.addEventListener('click', function () {
+        var open = list.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      list.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          list.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

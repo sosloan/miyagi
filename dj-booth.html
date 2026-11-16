@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DJ pult — konzole ATOM/PreSonus</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --atom-bg: #111317;
+      --atom-panel: #1b1f26;
+      --atom-panel-2: #242a33;
+      --atom-edge: #3b4452;
+      --atom-text: #f6f7fb;
+      --atom-muted: #aeb8c7;
+      --atom-neon: #4bd9ff;
+      --atom-neon-soft: rgba(75, 217, 255, .2);
+      --atom-amber: #ffbf3c;
+      --atom-red: #ff4d5e;
+      --font-display: "Avenir Next Condensed", "Arial Narrow", Impact, sans-serif;
+      --font-mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--atom-neon);
+      outline-offset: 2px;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .85rem 1.1rem;
+      padding: .75rem 1.2rem;
+      background: #0c1016;
+      border-bottom: 1px solid var(--atom-edge);
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .nav-brand {
+      color: #fff;
+      margin-right: auto;
+      letter-spacing: .18em;
+    }
+    .site-nav a {
+      color: var(--atom-muted);
+      text-decoration: none;
+    }
+    .site-nav a[aria-current="page"] { color: var(--atom-neon); }
+    .accent-strip {
+      height: 3px;
+      background: linear-gradient(90deg, var(--atom-neon), var(--atom-amber), var(--atom-red));
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(75, 217, 255, .08), transparent 35%),
+        radial-gradient(circle at top left, rgba(255, 191, 60, .08), transparent 30%),
+        var(--atom-bg);
+      color: var(--atom-text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+
+    .page-wrap {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 1.2rem 1.2rem 2.2rem;
+    }
+
+    .hero {
+      background: linear-gradient(160deg, #181c23, #12161b);
+      border: 1px solid var(--atom-edge);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 14px 30px rgba(0,0,0,.35);
+    }
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .7rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.35rem, 3.7vw, 2rem);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-family: var(--font-display);
+      color: #fff;
+    }
+    .hero-sub {
+      color: var(--atom-muted);
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-top: .3rem;
+    }
+    .status-chip {
+      border: 1px solid var(--atom-edge);
+      background: #0f1319;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      padding: .36rem .72rem;
+      text-transform: uppercase;
+      color: var(--atom-neon);
+      box-shadow: inset 0 0 0 1px rgba(75, 217, 255, .2);
+    }
+
+    .waveform-banner {
+      margin-top: .95rem;
+      height: 66px;
+      display: flex;
+      align-items: end;
+      gap: 2px;
+      border: 1px solid var(--atom-edge);
+      border-radius: 10px;
+      padding: .45rem .55rem;
+      background: linear-gradient(180deg, #0e1217, #0a0d12);
+      box-shadow: inset 0 0 18px rgba(75, 217, 255, .08);
+    }
+    .waveform-bar {
+      flex: 1;
+      min-height: 3px;
+      border-radius: 2px;
+    }
+
+    .booth-shell {
+      background: linear-gradient(180deg, #1a1f27, #11161d);
+      border: 1px solid var(--atom-edge);
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: 0 18px 36px rgba(0,0,0,.4);
+      margin-bottom: 1rem;
+    }
+
+    .deck-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .85rem;
+      margin-bottom: .9rem;
+    }
+
+    .deck {
+      background: linear-gradient(180deg, var(--atom-panel-2), var(--atom-panel));
+      border: 1px solid #4a5466;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .deck-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .58rem .75rem;
+      border-bottom: 1px solid #3b4452;
+      background: #1a2029;
+    }
+    .deck-title {
+      line-height: 1.15;
+    }
+    .deck-title strong {
+      display: block;
+      font-size: .83rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .deck-title span {
+      font-size: .57rem;
+      color: var(--atom-muted);
+      letter-spacing: .12em;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+    }
+    .deck-num {
+      font-family: var(--font-mono);
+      font-size: .56rem;
+      color: var(--atom-muted);
+      letter-spacing: .12em;
+    }
+
+    .deck-body {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: .65rem;
+      padding: .75rem;
+      align-items: center;
+    }
+    .vinyl-zone {
+      height: 112px;
+      border-radius: 50%;
+      border: 1px solid #4b5566;
+      background: radial-gradient(circle at 45% 40%, #222a35, #0a0e12 70%);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 12px rgba(0,0,0,.6);
+    }
+    .vinyl {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+    }
+    .vinyl .grooves {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, #2c313b 0 2px, #131820 2px 4px, #0f141b 4px 6px);
+      box-shadow: inset 0 0 10px rgba(0,0,0,.65);
+    }
+    .vinyl .label-disc {
+      position: absolute;
+      inset: 29%;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: .42rem;
+      letter-spacing: .03em;
+      line-height: 1.15;
+      text-transform: uppercase;
+      z-index: 2;
+      padding: .15rem;
+      border: 1px solid currentColor;
+    }
+    .vinyl .spindle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      top: calc(50% - 4px);
+      left: calc(50% - 4px);
+      background: #aab3c2;
+      z-index: 3;
+      box-shadow: 0 0 0 2px #303845;
+    }
+    .vinyl.playing { animation: spin 1.8s linear infinite; }
+
+    .vinyl-hotboii .label-disc { color: #4bd9ff; background: #0f2b35; }
+    .vinyl-gates .label-disc { color: #ff9070; background: #2d1a14; }
+    .vinyl-uzi .label-disc { color: #cf81ff; background: #211634; }
+    .vinyl-nba .label-disc { color: #79e79f; background: #14261a; }
+
+    .deck-controls {
+      display: grid;
+      gap: .35rem;
+    }
+    .control-row {
+      display: grid;
+      grid-template-columns: 45px 1fr 32px;
+      gap: .4rem;
+      align-items: center;
+    }
+    .control-label,
+    .val-display {
+      font-family: var(--font-mono);
+      font-size: .52rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--atom-muted);
+    }
+    .val-display {
+      text-align: right;
+      color: #e6ebf3;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: #323b48;
+      cursor: pointer;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--atom-neon);
+      border: 2px solid #0d1117;
+      box-shadow: 0 0 0 1px #4f5a69;
+    }
+
+    .btn-play {
+      margin-top: .2rem;
+      width: 100%;
+      border: 1px solid #596576;
+      border-radius: 8px;
+      padding: .42rem;
+      background: linear-gradient(180deg, #303846, #212936);
+      color: #f5f7ff;
+      font-family: var(--font-mono);
+      font-size: .57rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btn-play:hover { border-color: var(--atom-neon); }
+    .btn-play.active {
+      color: #06111b;
+      background: linear-gradient(180deg, #7be7ff, #2ad2ff);
+      border-color: #5ee0ff;
+      box-shadow: 0 0 0 1px rgba(75,217,255,.35), 0 0 15px rgba(75,217,255,.25);
+    }
+
+    .mixer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: .75rem;
+      margin-top: .3rem;
+    }
+    .rack {
+      background: #161b22;
+      border: 1px solid #47505f;
+      border-radius: 12px;
+      padding: .75rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .rack-title {
+      font-family: var(--font-mono);
+      font-size: .54rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--atom-muted);
+      margin-bottom: .5rem;
+    }
+
+    .bpm-display {
+      text-align: center;
+      border: 1px solid #5b6779;
+      border-radius: 8px;
+      padding: .45rem;
+      background: #0d1218;
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      letter-spacing: .08em;
+      color: var(--atom-amber);
+      text-shadow: 0 0 10px rgba(255,191,60,.4);
+      margin-bottom: .6rem;
+    }
+    .bpm-display .bpm-unit {
+      display: block;
+      font-size: .52rem;
+      letter-spacing: .18em;
+      color: var(--atom-muted);
+      margin-top: .15rem;
+    }
+
+    .master-vol {
+      display: grid;
+      justify-items: center;
+      gap: .35rem;
+    }
+    .mv-label,
+    .cf-label {
+      font-family: var(--font-mono);
+      font-size: .54rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--atom-muted);
+    }
+    .knob-wrap {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid #5b6779;
+      background: radial-gradient(circle at 35% 35%, #5d6674, #202734 70%);
+      position: relative;
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,.45);
+      cursor: pointer;
+    }
+    .knob-marker {
+      position: absolute;
+      top: 7px;
+      width: 4px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--atom-neon);
+      transform-origin: bottom center;
+    }
+
+    #crossfader {
+      height: 6px;
+      background: #313947;
+    }
+    #crossfader::-webkit-slider-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: var(--atom-amber);
+      border: 2px solid #1c222d;
+      cursor: ew-resize;
+    }
+    .cf-readout {
+      display: flex;
+      justify-content: space-between;
+      margin-top: .25rem;
+      font-family: var(--font-mono);
+      font-size: .52rem;
+      color: var(--atom-muted);
+    }
+
+    .fx-pads {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .35rem;
+      margin-top: .45rem;
+    }
+    .fx-pad {
+      aspect-ratio: 1;
+      border: 1px solid #596677;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #2c3441, #1f2732);
+      color: #d8deea;
+      font-family: var(--font-mono);
+      font-size: .47rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: grid;
+      place-items: center;
+      padding: .2rem;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .fx-pad:hover { border-color: var(--atom-neon); }
+    .fx-pad.lit {
+      background: linear-gradient(180deg, #57e2ff, #1fc6ef);
+      color: #07121e;
+      border-color: #67e6ff;
+    }
+    .fx-pad.coral-lit {
+      background: linear-gradient(180deg, #ff8b96, var(--atom-red));
+      color: #25080d;
+      border-color: #ff98a2;
+    }
+    .fx-pad.gold-lit {
+      background: linear-gradient(180deg, #ffd677, #ffb72a);
+      color: #2b1b00;
+      border-color: #ffd988;
+    }
+
+    .tempo-stack {
+      display: grid;
+      justify-items: center;
+      gap: .45rem;
+    }
+    #bpmSlider {
+      -webkit-appearance: none;
+      appearance: none;
+      writing-mode: vertical-lr;
+      direction: rtl;
+      height: 110px;
+      width: 8px;
+    }
+    .tempo-buttons {
+      display: flex;
+      gap: .35rem;
+    }
+    .tempo-buttons button {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid #5a6678;
+      background: #2a3240;
+      color: #f1f5ff;
+      cursor: pointer;
+    }
+
+    .pad-bank {
+      background: #171c24;
+      border: 1px solid #4f5a6b;
+      border-radius: 12px;
+      padding: .75rem;
+      margin-top: .8rem;
+    }
+    .pad-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .45rem;
+    }
+    .perf-pad {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 1px solid #586578;
+      background: linear-gradient(180deg, #2d3643, #212834);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: .52rem;
+      letter-spacing: .1em;
+      color: var(--atom-muted);
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+    }
+    .perf-pad.lit {
+      background: linear-gradient(180deg, #57e2ff, #1fc6ef);
+      color: #07121e;
+      border-color: #67e6ff;
+    }
+    .perf-pad:nth-child(4n+1) { box-shadow: inset 0 0 0 1px rgba(75,217,255,.24); }
+    .perf-pad:nth-child(4n+2) { box-shadow: inset 0 0 0 1px rgba(255,191,60,.26); }
+    .perf-pad:nth-child(4n+3) { box-shadow: inset 0 0 0 1px rgba(255,77,94,.24); }
+
+    .artist-list {
+      margin-top: .7rem;
+      display: grid;
+      gap: .45rem;
+      color: var(--atom-muted);
+      font-size: .72rem;
+    }
+    .artist-item {
+      border: 1px solid #4a5566;
+      border-radius: 8px;
+      padding: .45rem .55rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem;
+      background: #1b212b;
+    }
+    .artist-item strong {
+      color: #f4f7ff;
+      font-size: .68rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .artist-item span {
+      font-family: var(--font-mono);
+      font-size: .55rem;
+      letter-spacing: .1em;
+      color: var(--atom-neon);
+      text-transform: uppercase;
+    }
+
+    .page-footer {
+      margin-top: 1rem;
+      padding-top: .8rem;
+      border-top: 1px solid #465062;
+      text-align: center;
+      color: var(--atom-muted);
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .gen-shell {
+      margin-top: 1rem;
+      background: linear-gradient(145deg, #121723, #0d1220 45%, #0a0f1a);
+      border: 1px solid #364458;
+      border-radius: 12px;
+      padding: .9rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 20px 34px rgba(0,0,0,.45);
+    }
+    .gen-title {
+      font-family: var(--font-display);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin-bottom: .25rem;
+      color: #eff4ff;
+    }
+    .gen-hint {
+      font-family: var(--font-mono);
+      font-size: .55rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--atom-muted);
+      margin-bottom: .6rem;
+    }
+    .gen-tabs {
+      display: flex;
+      gap: .45rem;
+      margin-bottom: .65rem;
+    }
+    .tab-btn {
+      border: 1px solid #4f5d72;
+      border-radius: 8px;
+      background: #1a2332;
+      color: #d6deec;
+      padding: .35rem .65rem;
+      font-family: var(--font-mono);
+      font-size: .53rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      border-color: var(--atom-neon);
+      color: #072030;
+      background: linear-gradient(180deg, #7be7ff, #2ad2ff);
+    }
+    .gen-tab-panel { display: none; }
+    .gen-tab-panel.active { display: block; }
+    .gen-prompt {
+      width: 100%;
+      min-height: 82px;
+      resize: vertical;
+      border-radius: 8px;
+      border: 1px solid #596576;
+      background: #0b101a;
+      color: #ecf2ff;
+      padding: .6rem;
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      line-height: 1.5;
+    }
+    .gen-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: .55rem;
+    }
+    .gen-btn {
+      border: 1px solid #596576;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #2f3948, #212a36);
+      color: #f4f7ff;
+      padding: .45rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .56rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .gen-btn:hover { border-color: var(--atom-neon); }
+    .gen-btn.stop:hover { border-color: var(--atom-red); }
+    .gen-btn.ghost {
+      background: #111927;
+      color: #c8d4e8;
+    }
+    .gen-btn[disabled] {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+    .gen-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: .75rem;
+    }
+    .sub-panel {
+      border: 1px solid #3e4b60;
+      border-radius: 10px;
+      background: #101623;
+      padding: .65rem;
+      margin-top: .6rem;
+    }
+    .sub-title {
+      font-family: var(--font-mono);
+      font-size: .54rem;
+      letter-spacing: .12em;
+      color: var(--atom-muted);
+      text-transform: uppercase;
+      margin-bottom: .45rem;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: .45rem;
+    }
+    .field-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: .5rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: var(--atom-muted);
+      margin-bottom: .2rem;
+    }
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      width: 100%;
+      border: 1px solid #4f5a6b;
+      border-radius: 7px;
+      background: #0b111c;
+      color: #e9f2ff;
+      padding: .42rem;
+      font-family: var(--font-mono);
+      font-size: .58rem;
+    }
+    .inline-value {
+      font-family: var(--font-mono);
+      font-size: .52rem;
+      color: var(--atom-neon);
+      margin-top: .2rem;
+      display: inline-block;
+    }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+    .chip {
+      border: 1px solid #4f5d72;
+      border-radius: 999px;
+      padding: .24rem .52rem;
+      background: #1a2230;
+      color: #d3ddef;
+      font-family: var(--font-mono);
+      font-size: .5rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+    }
+    .chip.active {
+      color: #041018;
+      border-color: #67e6ff;
+      background: linear-gradient(180deg, #8deeff, #3ad8ff);
+    }
+    .section-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .3rem;
+      margin-bottom: .45rem;
+    }
+    .section-list {
+      display: grid;
+      gap: .4rem;
+    }
+    .section-item {
+      border: 1px solid #49566a;
+      border-radius: 8px;
+      background: #0e1522;
+      padding: .45rem;
+    }
+    .section-item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .35rem;
+    }
+    .section-item-head strong {
+      font-family: var(--font-mono);
+      font-size: .53rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #ecf2ff;
+    }
+    .section-actions {
+      display: flex;
+      gap: .25rem;
+    }
+    .icon-btn {
+      border: 1px solid #596576;
+      border-radius: 6px;
+      background: #1f2836;
+      color: #d8e0f1;
+      width: 22px;
+      height: 22px;
+      line-height: 1;
+      cursor: pointer;
+      font-size: .72rem;
+    }
+    .icon-btn:hover { border-color: var(--atom-neon); }
+    .section-item textarea {
+      min-height: 54px;
+      resize: vertical;
+    }
+    .lyrics-output {
+      min-height: 95px;
+      margin-top: .45rem;
+    }
+    .gen-status {
+      margin-top: .6rem;
+      border: 1px solid #4d5869;
+      border-radius: 8px;
+      background: #0d1422;
+      padding: .5rem .6rem;
+      font-family: var(--font-mono);
+      font-size: .56rem;
+      letter-spacing: .08em;
+      color: var(--atom-muted);
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
+    .variation-grid {
+      margin-top: .55rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .45rem;
+    }
+    .variation-card {
+      border: 1px solid #4b576b;
+      border-radius: 9px;
+      background: #0f1624;
+      padding: .5rem;
+      display: grid;
+      gap: .35rem;
+    }
+    .variation-card.active {
+      border-color: var(--atom-neon);
+      box-shadow: inset 0 0 0 1px rgba(75,217,255,.25);
+    }
+    .variation-card strong {
+      font-family: var(--font-mono);
+      font-size: .54rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: #eff5ff;
+    }
+    .variation-card p {
+      font-family: var(--font-mono);
+      font-size: .5rem;
+      color: var(--atom-muted);
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .variation-actions {
+      display: flex;
+      gap: .35rem;
+      flex-wrap: wrap;
+    }
+    .gen-meta {
+      margin-top: .6rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: .35rem;
+    }
+    .gen-meta .artist-item { min-height: 42px; }
+    .code-panel {
+      border: 1px solid #44536a;
+      border-radius: 8px;
+      background: #090f1a;
+      color: #d6e8ff;
+      font-family: var(--font-mono);
+      font-size: .52rem;
+      padding: .5rem;
+      white-space: pre-wrap;
+      max-height: 190px;
+      overflow: auto;
+      line-height: 1.4;
+    }
+    .library-table-wrap {
+      max-height: 280px;
+      overflow: auto;
+      border: 1px solid #4a5669;
+      border-radius: 8px;
+    }
+    .library-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: .55rem;
+      color: #e6efff;
+      background: #0e1522;
+    }
+    .library-table th,
+    .library-table td {
+      border-bottom: 1px solid #334153;
+      padding: .42rem .38rem;
+      text-align: left;
+    }
+    .library-table th {
+      position: sticky;
+      top: 0;
+      background: #121b2a;
+      color: var(--atom-muted);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    .library-table tr:hover { background: #1a2434; cursor: pointer; }
+    .library-table tr.selected { background: #213044; }
+    .library-preview {
+      margin-top: .55rem;
+      border: 1px solid #41516a;
+      border-radius: 8px;
+      background: #0d1422;
+      padding: .55rem;
+      font-family: var(--font-mono);
+      font-size: .56rem;
+      color: var(--atom-muted);
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: .4rem;
+    }
+
+    @media (max-width: 980px) {
+      .deck-grid { grid-template-columns: 1fr; }
+      .mixer-grid { grid-template-columns: 1fr; }
+      .gen-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">◈ Studio One</span>
+  <a href="index.html">Domů</a>
+  <a href="dj-booth.html" aria-current="page">DJ pult</a>
+  <a href="ronan-poster.html">Plakát Ronan</a>
+  <a href="web-lab.html">Webová laboratoř</a>
+</nav>
+<div class="accent-strip"></div>
+
+<div class="page-wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>Konzole pultu ATOM/PreSonus</h1>
+        <p class="hero-sub">Povrch podle PreSonus · 4 deky · živý postup</p>
+      </div>
+      <span class="status-chip">Relace běží</span>
+    </div>
+    <div class="waveform-banner" id="waveformBanner" title="Hlavní monitor vlny"></div>
+  </header>
+
+  <section class="booth-shell" aria-label="Ovladač DJ pultu">
+    <div class="deck-grid" id="artistGrid">
+    </div>
+
+    <div class="mixer-grid">
+      <div class="rack">
+        <div class="rack-title">Hlavní / odposlech</div>
+        <div class="bpm-display" id="bpmDisplay"><span id="bpmDigits">140</span><span class="bpm-unit">BPM</span></div>
+        <div class="master-vol">
+          <span class="mv-label">Hlavní hlasitost</span>
+          <div class="knob-wrap" id="masterKnob" title="Hlavní hlasitost">
+            <div class="knob-marker" id="knobMarker"></div>
+          </div>
+          <input type="range" min="0" max="100" value="75" id="masterVolSlider" aria-label="Hlavní hlasitost" />
+          <span class="mv-label" id="masterVolVal">75</span>
+        </div>
+      </div>
+
+      <div class="rack">
+        <div class="rack-title">Mix / efekty</div>
+        <div class="cf-label">Prolínač</div>
+        <input type="range" id="crossfader" min="0" max="100" value="50" aria-label="Prolínač mezi dekem A a dekem B" />
+        <div class="cf-readout"><span>A</span><span id="cfVal">50</span><span>B</span></div>
+        <div class="fx-pads" id="fxPads"></div>
+      </div>
+
+      <div class="rack">
+        <div class="rack-title">Tempo / výkon</div>
+        <div class="tempo-stack">
+          <input type="range" min="80" max="200" value="140" id="bpmSlider" aria-label="Tempo v BPM" />
+          <span class="mv-label" id="bpmVal">140</span>
+          <div class="tempo-buttons">
+            <button type="button" data-nudge="-1">−</button>
+            <button type="button" data-nudge="1">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pad-bank" aria-label="Výkonnostní pady">
+      <div class="rack-title">Matice padů Atom</div>
+      <div class="pad-grid" id="padGrid"></div>
+      <div class="artist-list" id="artistList"></div>
+    </div>
+  </section>
+
+  <section class="gen-shell" aria-label="Generátor hudby ze zadání">
+    <h2 class="gen-title">Generátor hudby Butterfly Pipes</h2>
+    <p class="gen-hint">Postup jako ve FL: skládej části, drž BPM, tóninu a energii, kresli semínka, srovnávej, remixuj a veď místní knihovnu.</p>
+    <div class="gen-tabs">
+      <button type="button" class="tab-btn active" data-tab="create">Tvorba</button>
+      <button type="button" class="tab-btn" data-tab="library">Knihovna</button>
+    </div>
+
+    <div class="gen-tab-panel active" id="genTab-create">
+      <div class="builder-grid">
+        <div class="field-group">
+          <label for="genrePreset">Žánrová předvolba</label>
+          <select id="genrePreset"></select>
+        </div>
+        <div class="field-group">
+          <label for="genBpm">BPM</label>
+          <input id="genBpm" type="range" min="60" max="200" value="137" />
+          <span class="inline-value" id="genBpmVal">137 BPM</span>
+        </div>
+        <div class="field-group">
+          <label for="genKey">Tónina</label>
+          <select id="genKey"></select>
+        </div>
+        <div class="field-group">
+          <label for="genMode">Mód</label>
+          <select id="genMode">
+            <option value="Major">Dur</option>
+            <option value="Minor" selected>Moll</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="genEnergy">Energie</label>
+          <input id="genEnergy" type="range" min="1" max="10" value="8" />
+          <span class="inline-value" id="genEnergyVal">8 / 10 (vysoká)</span>
+        </div>
+        <div class="field-group">
+          <label for="genDuration">Délka (s)</label>
+          <input id="genDuration" type="range" min="8" max="120" value="30" />
+          <span class="inline-value" id="genDurationVal">30 s</span>
+        </div>
+        <div class="field-group">
+          <label for="genSeed">Základní semínko</label>
+          <input id="genSeed" type="number" min="1" max="999999" value="42" />
+        </div>
+        <div class="field-group">
+          <label for="genVariations">Variace</label>
+          <select id="genVariations">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="cfgStrength">Síla CFG</label>
+          <input id="cfgStrength" type="range" min="1" max="15" step="0.5" value="7.5" />
+          <span class="inline-value" id="cfgStrengthVal">7.5</span>
+        </div>
+      </div>
+
+      <div class="gen-grid">
+        <div>
+          <div class="sub-panel">
+            <div class="sub-title">Zadání</div>
+            <textarea class="gen-prompt" id="musicPrompt" aria-label="Zadání pro generování hudby" placeholder="Popiš náladu stopy...">BUTTERFLY--PIPES, trapový beat, kovové perkuse z trubek, atmosférické syntezátory</textarea>
+          </div>
+
+          <div class="sub-panel">
+            <div class="sub-title">Skladač zadání</div>
+            <div class="builder-grid">
+              <div>
+                <label class="inline-value" style="margin-bottom:.25rem">Nástroje</label>
+                <div class="chip-row" id="chipsInstruments"></div>
+              </div>
+              <div>
+                <label class="inline-value" style="margin-bottom:.25rem">Nálada</label>
+                <div class="chip-row" id="chipsMood"></div>
+              </div>
+              <div>
+                <label class="inline-value" style="margin-bottom:.25rem">Zpěv</label>
+                <div class="chip-row" id="chipsVocal"></div>
+              </div>
+            </div>
+            <textarea id="assembledPrompt" class="gen-prompt" style="min-height:62px;margin-top:.45rem" aria-label="Složené zadání"></textarea>
+          </div>
+        </div>
+
+        <div>
+          <div class="sub-panel">
+            <div class="sub-title">Skladač částí</div>
+            <div class="section-buttons" id="sectionTagButtons"></div>
+            <div class="section-list" id="sectionList"></div>
+            <textarea id="lyricsOutput" class="gen-prompt lyrics-output" aria-label="Srovnaná struktura textu" placeholder="Tady se objeví srovnané části [úvod]/[sloka]/[refrén]"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="gen-actions">
+        <button type="button" class="gen-btn" id="generateMusicBtn">Vygenerovat hudbu</button>
+        <button type="button" class="gen-btn ghost" id="sketchBtn">Náčrt (4×8 s)</button>
+        <button type="button" class="gen-btn ghost" id="copyShareBtn">Kopírovat odkaz</button>
+        <button type="button" class="gen-btn stop" id="stopMusicBtn">Zastavit</button>
+      </div>
+      <div class="gen-status" id="genStatus">Nečinnost · čekám na zadání</div>
+      <div class="variation-grid" id="variationGrid"></div>
+      <div class="sub-panel">
+        <div class="sub-title">Rozšířené zadání (co model slyšel)</div>
+        <pre class="code-panel" id="augmentedPrompt">—</pre>
+      </div>
+      <div class="sub-panel">
+        <div class="sub-title">Náhled kontraktu generování</div>
+        <pre class="code-panel" id="generationContract">—</pre>
+      </div>
+      <div class="sub-panel">
+        <div class="sub-title">Závislé na backendu (zatím zavřené)</div>
+        <div class="roadmap-grid">
+          <button type="button" class="gen-btn ghost" disabled>Domalovat úsek</button>
+          <button type="button" class="gen-btn ghost" disabled>Navázat pokračování</button>
+          <button type="button" class="gen-btn ghost" disabled>Zapsat značky ID3</button>
+          <button type="button" class="gen-btn ghost" disabled>Exportovat linii semínek</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="gen-tab-panel" id="genTab-library">
+      <div class="gen-actions" style="margin-top:0">
+        <button type="button" class="gen-btn" id="refreshLibraryBtn">Obnovit knihovnu</button>
+      </div>
+      <div class="library-table-wrap">
+        <table class="library-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Stopa</th>
+              <th>Semínko</th>
+              <th>BPM</th>
+              <th>Tónina</th>
+              <th>Délka</th>
+              <th>Vznik</th>
+            </tr>
+          </thead>
+          <tbody id="libraryRows"></tbody>
+        </table>
+      </div>
+      <div class="gen-actions">
+        <button type="button" class="gen-btn ghost" id="libraryPreviewBtn">Náhled</button>
+        <button type="button" class="gen-btn ghost" id="libraryRemixBtn">Remixovat</button>
+      </div>
+      <div class="library-preview" id="libraryPreview">Není vybraná stopa.</div>
+    </div>
+
+    <div class="gen-meta" id="genMeta">
+      <div class="artist-item"><strong>Stopa</strong><span id="metaTrack">—</span></div>
+      <div class="artist-item"><strong>BPM</strong><span id="metaBpm">—</span></div>
+      <div class="artist-item"><strong>Tónina</strong><span id="metaKey">—</span></div>
+      <div class="artist-item"><strong>Struktura</strong><span id="metaStructure">—</span></div>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    Studio One · DJ pult podle ATOM · díl I ·
+    <a href="ronan-poster.html" style="color:var(--atom-neon)">Zobrazit plakát Ronan →</a>
+  </footer>
+</div>
+
+<script>
+const chez = {
+  play: '▶ Hrát',
+  pause: '⏸ Pauza',
+  liveSet: 'Živý set',
+  spin: 'Kliknutím roztočíš',
+  vol: 'Hlas',
+  bass: 'Basy',
+  treble: 'Výšky',
+  avg: 'BPM průměr',
+  moveUp: 'Posunout nahoru',
+  moveDown: 'Posunout dolů',
+  remove: 'Odebrat část',
+  playWord: 'Hrát',
+  remix: 'Remix',
+  generate: 'Vygenerovat hudbu',
+  restart: 'Přehrát znovu',
+  energyHigh: 'vysoká',
+  energyChill: 'klidná',
+  energyMid: 'střední',
+  none: '[nic]',
+  instrumental: '[bez zpěvu]',
+  unknown: 'Neznámé',
+  sessionWord: 'Relace',
+  sketchWord: 'Náčrt',
+  full: 'plná verze',
+  sketchMode: 'náčrt',
+  noTrack: 'Není vybraná stopa.',
+  presetLabels: {
+    'Butterfly Pipes Template': 'Šablona Butterfly Pipes',
+    'Trap': 'Trap',
+    'Lo-Fi Hip Hop': 'Lo-fi hip hop',
+    'Deep House': 'Deep house',
+    'Drum & Bass': 'Drum & bass',
+    'Ambient': 'Ambient',
+    'Afrobeats': 'Afrobeats',
+    'Rage': 'Rage'
+  }
+};
+
+const DECKS = [
+  { id: 'hotboii', name: 'Hotboii', role: 'Dek A · melodický trap', channel: 'CH 01', label: 'Hotboii', vol: 80, bass: 4, treble: 2, bpm: 141 },
+  { id: 'gates', name: 'Kevin Gates', role: 'Dek B · trap / hip-hop', channel: 'CH 02', label: 'Gates', vol: 75, bass: 6, treble: -1, bpm: 136 },
+  { id: 'uzi', name: 'Lil Uzi Vert', role: 'Dek C · emo rap', channel: 'CH 03', label: 'Uzi', vol: 85, bass: 3, treble: 5, bpm: 152 },
+  { id: 'nba', name: 'NBA YoungBoy', role: 'Dek D · jižanský trap', channel: 'CH 04', label: 'NBA YB', vol: 78, bass: 5, treble: 0, bpm: 137 }
+];
+
+const FX_PADS = [
+  ['Ozvěna', 'lit'],
+  ['Dozvuk', 'coral-lit'],
+  ['Flanger', 'gold-lit'],
+  ['Zpoždění', 'lit'],
+  ['Fázovač', 'coral-lit'],
+  ['Bitová drť', 'gold-lit'],
+  ['Filtr↑', 'lit'],
+  ['Filtr↓', 'coral-lit']
+];
+
+const PERF_PADS = ['Nástup 1', 'Nástup 2', 'Nástup 3', 'Nástup 4', 'Roleta', 'Řez', 'Brána', 'Smyčka', 'Kopák', 'Virbl', 'Hajtka', 'Tlesk', 'FX 1', 'FX 2', 'Ztlumit', 'Sólo'];
+
+const CHIP_GROUPS = [
+  { id: 'chipsInstruments', group: 'inst', items: [['808', true], ['Kytara', false], ['Klavír', false], ['Syntezátor', true], ['Smyčce', false]] },
+  { id: 'chipsMood', group: 'mood', items: [['Útočná', true], ['Smutná', false], ['Euforická', false], ['Temná', true], ['Pozvedající', false]] },
+  { id: 'chipsVocal', group: 'vocal', items: [['Ženský hlas', false], ['Mužský hlas', false], ['Sbor', false], ['Rap', true], ['Bez zpěvu', false]] }
+];
+
+const SECTION_TAGS = [
+  ['úvod', '[úvod]'],
+  ['sloka', '[sloka]'],
+  ['refrén', '[refrén]'],
+  ['most', '[most]'],
+  ['konec', '[konec]'],
+  ['drop', '[drop]']
+];
+
+const playState = {};
+
+function formatSigned(slider, value) {
+  return value > 0 && Number(slider.min) < 0 ? '+' + value : String(value);
+}
+
+function renderDecks() {
+  const grid = document.getElementById('artistGrid');
+  const list = document.getElementById('artistList');
+  grid.replaceChildren();
+  list.replaceChildren();
+  DECKS.forEach((deck) => {
+    playState[deck.id] = false;
+    const article = document.createElement('article');
+    article.className = 'deck';
+    article.dataset.artist = deck.id;
+    const head = document.createElement('div');
+    head.className = 'deck-head';
+    const title = document.createElement('div');
+    title.className = 'deck-title';
+    const strong = document.createElement('strong');
+    strong.textContent = deck.name;
+    const role = document.createElement('span');
+    role.textContent = deck.role;
+    title.append(strong, role);
+    const num = document.createElement('span');
+    num.className = 'deck-num';
+    num.textContent = deck.channel;
+    head.append(title, num);
+    const vinyl = document.createElement('div');
+    vinyl.className = 'vinyl vinyl-' + deck.id;
+    vinyl.id = 'vinyl-' + deck.id;
+    vinyl.dataset.deck = deck.id;
+    vinyl.title = chez.spin;
+    const grooves = document.createElement('div');
+    grooves.className = 'grooves';
+    const label = document.createElement('div');
+    label.className = 'label-disc';
+    label.append(document.createTextNode(deck.label), document.createElement('br'), document.createTextNode(chez.liveSet));
+    const spindle = document.createElement('div');
+    spindle.className = 'spindle';
+    vinyl.append(grooves, label, spindle);
+    const zone = document.createElement('div');
+    zone.className = 'vinyl-zone';
+    zone.append(vinyl);
+    const controls = document.createElement('div');
+    controls.className = 'deck-controls';
+    [['vol', chez.vol, 0, 100, deck.vol], ['bass', chez.bass, -12, 12, deck.bass], ['treble', chez.treble, -12, 12, deck.treble]].forEach((rowSpec) => {
+      const key = rowSpec[0];
+      const caption = rowSpec[1];
+      const input = document.createElement('input');
+      input.type = 'range';
+      input.min = String(rowSpec[2]);
+      input.max = String(rowSpec[3]);
+      input.value = String(rowSpec[4]);
+      input.dataset.readout = key + '-' + deck.id;
+      input.setAttribute('aria-label', deck.name + ' ' + caption);
+      const captionEl = document.createElement('span');
+      captionEl.className = 'control-label';
+      captionEl.textContent = caption;
+      const readout = document.createElement('span');
+      readout.className = 'val-display';
+      readout.id = key + '-' + deck.id;
+      readout.textContent = formatSigned(input, rowSpec[4]);
+      const row = document.createElement('div');
+      row.className = 'control-row';
+      row.append(captionEl, input, readout);
+      controls.append(row);
+    });
+    const play = document.createElement('button');
+    play.type = 'button';
+    play.className = 'btn-play';
+    play.id = 'btn-' + deck.id;
+    play.dataset.deck = deck.id;
+    play.textContent = chez.play;
+    controls.append(play);
+    const body = document.createElement('div');
+    body.className = 'deck-body';
+    body.append(zone, controls);
+    article.append(head, body);
+    grid.append(article);
+    const item = document.createElement('div');
+    item.className = 'artist-item';
+    const name = document.createElement('strong');
+    name.textContent = deck.name;
+    const bpm = document.createElement('span');
+    bpm.textContent = deck.bpm + ' ' + chez.avg;
+    item.append(name, bpm);
+    list.append(item);
+  });
+}
+
+function renderPads() {
+  const fx = document.getElementById('fxPads');
+  fx.replaceChildren();
+  FX_PADS.forEach((pair) => {
+    const pad = document.createElement('div');
+    pad.className = 'fx-pad';
+    pad.dataset.lit = pair[1];
+    pad.textContent = pair[0];
+    fx.append(pad);
+  });
+  const grid = document.getElementById('padGrid');
+  grid.replaceChildren();
+  PERF_PADS.forEach((name) => {
+    const pad = document.createElement('div');
+    pad.className = 'perf-pad';
+    pad.textContent = name;
+    grid.append(pad);
+  });
+}
+
+function renderChips() {
+  CHIP_GROUPS.forEach((group) => {
+    const row = document.getElementById(group.id);
+    row.replaceChildren();
+    group.items.forEach((item) => {
+      const chip = document.createElement('span');
+      chip.className = 'chip' + (item[1] ? ' active' : '');
+      chip.dataset.group = group.group;
+      chip.dataset.value = item[0];
+      chip.textContent = item[0];
+      row.append(chip);
+    });
+  });
+}
+
+function renderSectionButtons() {
+  const row = document.getElementById('sectionTagButtons');
+  row.replaceChildren();
+  SECTION_TAGS.forEach((tag) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'gen-btn ghost';
+    button.dataset.section = tag[0];
+    button.textContent = tag[1];
+    row.append(button);
+  });
+}
+
+function togglePlay(id) {
+  const vinyl = document.getElementById('vinyl-' + id);
+  const btn = document.getElementById('btn-' + id);
+  playState[id] = !playState[id];
+  vinyl.classList.toggle('playing', playState[id]);
+  btn.classList.toggle('active', playState[id]);
+  btn.textContent = playState[id] ? chez.pause : chez.play;
+}
+
+function updateVal(slider, targetId) {
+  const v = parseInt(slider.value, 10);
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.textContent = formatSigned(slider, v);
+}
+
+function updateCrossfader(val) {
+  document.getElementById('cfVal').textContent = val;
+}
+
+function updateBPM(val) {
+  document.getElementById('bpmDigits').textContent = val;
+  document.getElementById('bpmVal').textContent = val;
+}
+
+function nudgeBPM(delta) {
+  const sl = document.getElementById('bpmSlider');
+  sl.value = Math.min(200, Math.max(80, parseInt(sl.value, 10) + delta));
+  updateBPM(sl.value);
+}
+
+function rotateMasterKnob(val) {
+  const deg = -135 + (val / 100) * 270;
+  document.getElementById('knobMarker').style.transform = 'rotate(' + deg + 'deg)';
+  document.getElementById('masterVolVal').textContent = val;
+}
+
+function padHit(el, cls) {
+  const classes = ['lit', 'coral-lit', 'gold-lit'];
+  const wasLit = classes.some(c => el.classList.contains(c));
+  classes.forEach(c => el.classList.remove(c));
+  if (!wasLit) {
+    el.classList.add(cls);
+    setTimeout(() => el.classList.remove(cls), 400);
+  }
+}
+
+function bindBooth() {
+  document.getElementById('artistGrid').addEventListener('click', (event) => {
+    const hit = event.target.closest('[data-deck]');
+    if (hit) togglePlay(hit.dataset.deck);
+  });
+  document.getElementById('artistGrid').addEventListener('input', (event) => {
+    const slider = event.target;
+    if (slider.dataset.readout) updateVal(slider, slider.dataset.readout);
+  });
+  document.getElementById('masterVolSlider').addEventListener('input', (event) => rotateMasterKnob(event.target.value));
+  document.getElementById('crossfader').addEventListener('input', (event) => updateCrossfader(event.target.value));
+  document.getElementById('bpmSlider').addEventListener('input', (event) => updateBPM(event.target.value));
+  document.querySelector('.tempo-buttons').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-nudge]');
+    if (button) nudgeBPM(Number(button.dataset.nudge));
+  });
+  document.getElementById('fxPads').addEventListener('click', (event) => {
+    const pad = event.target.closest('.fx-pad');
+    if (pad) padHit(pad, pad.dataset.lit);
+  });
+  document.getElementById('padGrid').addEventListener('click', (event) => {
+    const pad = event.target.closest('.perf-pad');
+    if (pad) padHit(pad, 'lit');
+  });
+}
+
+renderDecks();
+renderPads();
+bindBooth();
+rotateMasterKnob(document.getElementById('masterVolSlider').value);
+
+(function buildWaveform() {
+  const banner = document.getElementById('waveformBanner');
+  if (!banner) return;
+  const count = 120;
+  for (let i = 0; i < count; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'waveform-bar';
+    const h = 8 + Math.abs(Math.sin(i * 0.35) * 55) + Math.random() * 20;
+    bar.style.height = h + '%';
+    const t = i / count;
+    if (t < 0.33) bar.style.background = 'var(--atom-neon)';
+    else if (t < 0.66) bar.style.background = 'var(--atom-amber)';
+    else bar.style.background = 'var(--atom-red)';
+    bar.style.opacity = (.5 + Math.random() * .5).toString();
+    banner.appendChild(bar);
+  }
+})();
+
+let generatedAudioCtx = null;
+let generatedMasterGain = null;
+let generatedIntervals = [];
+let generatedActive = false;
+let generatedClosingPromise = null;
+let generatedStopTimeout = null;
+let hatNoiseBuffer = null;
+let hatNoiseDuration = 0;
+const MIN_GAIN = 0.001;
+const MIN_PERC_FREQ = 50;
+const BASE_MASTER_GAIN = 0.13;
+const DETAIL_BOOST_GAIN = 0.02;
+const BPM_MINUTE_MS = 60000;
+const PIPE_HIT_FREQ = 220;
+const STORAGE_KEY = 'djBooth.generator.history.v1';
+const DEFAULT_PRESET = 'Trap';
+const MAX_HISTORY_ENTRIES = 80;
+const MIN_ESTIMATED_SECONDS = 6;
+const DURATION_DIVISOR = 8;
+const SKETCH_ETA_SECONDS_PER_DURATION_UNIT = 4;
+const FULL_ETA_SECONDS_PER_DURATION_UNIT = 2;
+const MAJOR_SCALE_INTERVALS = [1, 1.12246, 1.25992, 1.33484, 1.49831, 1.68179, 1.88775];
+// Poměry přirozené mollové stupnice vůči základu.
+const MINOR_SCALE_INTERVALS = [1, 1.12246, 1.18921, 1.33484, 1.49831, 1.58740, 1.88775];
+const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_FREQ = {
+  'C': 65.41, 'C#': 69.30, 'D': 73.42, 'D#': 77.78, 'E': 82.41, 'F': 87.31,
+  'F#': 92.50, 'G': 98.00, 'G#': 103.83, 'A': 110.00, 'A#': 116.54, 'B': 123.47
+};
+const PRESETS = {
+  'Butterfly Pipes Template': { prompt: 'butterfly pipes, moderní rapová produkce, kovové perkuse, úderná 808', bpm: 120, key: 'F', mode: 'Minor', energy: 7, sections: ['úvod', 'sloka', 'refrén', 'sloka', 'refrén', 'konec'] },
+  'Trap': { prompt: 'trapový beat, basová 808, temné hajtky, útočné, zkreslené syntezátory', bpm: 140, key: 'F', mode: 'Minor', energy: 8, sections: ['úvod', 'sloka', 'refrén', 'sloka', 'refrén', 'drop', 'konec'] },
+  'Lo-Fi Hip Hop': { prompt: 'lo-fi hip hop, jazzové akordy, praskání vinylu, uvolněný boom bap', bpm: 85, key: 'D', mode: 'Minor', energy: 3, sections: ['úvod', 'sloka', 'refrén', 'most', 'refrén', 'konec'] },
+  'Deep House': { prompt: 'deep house, čtyři doby, subbas, soulová chicagská textura', bpm: 124, key: 'A', mode: 'Minor', energy: 6, sections: ['úvod', 'sloka', 'refrén', 'drop', 'refrén', 'konec'] },
+  'Drum & Bass': { prompt: 'drum and bass, amen break, reese bas, rychlé tempo', bpm: 174, key: 'G', mode: 'Minor', energy: 9, sections: ['úvod', 'drop', 'sloka', 'drop', 'most', 'drop', 'konec'] },
+  'Ambient': { prompt: 'ambientní plochy, rostoucí textury, filmové, bez bicích', bpm: 70, key: 'C', mode: 'Major', energy: 2, sections: ['úvod', 'most', 'refrén', 'konec'] },
+  'Afrobeats': { prompt: 'afrobeatsový groove, perkusní odraz, teplé brnky, taneční parket', bpm: 108, key: 'G', mode: 'Major', energy: 7, sections: ['úvod', 'sloka', 'refrén', 'sloka', 'refrén', 'konec'] },
+  'Rage': { prompt: 'rage syntezátory, přebuzené 808, rychlé hajtky, futuristický trap', bpm: 155, key: 'F#', mode: 'Minor', energy: 10, sections: ['úvod', 'sloka', 'drop', 'sloka', 'drop', 'konec'] }
+};
+const generatorState = {
+  sections: [],
+  history: [],
+  selectedLibraryIndex: -1,
+  currentVariations: [],
+  activeVariationIndex: 0,
+  progressTimer: null,
+  progressStartedAt: 0
+};
+
+function setGeneratorMeta(track, bpm, key, structure) {
+  document.getElementById('metaTrack').textContent = track;
+  document.getElementById('metaBpm').textContent = bpm;
+  document.getElementById('metaKey').textContent = key;
+  document.getElementById('metaStructure').textContent = structure;
+}
+
+function setGeneratorStatus(msg) {
+  document.getElementById('genStatus').textContent = msg;
+}
+
+function createPercHit(ctx, out, freq, duration, type, gainAmount) {
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, now);
+  osc.frequency.exponentialRampToValueAtTime(Math.max(MIN_PERC_FREQ, freq * 0.5), now + duration);
+  gain.gain.setValueAtTime(gainAmount, now);
+  gain.gain.linearRampToValueAtTime(MIN_GAIN, now + duration);
+  osc.connect(gain);
+  gain.connect(out);
+  osc.start(now);
+  osc.stop(now + duration + 0.01);
+}
+
+function createHatNoise(ctx, out, duration, gainAmount) {
+  if (!hatNoiseBuffer || hatNoiseDuration !== duration) {
+    const bufferSize = Math.floor(ctx.sampleRate * duration);
+    hatNoiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = hatNoiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+    hatNoiseDuration = duration;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = hatNoiseBuffer;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'highpass';
+  filter.frequency.value = 7000;
+  const gain = ctx.createGain();
+  const now = ctx.currentTime;
+  gain.gain.setValueAtTime(gainAmount, now);
+  gain.gain.linearRampToValueAtTime(MIN_GAIN, now + duration);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(out);
+  noise.start(now);
+  noise.stop(now + duration + 0.01);
+}
+
+/**
+ * Deterministic pseudo-random number generator.
+ * @param {number} seed Integer seed value.
+ * @returns {() => number} Function returning a float in [0, 1).
+ */
+function mulberry32(seed) {
+  return function rand() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function buildScale(baseHz, mode) {
+  const scale = mode === 'Major' ? MAJOR_SCALE_INTERVALS : MINOR_SCALE_INTERVALS;
+  return scale.map(step => +(baseHz * step).toFixed(2));
+}
+
+function readControlInt(id) {
+  return parseInt(document.getElementById(id).value, 10);
+}
+
+function readControlFloat(id) {
+  return parseFloat(document.getElementById(id).value);
+}
+
+function getEnergyDescriptor(energy) {
+  if (energy >= 8) return chez.energyHigh;
+  if (energy <= 3) return chez.energyChill;
+  return chez.energyMid;
+}
+
+function formatDuration(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = String(seconds % 60).padStart(2, '0');
+  return `${mins}:${secs}`;
+}
+
+function switchGeneratorTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  document.querySelectorAll('.gen-tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === `genTab-${tab}`);
+  });
+}
+
+function flattenSections() {
+  return generatorState.sections.map(section => {
+    const tag = `[${section.type}]`;
+    const body = (section.lyrics || '').trim();
+    return body ? `${tag}\n${body}` : tag;
+  }).join('\n\n');
+}
+
+function syncLyricsOutput() {
+  document.getElementById('lyricsOutput').value = flattenSections();
+}
+
+function renderSectionList() {
+  const list = document.getElementById('sectionList');
+  list.innerHTML = '';
+  generatorState.sections.forEach((section, index) => {
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    const head = document.createElement('div');
+    head.className = 'section-item-head';
+    const label = document.createElement('strong');
+    label.textContent = `[${section.type}]`;
+    const actions = document.createElement('div');
+    actions.className = 'section-actions';
+    const up = document.createElement('button');
+    up.className = 'icon-btn';
+    up.textContent = '↑';
+    up.type = 'button';
+    up.title = chez.moveUp;
+    up.addEventListener('click', () => moveSection(index, -1));
+    const down = document.createElement('button');
+    down.className = 'icon-btn';
+    down.textContent = '↓';
+    down.type = 'button';
+    down.title = chez.moveDown;
+    down.addEventListener('click', () => moveSection(index, 1));
+    const del = document.createElement('button');
+    del.className = 'icon-btn';
+    del.textContent = '×';
+    del.type = 'button';
+    del.title = chez.remove;
+    del.addEventListener('click', () => {
+      generatorState.sections.splice(index, 1);
+      renderSectionList();
+      syncLyricsOutput();
+      refreshPayloadPreview();
+    });
+    actions.append(up, down, del);
+    head.append(label, actions);
+    const textarea = document.createElement('textarea');
+    textarea.value = section.lyrics || '';
+    textarea.placeholder = 'Napiš text pro ' + section.type + '...';
+    textarea.addEventListener('input', (event) => {
+      generatorState.sections[index].lyrics = event.target.value;
+      syncLyricsOutput();
+      refreshPayloadPreview();
+    });
+    item.append(head, textarea);
+    list.appendChild(item);
+  });
+}
+
+function moveSection(index, delta) {
+  const target = index + delta;
+  if (target < 0 || target >= generatorState.sections.length) return;
+  const item = generatorState.sections[index];
+  generatorState.sections[index] = generatorState.sections[target];
+  generatorState.sections[target] = item;
+  renderSectionList();
+  syncLyricsOutput();
+  refreshPayloadPreview();
+}
+
+function addSection(type, lyrics = '') {
+  generatorState.sections.push({ type, lyrics });
+  renderSectionList();
+  syncLyricsOutput();
+  refreshPayloadPreview();
+}
+
+function getChipValues(group) {
+  return Array.from(document.querySelectorAll(`.chip[data-group="${group}"].active`)).map(chip => chip.dataset.value);
+}
+
+function buildAssembledPrompt() {
+  const instruments = getChipValues('inst');
+  const moods = getChipValues('mood');
+  const vocals = getChipValues('vocal');
+  const parts = [];
+  if (instruments.length) parts.push('nástroje: ' + instruments.join(', '));
+  if (moods.length) parts.push('nálada: ' + moods.join(', '));
+  if (vocals.length) parts.push('zpěv: ' + vocals.join(', '));
+  document.getElementById('assembledPrompt').value = parts.join(' | ');
+}
+
+function updateRangeReadouts() {
+  const bpm = readControlInt('genBpm');
+  const energy = readControlInt('genEnergy');
+  const duration = readControlInt('genDuration');
+  const cfg = readControlFloat('cfgStrength');
+  document.getElementById('genBpmVal').textContent = bpm + ' BPM';
+  document.getElementById('genEnergyVal').textContent = energy + ' / 10 (' + getEnergyDescriptor(energy) + ')';
+  document.getElementById('genDurationVal').textContent = duration + ' s';
+  document.getElementById('cfgStrengthVal').textContent = cfg.toFixed(1);
+}
+
+function applyPreset(presetName) {
+  const preset = PRESETS[presetName];
+  if (!preset) return;
+  document.getElementById('genrePreset').value = presetName;
+  document.getElementById('musicPrompt').value = preset.prompt;
+  document.getElementById('genBpm').value = preset.bpm;
+  document.getElementById('genKey').value = preset.key;
+  document.getElementById('genMode').value = preset.mode;
+  document.getElementById('genEnergy').value = preset.energy;
+  generatorState.sections = preset.sections.map(type => ({ type, lyrics: '' }));
+  renderSectionList();
+  syncLyricsOutput();
+  updateRangeReadouts();
+  refreshPayloadPreview();
+}
+
+function composeTrackName(presetName, sketch) {
+  const stamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  if (sketch) return chez.presetLabels[presetName] + ' ' + chez.sketchWord + ' ' + stamp;
+  return chez.presetLabels[presetName] + ' ' + chez.sessionWord + ' ' + stamp;
+}
+
+function parseGenerationPrompt(rawPrompt, opts = {}) {
+  const prompt = (rawPrompt || '').trim();
+  if (!prompt) return null;
+  const bpm = readControlInt('genBpm');
+  const key = document.getElementById('genKey').value;
+  const mode = document.getElementById('genMode').value;
+  const energy = readControlInt('genEnergy');
+  const duration = opts.sketch ? 8 : readControlInt('genDuration');
+  const seed = opts.seed != null ? opts.seed : readControlInt('genSeed');
+  const variations = opts.sketch ? 4 : readControlInt('genVariations');
+  const cfgStrength = readControlFloat('cfgStrength');
+  const assembled = document.getElementById('assembledPrompt').value.trim();
+  const lyrics = flattenSections();
+  const structure = generatorState.sections.map(s => `[${s.type}]`).join(' · ');
+  const baseHz = NOTE_FREQ[key] || NOTE_FREQ.F;
+  const promptFull = prompt + ', ' + bpm + ' BPM, ' + key + ' ' + modeLabel(mode) + ', ' + getEnergyDescriptor(energy) + ', cfg ' + cfgStrength.toFixed(1) + (assembled ? ', ' + assembled : '');
+  const augmentedPrompt = promptFull + '\nstruktura: ' + (structure || chez.none) + '\ntext:\n' + (lyrics || chez.instrumental) + '\nsemínko:' + seed;
+  return {
+    sourcePrompt: prompt,
+    assembledPrompt: assembled,
+    prompt: promptFull,
+    augmentedPrompt,
+    bpm,
+    key,
+    mode,
+    energy,
+    duration,
+    seed,
+    cfgStrength,
+    variations,
+    baseHz,
+    structure: structure || chez.none,
+    lyrics,
+    preset: document.getElementById('genrePreset').value,
+    track: composeTrackName(document.getElementById('genrePreset').value, !!opts.sketch),
+    sketch: !!opts.sketch
+  };
+}
+
+function createVariationPayloads(basePayload) {
+  const payloads = [];
+  for (let i = 0; i < basePayload.variations; i++) {
+    const seed = basePayload.seed + i;
+    const random = mulberry32(seed);
+    payloads.push({
+      ...basePayload,
+      seed,
+      variationIndex: i + 1,
+      textureShift: +(0.95 + random() * 0.12).toFixed(3),
+      hatDensity: +(0.8 + random() * 0.5).toFixed(3)
+    });
+  }
+  return payloads;
+}
+
+function renderVariationGrid(activeIndex = generatorState.activeVariationIndex) {
+  const grid = document.getElementById('variationGrid');
+  grid.innerHTML = '';
+  if (!generatorState.currentVariations.length) return;
+  generatorState.currentVariations.forEach((variation, index) => {
+    const card = document.createElement('div');
+    card.className = 'variation-card' + (index === activeIndex ? ' active' : '');
+    const title = document.createElement('strong');
+    title.textContent = 'Variace ' + (index + 1);
+    const copy = document.createElement('p');
+    copy.textContent = 'semínko ' + variation.seed + ' · ' + variation.duration + ' s · energie ' + variation.energy + '/10 · cfg ' + variation.cfgStrength.toFixed(1);
+    const actions = document.createElement('div');
+    actions.className = 'variation-actions';
+    const playBtn = document.createElement('button');
+    playBtn.className = 'gen-btn ghost';
+    playBtn.type = 'button';
+    playBtn.textContent = chez.playWord;
+    playBtn.addEventListener('click', () => playVariation(index));
+    const remixBtn = document.createElement('button');
+    remixBtn.className = 'gen-btn ghost';
+    remixBtn.type = 'button';
+    remixBtn.textContent = chez.remix;
+    remixBtn.addEventListener('click', () => remixVariation(variation));
+    actions.append(playBtn, remixBtn);
+    card.append(title, copy, actions);
+    grid.appendChild(card);
+  });
+}
+
+function refreshPayloadPreview() {
+  const payload = parseGenerationPrompt(document.getElementById('musicPrompt').value, { sketch: false });
+  if (!payload) {
+    document.getElementById('generationContract').textContent = '—';
+    document.getElementById('augmentedPrompt').textContent = '—';
+    return;
+  }
+  const contract = {
+    prompt: payload.prompt,
+    augmented_prompt: payload.augmentedPrompt,
+    duration_s: payload.duration,
+    seed: payload.seed,
+    variations: payload.variations,
+    cfg_strength: payload.cfgStrength,
+    bpm: payload.bpm,
+    key: payload.key,
+    mode: payload.mode,
+    energy: payload.energy,
+    section_tags: generatorState.sections.map(s => s.type),
+    lyrics: payload.lyrics,
+    backend_fields: {
+      inpaint_mask: null,
+      continue_from_audio: null,
+      id3_tags: { TBPM: payload.bpm, TKEY: `${payload.key} ${payload.mode}`, TCON: payload.preset }
+    }
+  };
+  document.getElementById('generationContract').textContent = JSON.stringify(contract, null, 2);
+  document.getElementById('augmentedPrompt').textContent = payload.augmentedPrompt;
+}
+
+function startProgress(payload) {
+  if (generatorState.progressTimer) clearInterval(generatorState.progressTimer);
+  generatorState.progressStartedAt = Date.now();
+  const estimated = estimateGenerationTime(payload.duration, payload.sketch, payload.variations);
+  generatorState.progressTimer = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - generatorState.progressStartedAt) / 1000);
+    const eta = Math.max(0, estimated - elapsed);
+    setGeneratorStatus('Generuji · ' + elapsed + ' s uběhlo · zbývá ' + eta + ' s · variace: ' + payload.variations);
+  }, 800);
+}
+
+function estimateGenerationTime(duration, isSketch, variationCount) {
+  const validatedDuration = Number(duration);
+  if (!Number.isFinite(validatedDuration) || validatedDuration <= 0) {
+    return MIN_ESTIMATED_SECONDS;
+  }
+  const generationModeMultiplier = isSketch ? SKETCH_ETA_SECONDS_PER_DURATION_UNIT : FULL_ETA_SECONDS_PER_DURATION_UNIT;
+  return Math.max(
+    MIN_ESTIMATED_SECONDS,
+    Math.round((validatedDuration / DURATION_DIVISOR) * generationModeMultiplier * variationCount)
+  );
+}
+
+function endProgress(message) {
+  if (generatorState.progressTimer) {
+    clearInterval(generatorState.progressTimer);
+    generatorState.progressTimer = null;
+  }
+  setGeneratorStatus(message);
+}
+
+async function stopGeneratedMusic(options = {}) {
+  generatedIntervals.forEach(clearInterval);
+  generatedIntervals = [];
+  if (generatedStopTimeout) {
+    clearTimeout(generatedStopTimeout);
+    generatedStopTimeout = null;
+  }
+  generatedActive = false;
+  if (generatedMasterGain && generatedAudioCtx) {
+    generatedMasterGain.gain.setValueAtTime(MIN_GAIN, generatedAudioCtx.currentTime);
+    generatedMasterGain.disconnect();
+    generatedMasterGain = null;
+  }
+  if (generatedAudioCtx && generatedAudioCtx.state !== 'closed') {
+    const ctx = generatedAudioCtx;
+    generatedAudioCtx = null;
+    generatedClosingPromise = ctx.close().catch((err) => {
+      console.warn('AudioContext close failed:', err);
+    }).finally(() => {
+      generatedClosingPromise = null;
+      hatNoiseBuffer = null;
+      hatNoiseDuration = 0;
+    });
+    await generatedClosingPromise;
+  }
+  if (!options.silent) setGeneratorStatus(options.auto ? 'Přehrávání skončilo · generátor čeká' : 'Zastaveno · generátor čeká');
+  const btn = document.getElementById('generateMusicBtn');
+  btn.textContent = chez.generate;
+}
+
+function buildShareUrl(payload) {
+  const params = new URLSearchParams();
+  params.set('prompt', payload.sourcePrompt);
+  params.set('seed', String(payload.seed));
+  params.set('duration', String(payload.duration));
+  params.set('bpm', String(payload.bpm));
+  params.set('key', payload.key);
+  params.set('mode', payload.mode);
+  params.set('energy', String(payload.energy));
+  params.set('cfg', String(payload.cfgStrength));
+  params.set('variations', String(payload.variations));
+  params.set('preset', payload.preset);
+  return `${window.location.origin}${window.location.pathname}?${params.toString()}#generator`;
+}
+
+function hydrateFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.size) return;
+  const prompt = params.get('prompt');
+  const seed = params.get('seed');
+  const duration = params.get('duration');
+  const bpm = params.get('bpm');
+  const key = params.get('key');
+  const mode = params.get('mode');
+  const energy = params.get('energy');
+  const cfg = params.get('cfg');
+  const variations = params.get('variations');
+  const preset = params.get('preset');
+  if (preset && PRESETS[preset]) {
+    document.getElementById('genrePreset').value = preset;
+    applyPreset(preset);
+  }
+  if (prompt) document.getElementById('musicPrompt').value = prompt;
+  const seedNum = Number(seed);
+  const durationNum = Number(duration);
+  const bpmNum = Number(bpm);
+  const energyNum = Number(energy);
+  const cfgNum = Number(cfg);
+  const variationsNum = Number(variations);
+  if (Number.isFinite(seedNum) && seedNum >= 1 && seedNum <= 999999) document.getElementById('genSeed').value = String(Math.floor(seedNum));
+  if (Number.isFinite(durationNum) && durationNum >= 8 && durationNum <= 120) document.getElementById('genDuration').value = String(Math.floor(durationNum));
+  if (Number.isFinite(bpmNum) && bpmNum >= 60 && bpmNum <= 200) document.getElementById('genBpm').value = String(Math.floor(bpmNum));
+  if (key && NOTE_ORDER.includes(key)) document.getElementById('genKey').value = key;
+  if (mode) document.getElementById('genMode').value = mode;
+  if (Number.isFinite(energyNum) && energyNum >= 1 && energyNum <= 10) document.getElementById('genEnergy').value = String(Math.floor(energyNum));
+  if (Number.isFinite(cfgNum) && cfgNum >= 1 && cfgNum <= 15) document.getElementById('cfgStrength').value = String(cfgNum);
+  if (Number.isFinite(variationsNum) && variationsNum >= 1 && variationsNum <= 4) document.getElementById('genVariations').value = String(Math.floor(variationsNum));
+  updateRangeReadouts();
+  refreshPayloadPreview();
+}
+
+async function copyShareUrl() {
+  const payload = parseGenerationPrompt(document.getElementById('musicPrompt').value, { sketch: false });
+  if (!payload) {
+    setGeneratorStatus('Nelze kopírovat odkaz · chybí zadání');
+    return;
+  }
+  const share = buildShareUrl(payload);
+  try {
+    await navigator.clipboard.writeText(share);
+    setGeneratorStatus('Odkaz zkopírován do schránky');
+  } catch {
+    setGeneratorStatus('Schránka není dostupná · odkaz je v adresním řádku');
+  }
+  window.history.replaceState({}, '', share);
+}
+
+function persistHistory() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(generatorState.history));
+  } catch (err) {
+    console.warn(`Unable to persist generator history (${err?.name || 'unknown error'}):`, err);
+    setGeneratorStatus('Historii nelze uložit · zkontroluj úložiště prohlížeče');
+  }
+}
+
+// Uses JSON fallback for plain serializable objects only.
+function deepClone(value) {
+  return typeof structuredClone === 'function'
+    ? structuredClone(value)
+    : JSON.parse(JSON.stringify(value));
+}
+
+function loadHistory() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    generatorState.history = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    generatorState.history = [];
+    console.warn('Unable to load saved history from localStorage; data may be corrupted.');
+    setGeneratorStatus('Načtení historie selhalo · knihovna je prázdná');
+  }
+}
+
+function modeLabel(mode) {
+  if (mode === 'Major') return 'Dur';
+  if (mode === 'Minor') return 'Moll';
+  return mode || '';
+}
+
+function renderLibraryRows() {
+  const body = document.getElementById('libraryRows');
+  body.replaceChildren();
+  generatorState.history.forEach((entry, index) => {
+    const row = document.createElement('tr');
+    row.classList.toggle('selected', index === generatorState.selectedLibraryIndex);
+    row.addEventListener('click', () => {
+      generatorState.selectedLibraryIndex = index;
+      renderLibraryRows();
+      updateLibraryPreview();
+    });
+    [index + 1, entry.track || chez.sessionWord, entry.seed, entry.bpm, entry.key + ' ' + modeLabel(entry.mode), formatDuration(entry.duration), new Date(entry.createdAt).toLocaleString()].forEach((value) => {
+      const cell = document.createElement('td');
+      cell.textContent = value;
+      row.append(cell);
+    });
+    body.append(row);
+  });
+  updateLibraryPreview();
+}
+
+function updateLibraryPreview() {
+  const entry = generatorState.history[generatorState.selectedLibraryIndex];
+  const preview = document.getElementById('libraryPreview');
+  if (!entry) {
+    preview.textContent = chez.noTrack;
+    return;
+  }
+  const presetName = chez.presetLabels[entry.preset] || entry.preset;
+  preview.textContent = 'Stopa: ' + entry.track
+    + '\nSemínko: ' + entry.seed
+    + '\nZadání: ' + entry.sourcePrompt
+    + '\nPředvolba: ' + presetName
+    + '\nBPM/tónina: ' + entry.bpm + ' · ' + entry.key + ' ' + modeLabel(entry.mode)
+    + '\nDélka: ' + entry.duration + ' s · variace: ' + entry.variations
+    + '\nCFG: ' + entry.cfgStrength
+    + '\nStruktura: ' + entry.structure
+    + '\nVznik: ' + new Date(entry.createdAt).toLocaleString();
+}
+
+function saveHistory(basePayload) {
+  const clonedSections = deepClone(generatorState.sections);
+  const entry = {
+    ...basePayload,
+    createdAt: new Date().toISOString(),
+    path: `local://seed-${basePayload.seed}-${Date.now()}`,
+    sections: clonedSections,
+    variationSeeds: generatorState.currentVariations.map(v => v.seed)
+  };
+  generatorState.history.unshift(entry);
+  generatorState.history = generatorState.history.slice(0, MAX_HISTORY_ENTRIES);
+  persistHistory();
+  if (generatorState.selectedLibraryIndex < 0) generatorState.selectedLibraryIndex = 0;
+  renderLibraryRows();
+}
+
+function hydrateFromHistory(entry) {
+  document.getElementById('musicPrompt').value = entry.sourcePrompt || entry.prompt || '';
+  const presetValue = PRESETS[entry.preset] ? entry.preset : 'Butterfly Pipes Template';
+  document.getElementById('genrePreset').value = presetValue;
+  document.getElementById('genBpm').value = entry.bpm;
+  document.getElementById('genKey').value = entry.key;
+  document.getElementById('genMode').value = entry.mode;
+  document.getElementById('genEnergy').value = entry.energy;
+  document.getElementById('genDuration').value = entry.duration;
+  document.getElementById('genSeed').value = entry.seed;
+  document.getElementById('genVariations').value = entry.variations || 1;
+  document.getElementById('cfgStrength').value = entry.cfgStrength || 7.5;
+  const hasSections = Array.isArray(entry.sections) && entry.sections.length > 0;
+  const sourceSections = hasSections ? entry.sections : [{ type: 'sloka', lyrics: '' }];
+  generatorState.sections = sourceSections.map(section => ({ ...section }));
+  renderSectionList();
+  syncLyricsOutput();
+  updateRangeReadouts();
+  refreshPayloadPreview();
+}
+
+function remixVariation(variation) {
+  document.getElementById('genSeed').value = variation.seed;
+  document.getElementById('musicPrompt').value = variation.sourcePrompt;
+  refreshPayloadPreview();
+  switchGeneratorTab('create');
+  setGeneratorStatus('Remix načten · semínko ' + variation.seed + ' připraveno');
+}
+
+async function playVariation(index) {
+  const payload = generatorState.currentVariations[index];
+  if (!payload) return;
+  generatorState.activeVariationIndex = index;
+  renderVariationGrid(index);
+  await playPayload(payload);
+}
+
+async function playPayload(payload) {
+  if (generatedActive) await stopGeneratedMusic({ silent: true });
+  if (generatedClosingPromise) await generatedClosingPromise;
+
+  if (!generatedAudioCtx) {
+    if (!window.AudioContext) {
+      setGeneratorStatus('Tenhle prohlížeč AudioContext neumí');
+      return;
+    }
+    try {
+      generatedAudioCtx = new AudioContext();
+    } catch (err) {
+      setGeneratorStatus('Zvukový engine není dostupný');
+      console.warn('AudioContext init failed:', err);
+      return;
+    }
+  }
+  if (generatedAudioCtx.state === 'suspended') await generatedAudioCtx.resume();
+
+  const random = mulberry32(payload.seed);
+  generatedMasterGain = generatedAudioCtx.createGain();
+  const energyGain = payload.energy / 10 * 0.05;
+  const cfgGain = payload.cfgStrength / 15 * 0.05;
+  generatedMasterGain.gain.value = BASE_MASTER_GAIN + DETAIL_BOOST_GAIN + energyGain + cfgGain;
+  generatedMasterGain.connect(generatedAudioCtx.destination);
+
+  const beatMs = BPM_MINUTE_MS / payload.bpm;
+  const tripletMs = beatMs / 3 / payload.hatDensity;
+  const leadScale = buildScale(payload.baseHz * payload.textureShift, payload.mode);
+  let leadIndex = 0;
+
+  generatedIntervals.push(setInterval(() => {
+    createPercHit(generatedAudioCtx, generatedMasterGain, payload.baseHz, 0.24, 'sine', 0.45 + random() * 0.2);
+  }, beatMs));
+
+  generatedIntervals.push(setInterval(() => {
+    createHatNoise(generatedAudioCtx, generatedMasterGain, 0.03 + random() * 0.03, 0.08 + random() * 0.08);
+  }, tripletMs));
+
+  generatedIntervals.push(setInterval(() => {
+    createPercHit(generatedAudioCtx, generatedMasterGain, leadScale[leadIndex % leadScale.length], 0.18, 'triangle', 0.12 + random() * 0.15);
+    leadIndex += 1;
+  }, beatMs / 2));
+
+  generatedIntervals.push(setInterval(() => {
+    createPercHit(generatedAudioCtx, generatedMasterGain, PIPE_HIT_FREQ + random() * 40, 0.1, 'square', 0.07 + random() * 0.06);
+  }, beatMs * 4));
+
+  const rawDurationSeconds = Number(payload.duration);
+  const durationSeconds = Number.isFinite(rawDurationSeconds) && rawDurationSeconds > 0 ? rawDurationSeconds : 1;
+  generatedStopTimeout = setTimeout(() => {
+    stopGeneratedMusic({ auto: true });
+  }, durationSeconds * 1000);
+  generatedActive = true;
+  setGeneratorMeta(payload.track, String(payload.bpm), payload.key + ' ' + modeLabel(payload.mode), payload.structure);
+  setGeneratorStatus('Živě · semínko ' + payload.seed + ' · ' + durationSeconds + ' s · ' + (payload.sketch ? chez.sketchMode : chez.full));
+  document.getElementById('augmentedPrompt').textContent = payload.augmentedPrompt;
+  refreshPayloadPreview();
+  const btn = document.getElementById('generateMusicBtn');
+  btn.textContent = chez.restart;
+}
+
+async function runGeneration(opts = {}) {
+  const parsed = parseGenerationPrompt(document.getElementById('musicPrompt').value, opts);
+  if (!parsed) {
+    setGeneratorStatus('Vstup odmítnut · napiš zadání');
+    setGeneratorMeta(chez.unknown, '—', '—', '—');
+    return;
+  }
+  generatorState.currentVariations = createVariationPayloads(parsed);
+  generatorState.activeVariationIndex = 0;
+  renderVariationGrid(0);
+  startProgress(parsed);
+  await playVariation(0);
+  saveHistory(parsed);
+  const share = buildShareUrl(parsed);
+  window.history.replaceState({}, '', share);
+  endProgress('Vygenerováno ' + generatorState.currentVariations.length + ' variací · semínko ' + parsed.seed);
+}
+
+async function generateMusicFromPrompt() {
+  await runGeneration({ sketch: false });
+}
+
+async function generateSketches() {
+  await runGeneration({ sketch: true });
+}
+
+function populateSelects() {
+  const keySelect = document.getElementById('genKey');
+  keySelect.replaceChildren();
+  NOTE_ORDER.forEach((note) => {
+    const option = document.createElement('option');
+    option.value = note;
+    option.textContent = note;
+    option.selected = note === 'F';
+    keySelect.append(option);
+  });
+  const presetSelect = document.getElementById('genrePreset');
+  presetSelect.replaceChildren();
+  Object.keys(PRESETS).forEach((name) => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = chez.presetLabels[name] || name;
+    presetSelect.append(option);
+  });
+}
+
+function setupGeneratorBindings() {
+  document.getElementById('generateMusicBtn').addEventListener('click', () => generateMusicFromPrompt());
+  document.getElementById('sketchBtn').addEventListener('click', () => generateSketches());
+  document.getElementById('copyShareBtn').addEventListener('click', () => copyShareUrl());
+  document.getElementById('stopMusicBtn').addEventListener('click', () => stopGeneratedMusic());
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchGeneratorTab(btn.dataset.tab));
+  });
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('active');
+      buildAssembledPrompt();
+      refreshPayloadPreview();
+    });
+  });
+  document.getElementById('genrePreset').addEventListener('change', (event) => {
+    applyPreset(event.target.value);
+  });
+  document.getElementById('refreshLibraryBtn').addEventListener('click', () => {
+    loadHistory();
+    renderLibraryRows();
+    setGeneratorStatus('Knihovna obnovena');
+  });
+  document.getElementById('libraryPreviewBtn').addEventListener('click', async () => {
+    const entry = generatorState.history[generatorState.selectedLibraryIndex];
+    if (!entry) return;
+    const payload = { ...entry, sketch: false, textureShift: 1, hatDensity: 1, variationIndex: 1 };
+    await playPayload(payload);
+    setGeneratorStatus('Náhled semínka ' + payload.seed + ' z knihovny');
+  });
+  document.getElementById('libraryRemixBtn').addEventListener('click', () => {
+    const entry = generatorState.history[generatorState.selectedLibraryIndex];
+    if (!entry) return;
+    hydrateFromHistory(entry);
+    switchGeneratorTab('create');
+    setGeneratorStatus('Remix načten z historie · semínko ' + entry.seed);
+  });
+  document.querySelectorAll('#sectionTagButtons button').forEach(btn => {
+    btn.addEventListener('click', () => addSection(btn.dataset.section));
+  });
+  ['musicPrompt', 'assembledPrompt', 'genBpm', 'genEnergy', 'genDuration', 'cfgStrength', 'genKey', 'genMode', 'genSeed', 'genVariations'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      updateRangeReadouts();
+      refreshPayloadPreview();
+    });
+    el.addEventListener('change', () => {
+      updateRangeReadouts();
+      refreshPayloadPreview();
+    });
+  });
+}
+
+function initGenerator() {
+  renderChips();
+  renderSectionButtons();
+  populateSelects();
+  setupGeneratorBindings();
+  loadHistory();
+  buildAssembledPrompt();
+  applyPreset(DEFAULT_PRESET);
+  hydrateFromUrl();
+  if (!generatorState.sections.length) addSection('sloka');
+  renderLibraryRows();
+  updateRangeReadouts();
+  refreshPayloadPreview();
+}
+
+initGenerator();
+</script>
+</body>
+</html>

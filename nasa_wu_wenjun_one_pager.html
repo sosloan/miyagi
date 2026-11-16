@@ -1,0 +1,204 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Share+Tech+Mono&family=Noto+Serif+SC:wght@400;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07101e;font-family:'Barlow Condensed',sans-serif}
+#wrap{background:#07101e;max-width:680px;overflow:hidden}
+
+#topbar{background:#0b1f3a;height:26px;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.tb-l{font-family:'Share Tech Mono',monospace;font-size:7.5px;color:#3a5a7a;letter-spacing:3px}
+.tb-nasa{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;color:#e8320a;letter-spacing:-0.5px}
+.tb-r{font-family:'Share Tech Mono',monospace;font-size:7.5px;color:#3a5a7a;letter-spacing:2px}
+
+#hero-band{background:#0d1828;border-bottom:2px solid #e8320a;padding:20px 20px 18px;display:grid;grid-template-columns:1fr 220px;gap:20px;align-items:start}
+.hero-left{}
+.eyebrow{font-family:'Share Tech Mono',monospace;font-size:8px;color:#e8320a;letter-spacing:4px;margin-bottom:10px}
+.hero-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:48px;line-height:0.88;color:#e8e4d8;letter-spacing:-1px;margin-bottom:4px}
+.hero-name-zh{font-family:'Noto Serif SC',serif;font-size:22px;color:#c8a850;letter-spacing:4px;margin-bottom:10px}
+.hero-dates{font-family:'Share Tech Mono',monospace;font-size:9px;color:#4a6a8a;letter-spacing:2px;margin-bottom:14px}
+.hero-tagline{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:16px;color:#8a9ab0;line-height:1.5;font-style:italic;border-left:3px solid #c8a850;padding-left:10px}
+
+.hero-right{}
+.geo-svg-wrap{background:#040c18;border:1px solid #1a2a40;padding:8px}
+
+#section-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#030a14;border-bottom:2px solid #030a14}
+.sec{background:#0d1828;padding:16px 18px}
+.sec.full{grid-column:1/3}
+.sec-head{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:4px;color:#e8320a;text-transform:uppercase;border-bottom:1px solid #1a2a40;padding-bottom:5px;margin-bottom:10px}
+.sec-body{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:13px;color:#7a8a9a;line-height:1.75}
+.sec-body strong{color:#c8d8e8;font-weight:600}
+.sec-body em{color:#c8a850;font-style:normal}
+
+.tag{background:#0b1f3a;color:#6a9ac0;font-family:'Share Tech Mono',monospace;font-size:7.5px;letter-spacing:1.5px;padding:2px 7px;display:inline-block;margin:2px 2px 0 0;border:0.5px solid #1a3a5a}
+
+.timeline{display:grid;grid-template-columns:60px 1fr;gap:0 10px;margin-top:4px}
+.tl-year{font-family:'Share Tech Mono',monospace;font-size:9px;color:#e8320a;padding:5px 0;border-right:1px solid #1a2a40;text-align:right;padding-right:8px}
+.tl-event{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#7a8a9a;padding:5px 0;line-height:1.4}
+.tl-event strong{color:#c8d8e8}
+
+.algo-block{background:#040c18;border:1px solid #1a2a40;padding:12px 14px;margin-top:8px}
+.algo-head{font-family:'Share Tech Mono',monospace;font-size:8px;color:#c8a850;letter-spacing:3px;margin-bottom:8px}
+.algo-step{font-family:'Share Tech Mono',monospace;font-size:9px;color:#3a5a7a;line-height:2;padding-left:4px}
+.algo-step span{color:#8ab8e0}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.stat{background:#040c18;border:1px solid #1a2a40;padding:10px;text-align:center}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#c8a850;line-height:1}
+.stat-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:#3a5a7a;letter-spacing:1.5px;margin-top:3px}
+
+.pull{border-left:3px solid #c8a850;padding:10px 14px;background:#040c18;margin:10px 0}
+.pull-text{font-family:'Barlow Condensed',sans-serif;font-style:italic;font-size:14px;color:#c8d8e8;line-height:1.7}
+.pull-attr{font-family:'Share Tech Mono',monospace;font-size:7.5px;color:#3a5a7a;letter-spacing:2px;margin-top:5px}
+
+#footer{background:#0b1f3a;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e8320a}
+.ft-l{font-family:'Share Tech Mono',monospace;font-size:7px;color:#2a4a6a;letter-spacing:2px}
+.ft-r{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;color:#c8a850;letter-spacing:3px}
+</style>
+
+<h2 style="position:absolute;left:-9999px">NASA one-pager on Wu Wen-Tsun, Chinese mathematician whose Wu's Method transformed automated geometric reasoning</h2>
+<div id="wrap">
+
+<div id="topbar">
+  <span class="tb-l">NATIONAL AERONAUTICS AND SPACE ADMINISTRATION · MATHEMATICS HERITAGE SERIES</span>
+  <span class="tb-nasa">NASA</span>
+  <span class="tb-r">WU WEN-TSUN · 吴文俊</span>
+</div>
+
+<div id="hero-band">
+  <div class="hero-left">
+    <div class="eyebrow">MATHEMATICS HERITAGE SERIES · PROFILE 07</div>
+    <div class="hero-name">Wu<br>Wen-Tsun</div>
+    <div class="hero-name-zh">吴文俊</div>
+    <div class="hero-dates">1919 – 2017 · SHANGHAI, CHINA · AGE 97</div>
+    <div class="hero-tagline">Teaching the machine the secret<br>handshake of geometry.</div>
+  </div>
+  <div class="hero-right">
+    <div class="geo-svg-wrap">
+      <svg width="204" height="220" viewBox="0 0 204 220" xmlns="http://www.w3.org/2000/svg">
+        <rect width="204" height="220" fill="#040c18"/>
+        <circle cx="102" cy="110" r="80" fill="none" stroke="#1a3050" stroke-width="0.5"/>
+        <circle cx="102" cy="110" r="55" fill="none" stroke="#1a3050" stroke-width="0.5"/>
+        <circle cx="102" cy="110" r="30" fill="none" stroke="#2a4060" stroke-width="0.5"/>
+        <polygon points="102,36 168,150 36,150" fill="none" stroke="#c8a850" stroke-width="1"/>
+        <line x1="102" y1="36" x2="102" y2="190" stroke="#1a4060" stroke-width="0.5"/>
+        <line x1="36" y1="150" x2="168" y2="150" stroke="#1a4060" stroke-width="0.5"/>
+        <line x1="168" y1="150" x2="102" y2="36" stroke="#1a4060" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="36" y1="150" x2="102" y2="36" stroke="#1a4060" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <circle cx="102" cy="36" r="3" fill="#c8a850"/>
+        <circle cx="168" cy="150" r="3" fill="#c8a850"/>
+        <circle cx="36" cy="150" r="3" fill="#c8a850"/>
+        <circle cx="102" cy="110" r="2" fill="#e8320a"/>
+        <line x1="102" y1="36" x2="102" y2="110" stroke="#e8320a" stroke-width="0.8"/>
+        <line x1="168" y1="150" x2="102" y2="110" stroke="#e8320a" stroke-width="0.8"/>
+        <line x1="36" y1="150" x2="102" y2="110" stroke="#e8320a" stroke-width="0.8"/>
+        <text x="102" y="200" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#3a5a7a" letter-spacing="2">WU CHARACTERISTIC CLASSES</text>
+        <text x="106" y="30" font-family="Share Tech Mono" font-size="6" fill="#c8a850">V</text>
+        <text x="171" y="155" font-family="Share Tech Mono" font-size="6" fill="#c8a850">K</text>
+        <text x="30" y="155" font-family="Share Tech Mono" font-size="6" fill="#c8a850">B</text>
+        <text x="105" y="108" font-family="Share Tech Mono" font-size="6" fill="#e8320a">O</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div id="section-grid">
+
+  <div class="sec">
+    <div class="sec-head">The mathematician</div>
+    <div class="sec-body">
+      Wu Wen-Tsun stands as one of the twentieth century's transformative mathematical minds — a topologist who became a computer scientist before the distinction fully existed, and a geometer who trusted machines with theorems before anyone thought machines could be trusted.
+      <br><br>
+      Born in Shanghai in 1919, Wu studied under <strong>Shiing-Shen Chern</strong> and later worked with <strong>Henri Cartan</strong> in postwar Paris, where he developed the <em>Wu classes</em> and <em>Wu formula</em> — foundational contributions to algebraic topology still used in modern mathematics and theoretical physics.
+      <br><br>
+      In 1977, aged 58, he pivoted entirely — to the mechanical proof of geometric theorems using computers, a field now called <em>automated theorem proving</em>.
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">Timeline</div>
+    <div class="timeline">
+      <div class="tl-year">1919</div><div class="tl-event">Born Shanghai · studied under Chern</div>
+      <div class="tl-year">1947</div><div class="tl-event">PhD, Strasbourg · joins Cartan in Paris</div>
+      <div class="tl-year">1950</div><div class="tl-event"><strong>Wu classes</strong> published — topology landmark</div>
+      <div class="tl-year">1956</div><div class="tl-event">Returns to China · first class of State Natural Science Prize</div>
+      <div class="tl-year">1977</div><div class="tl-event"><strong>Pivots to automated geometry</strong> — age 58</div>
+      <div class="tl-year">1984</div><div class="tl-event">Wu's Method fully formalized — international impact</div>
+      <div class="tl-year">2010</div><div class="tl-event">Shaw Prize in Mathematical Sciences</div>
+      <div class="tl-year">2017</div><div class="tl-event">Died Beijing · age 97</div>
+    </div>
+  </div>
+
+  <div class="sec full">
+    <div class="sec-head">Wu's Method — the algorithm that changed automated reasoning</div>
+    <div class="pull">
+      <div class="pull-text">"Wu's method can prove in seconds theorems that took ancient mathematicians years — and it can find proofs no human has ever seen."</div>
+      <div class="pull-attr">— COMPUTATIONAL GEOMETRY COMMUNITY · POST-1984</div>
+    </div>
+    <div class="sec-body">
+      Wu's Method is an algorithm for <em>mechanical theorem proving in elementary geometry</em>. Given a geometric conjecture expressed as polynomial equations, the method determines truth or falsity by algebraic manipulation alone — no search, no heuristics, no guessing.
+      <br><br>
+      The core insight: <strong>geometric theorems are polynomial identities</strong>. Wu reformulated classical geometry as a system of polynomial equations over the reals, then used <em>pseudodivision and ascending chains</em> to reduce any theorem to a decidable algebraic computation.
+    </div>
+    <div class="algo-block">
+      <div class="algo-head">Wu's Method · Algorithm sketch</div>
+      <div class="algo-step"><span>Input:</span>   Geometric hypothesis H, conclusion C — both as polynomials</div>
+      <div class="algo-step"><span>Step 1:</span>  Convert geometry to algebra: points → coordinates, loci → polynomials</div>
+      <div class="algo-step"><span>Step 2:</span>  Compute ascending chain decomposition of H using pseudodivision</div>
+      <div class="algo-step"><span>Step 3:</span>  Reduce C modulo the ascending chain</div>
+      <div class="algo-step"><span>Output:</span>  If remainder = 0 → theorem is true. Otherwise → counterexample exists.</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">512</div><div class="stat-lbl">Theorems proved in original 1984 paper</div></div>
+      <div class="stat"><div class="stat-val">&lt;1s</div><div class="stat-lbl">Machine time per classical theorem</div></div>
+      <div class="stat"><div class="stat-val">2</div><div class="stat-lbl">Fields — topology + AI unified by one mind</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">NASA / Space relevance</div>
+    <div class="sec-body">
+      <strong>Trajectory verification.</strong> Wu-style algebraic reasoning underlies formal verification tools that prove geometric constraints in orbital mechanics — confirming that spacecraft trajectories satisfy conjunction conditions algebraically before simulation.
+      <br><br>
+      <strong>Robotics and teleoperation.</strong> NASA's Jet Propulsion Laboratory employs automated geometric reasoning descended from Wu's framework in kinematics solvers for rover arm planning on Mars — Curiosity, Perseverance.
+      <br><br>
+      <strong>Computer vision for docking.</strong> Rendezvous and docking algorithms require real-time geometric constraint checking. Wu-class polynomial methods provide <em>completeness guarantees</em> that Monte Carlo search cannot.
+      <br><br>
+      <span class="tag">ORBITAL MECHANICS</span>
+      <span class="tag">KINEMATICS</span>
+      <span class="tag">ROVER ARM PLANNING</span>
+      <span class="tag">DOCKING GEOMETRY</span>
+      <span class="tag">FORMAL VERIFICATION</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">Topology legacy</div>
+    <div class="sec-body">
+      Wu's earlier topological work — the <em>Wu classes</em> w̃ᵢ and the <em>Wu formula</em> Sq(w̃) = w — gives a canonical way to compute Stiefel-Whitney characteristic classes of smooth manifolds. These classes measure how twisted a manifold's tangent bundle is.
+      <br><br>
+      <strong>In space science:</strong> characteristic class theory appears in the mathematical structure of gauge fields underlying the physics of charged-particle interactions in planetary magnetospheres — the same topology Wu formalized in 1950 describes the geometry of Earth's Van Allen belts.
+      <br><br>
+      <strong>The Wu formula:</strong><br>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#c8a850;letter-spacing:1px">Sq(ν) = w̃ &nbsp;·&nbsp; Sq(ν) = w(M) mod 2</span>
+    </div>
+  </div>
+
+  <div class="sec full">
+    <div class="sec-head">The late pivot — what 58 teaches us</div>
+    <div class="sec-body">
+      Wu Wen-Tsun's pivot at 58 from pure topology to machine-assisted geometry is one of the most remarkable career inflections in twentieth-century mathematics. In 1974, returning from a visit to historical mathematics exhibitions, Wu became convinced that ancient Chinese mathematics — algorithmic, constructive, calculation-first — was <strong>philosophically aligned with computation</strong> in a way that Greek axiomatic geometry was not.
+      <br><br>
+      He spent three years hand-computing proofs of classical theorems — Pappus, Ptolemy, Morley's trisector — then encoded the process as an algorithm. By 1984 the method was complete, and it sent immediate shockwaves through the automated reasoning community in the United States, Europe, and Japan.
+      <br><br>
+      The lesson: <em>Wu's Method is not a product of youth. It is a product of depth.</em> The topological training of the 1940s and 1950s gave him the algebraic machinery. The historical study gave him the philosophical warrant. The computational turn gave him the medium. No phase was wasted.
+    </div>
+  </div>
+
+</div>
+
+<div id="footer">
+  <span class="ft-l">NASA MATHEMATICS HERITAGE SERIES · PROFILE 07 · AUTOMATED THEOREM PROVING DIVISION</span>
+  <span class="ft-r">WU WEN-TSUN · 吴文俊 · 1919–2017</span>
+</div>
+
+</div>
